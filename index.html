@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polhas CareerBridge - Platform Magang & Karir Mahasiswa</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/img/logo-website/logo.png">
+    <link rel="shortcut icon" type="image/png" href="assets/img/logo-website/logo.png">
+    <link rel="apple-touch-icon" href="assets/img/logo-website/logo.png">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts - Plus Jakarta Sans (BWA Style) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Toastify CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-white text-gray-900 font-jakarta antialiased">
+    
+    <!-- Navbar - BWA Clean White -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <img src="assets/img/logo-website/logo.png" alt="Polhas CareerBridge" class="h-12">
+                    <div class="hidden md:block">
+                        <div class="text-xl font-bold text-gray-900">Polhas CareerBridge</div>
+                        <div class="text-xs text-gray-500">Platform Magang & Karir</div>
+                    </div>
+                </div>
+                
+                <!-- Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition">Beranda</a>
+                    <a href="#lowongan" class="text-gray-700 hover:text-blue-600 font-medium transition">Lowongan</a>
+                    <a href="#mitra-hasnur" class="text-gray-700 hover:text-blue-600 font-medium transition">Mitra</a>
+                    <a href="#tentang" class="text-gray-700 hover:text-blue-600 font-medium transition">Tentang</a>
+                </div>
+                
+                <!-- CTA Button -->
+                <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition shadow-sm">
+                    Masuk
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section - BWA Clean White Style -->
+    <section class="pt-32 pb-20 bg-gradient-to-b from-blue-50 to-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 rounded-full mb-6">
+                    <span class="text-blue-600 text-sm font-semibold">🎓 Platform Resmi Politeknik Hasnur</span>
+                </div>
+                
+                <!-- Heading -->
+                <h1 class="text-5xl md:text-6xl font-bold leading-tight mb-6">
+                    Temukan Peluang Magang<br>
+                    di <span class="text-blue-600">Hasnur Group</span>
+                </h1>
+                
+                <p class="text-xl text-gray-600 leading-relaxed mb-10 max-w-2xl mx-auto">
+                    Platform terpadu untuk mahasiswa Polhas mencari lowongan PKL dan Kerja 
+                    di 30+ perusahaan Hasnur Group
+                </p>
+                
+                <!-- Stats -->
+                <div class="grid grid-cols-3 gap-8 max-w-2xl mx-auto mb-10">
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-blue-600" id="stat-jobs">0</div>
+                        <div class="text-sm text-gray-600 mt-1">Lowongan Aktif</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-blue-600" id="stat-companies">0</div>
+                        <div class="text-sm text-gray-600 mt-1">Perusahaan</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-blue-600" id="stat-prodi">0</div>
+                        <div class="text-sm text-gray-600 mt-1">Program Studi</div>
+                    </div>
+                </div>
+                
+                <!-- CTA Buttons -->
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#lowongan" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-600/20">
+                        Jelajahi Lowongan
+                    </a>
+                    <button class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-xl font-bold hover:border-blue-600 hover:text-blue-600 transition">
+                        Pelajari Lebih
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Studi Section -->
+    <section class="py-20 bg-white" id="prodi">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Program Studi Polhas</h2>
+                <p class="text-gray-600 text-lg">7 Program Studi Vokasi Berkualitas</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6" id="prodi-container">
+                <!-- Will be rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section - BWA Style -->
+    <section class="py-20 bg-gray-50" id="lowongan">
+        <div class="container mx-auto px-6">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Cari Lowongan Magang</h2>
+                    <p class="text-gray-600 text-lg">Temukan posisi yang sesuai dengan program studimu</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <!-- Search Input -->
+                        <div class="md:col-span-2">
+                            <div class="relative">
+                                <input 
+                                    type="text" 
+                                    id="search-input"
+                                    placeholder="Cari posisi atau perusahaan..." 
+                                    class="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition"
+                                >
+                                <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <!-- Type Filter -->
+                        <select 
+                            id="type-filter"
+                            class="px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition cursor-pointer"
+                        >
+                            <option value="">Semua Tipe</option>
+                            <option value="PKL">PKL/Magang</option>
+                            <option value="Kerja">Kerja</option>
+                        </select>
+
+                        <!-- Prodi Filter -->
+                        <select 
+                            id="prodi-filter"
+                            class="px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition cursor-pointer"
+                        >
+                            <option value="">Semua Prodi</option>
+                            <!-- Will be populated by JS -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jobs Grid -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-1">Lowongan Terbaru</h3>
+                    <p class="text-gray-600" id="job-count">Menampilkan 0 lowongan</p>
+                </div>
+            </div>
+
+            <div id="job-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Jobs will be rendered here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Mitra Hasnur Group Section -->
+    <section class="py-20 bg-white" id="mitra-hasnur">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Mitra Hasnur Group</h2>
+                <p class="text-gray-600 text-lg">Anak perusahaan Hasnur Group yang menyediakan lowongan magang</p>
+            </div>
+
+            <div id="mitra-hasnur-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <!-- Will be rendered by JS -->
+            </div>
+
+            <div class="text-center mt-12">
+                <p class="text-gray-600">Dan 20+ perusahaan lainnya di Hasnur Group</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mitra Polhas Section -->
+    <section class="py-20 bg-gray-50" id="mitra-polhas">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Mitra Polhas</h2>
+                <p class="text-gray-600 text-lg">Perusahaan yang bermitra dengan Politeknik Hasnur</p>
+            </div>
+
+            <div id="mitra-polhas-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <!-- Will be rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Supported By Section -->
+    <section class="py-20 bg-white" id="supported">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Supported By</h2>
+                <p class="text-gray-600 text-lg">Para pendukung dalam pembuatan platform ini</p>
+            </div>
+
+            <div id="supported-container" class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                <!-- Will be rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Job Details -->
+    <div id="job-modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-6">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="p-8">
+                <!-- Modal Header -->
+                <div class="flex items-start justify-between mb-6">
+                    <div class="flex items-center space-x-4">
+                        <img id="modal-logo" src="" alt="" class="w-16 h-16 object-contain">
+                        <div>
+                            <h3 id="modal-role" class="text-2xl font-bold text-gray-900"></h3>
+                            <p id="modal-company" class="text-gray-600"></p>
+                        </div>
+                    </div>
+                    <button id="close-modal" class="text-gray-400 hover:text-gray-600 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Modal Content -->
+                <div class="space-y-6">
+                    <div class="flex flex-wrap gap-3">
+                        <span id="modal-type" class="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm font-semibold"></span>
+                        <span id="modal-prodi" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium"></span>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-bold mb-3">Deskripsi Posisi</h4>
+                        <p id="modal-description" class="text-gray-600 leading-relaxed"></p>
+                    </div>
+
+                    <div>
+                        <h4 class="text-lg font-bold mb-3">Persyaratan</h4>
+                        <ul id="modal-requirements" class="text-gray-600 leading-relaxed space-y-2">
+                            <!-- Will be populated by JS -->
+                        </ul>
+                    </div>
+                    
+                    <div class="flex gap-3 pt-4">
+                        <button id="save-job-btn" class="flex-1 border-2 border-gray-300 text-gray-700 py-3 rounded-xl font-semibold hover:border-blue-600 hover:text-blue-600 transition flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                            </svg>
+                            Simpan
+                        </button>
+                        <button id="apply-btn" class="flex-[2] bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-600/20">
+                            Lamar Sekarang
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer - BWA Clean -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="md:col-span-2">
+                    <img src="assets/img/logo-website/logo.png" alt="Polhas CareerBridge" class="h-12 mb-4">
+                    <p class="text-gray-400 mb-6 leading-relaxed">Platform resmi Politeknik Hasnur untuk menghubungkan mahasiswa dengan peluang magang dan karir di Hasnur Group.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white mb-4">Navigasi</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Beranda</a></li>
+                        <li><a href="#lowongan" class="text-gray-400 hover:text-white transition">Lowongan</a></li>
+                        <li><a href="#mitra-hasnur" class="text-gray-400 hover:text-white transition">Mitra</a></li>
+                        <li><a href="#tentang" class="text-gray-400 hover:text-white transition">Tentang</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white mb-4">Kontak</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li>Politeknik Hasnur</li>
+                        <li>Banjarmasin, Kalimantan Selatan</li>
+                        <li>info@polhas.ac.id</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-gray-800 text-center text-gray-400">
+                <p>&copy; 2026 Polhas CareerBridge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toastify JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    
+    <!-- Main JavaScript Module -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
