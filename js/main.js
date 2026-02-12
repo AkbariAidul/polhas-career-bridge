@@ -1,5 +1,10 @@
 // Import data
-import { jobs, programStudi, companies, mitraPolhas, supported } from './data.js';
+import { jobs, programStudi, companies, mitraPolhas, supported, skillRoadmaps } from './data.js';
+
+// Debug log
+console.log('=== POLHAS CAREERBRIDGE LOADED ===');
+console.log('Total Jobs:', jobs.length);
+console.log('Total Roadmaps:', Object.keys(skillRoadmaps).length);
 
 // DOM Elements
 const jobContainer = document.getElementById('job-container');
@@ -20,6 +25,7 @@ const jobCountEl = document.getElementById('job-count');
 let currentJobs = [...jobs];
 let selectedJob = null;
 let savedJobs = JSON.parse(localStorage.getItem('savedJobs')) || [];
+let completedSkills = JSON.parse(localStorage.getItem('completedSkills')) || {};
 
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,6 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
     renderSupported();
     populateProdiFilter();
     renderJobs(currentJobs);
+    initSkillRoadmap();
+    initPortfolioScorecard();
     attachEventListeners();
 });
 
@@ -279,6 +287,104 @@ function openModal(jobId) {
         </li>`
     ).join('');
 
+    // Populate required skills if available
+    const requiredSkillsSection = document.getElementById('required-skills-section');
+    const modalSkills = document.getElementById('modal-skills');
+    
+    if (selectedJob.requiredSkills && selectedJob.requiredSkills.length > 0) {
+        requiredSkillsSection.classList.remove('hidden');
+        
+        // Calculate skill match
+        const { matchedSkills, totalSkills, percentage } = calculateSkillMatch(selectedJob.requiredSkills);
+        
+        modalSkills.innerHTML = `
+            <div class="mb-4 p-4 bg-blue-50 rounded-xl">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="font-semibold text-gray-900">Skill Match</span>
+                    <span class="text-2xl font-bold text-blue-600">${percentage}%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-blue-600 h-2 rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">${matchedSkills} dari ${totalSkills} skill sudah kamu kuasai</p>
+            </div>
+            
+            ${selectedJob.requiredSkills.map(skillGroup => {
+                const roadmap = skillRoadmaps[skillGroup.role];
+                const level = roadmap.levels.find(l => l.level === skillGroup.level);
+                
+                return `
+                    <div class="border border-gray-200 rounded-xl p-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                ${skillGroup.level}
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-sm">${level.title}</h5>
+                                <p class="text-xs text-gray-500">${roadmap.title}</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            ${skillGroup.skills.map(skillName => {
+                                const skill = level.skills.find(s => s.name === skillName);
+                                const isCompleted = isSkillCompleted(skillGroup.role, skillGroup.level, skillName);
+                                
+                                return `
+                                    <div class="flex items-center gap-2 text-sm">
+                                        <input type="checkbox" 
+                                               class="skill-checkbox w-4 h-4 text-blue-600 rounded" 
+                                               data-role="${skillGroup.role}" 
+                                               data-level="${skillGroup.level}" 
+                                               data-skill="${skillName}"
+                                               ${isCompleted ? 'checked' : ''}>
+                                        <span class="${isCompleted ? 'text-gray-900 font-medium' : 'text-gray-600'}">${skillName}</span>
+                                        ${isCompleted ? '<span class="text-green-600 text-xs">✓</span>' : ''}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('')}
+        `;
+        
+        // Attach checkbox listeners
+        modalSkills.querySelectorAll('.skill-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const role = e.target.dataset.role;
+                const level = parseInt(e.target.dataset.level);
+                const skill = e.target.dataset.skill;
+                toggleSkillCompletion(role, level, skill);
+                
+                // Refresh modal to update skill match
+                openModal(selectedJob.id);
+            });
+        });
+        
+        // Attach view roadmap button listener
+        const viewRoadmapBtn = document.getElementById('view-roadmap-btn');
+        viewRoadmapBtn.onclick = () => {
+            closeModal();
+            
+            // Get the primary role from required skills
+            const primaryRole = selectedJob.requiredSkills[0].role;
+            
+            // Scroll to skill roadmap section
+            document.getElementById('skill-roadmap').scrollIntoView({ behavior: 'smooth' });
+            
+            // Switch to the relevant role
+            setTimeout(() => {
+                document.querySelectorAll('.role-btn').forEach(btn => {
+                    if (btn.dataset.role === primaryRole) {
+                        btn.click();
+                    }
+                });
+            }, 500);
+        };
+    } else {
+        requiredSkillsSection.classList.add('hidden');
+    }
+
     // Update save button state
     const isSaved = savedJobs.includes(selectedJob.id);
     const saveIcon = saveJobBtn.querySelector('svg');
@@ -406,3 +512,279 @@ function attachEventListeners() {
         }
     });
 }
+
+
+// ==================== SKILL TRACKING FUNCTIONS ====================
+
+// Check if a skill is completed
+function isSkillCompleted(role, level, skillName) {
+    const key = `${role}-${level}-${skillName}`;
+    return completedSkills[key] === true;
+}
+
+// Toggle skill completion
+function toggleSkillCompletion(role, level, skillName) {
+    const key = `${role}-${level}-${skillName}`;
+    completedSkills[key] = !completedSkills[key];
+    localStorage.setItem('completedSkills', JSON.stringify(completedSkills));
+    
+    if (completedSkills[key]) {
+        showToast(`✅ ${skillName} ditandai sebagai selesai!`, 'success');
+    } else {
+        showToast(`${skillName} ditandai belum selesai`, 'error');
+    }
+}
+
+// Calculate skill match for a job
+function calculateSkillMatch(requiredSkills) {
+    let totalSkills = 0;
+    let matchedSkills = 0;
+    
+    requiredSkills.forEach(skillGroup => {
+        skillGroup.skills.forEach(skillName => {
+            totalSkills++;
+            if (isSkillCompleted(skillGroup.role, skillGroup.level, skillName)) {
+                matchedSkills++;
+            }
+        });
+    });
+    
+    const percentage = totalSkills > 0 ? Math.round((matchedSkills / totalSkills) * 100) : 0;
+    
+    return { matchedSkills, totalSkills, percentage };
+}
+
+// ==================== SKILL ROADMAP FEATURES ====================
+
+let currentRole = 'web-dev';
+
+// Initialize Skill Roadmap
+function initSkillRoadmap() {
+    console.log('Initializing Skill Roadmap...');
+    console.log('Available roadmaps:', Object.keys(skillRoadmaps));
+    renderSkillTree(currentRole);
+    attachRoleButtonListeners();
+}
+
+// Render Skill Tree
+function renderSkillTree(role) {
+    console.log('Rendering skill tree for role:', role);
+    const roadmap = skillRoadmaps[role];
+    
+    if (!roadmap) {
+        console.error('Roadmap not found for role:', role);
+        return;
+    }
+    
+    const container = document.getElementById('skill-tree-container');
+    
+    container.innerHTML = `
+        <div class="text-center mb-8">
+            <h3 class="text-2xl font-bold mb-2">${roadmap.title}</h3>
+            <p class="text-gray-600">${roadmap.description}</p>
+        </div>
+        
+        <div class="space-y-8">
+            ${roadmap.levels.map((level, index) => `
+                <div class="skill-level" style="animation: fadeInUp 0.6s ease-out ${index * 0.1}s both">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                            ${level.level}
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold">${level.title}</h4>
+                            <p class="text-sm text-gray-600">Level ${level.level}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-4 ml-16">
+                        ${level.skills.map((skill, skillIndex) => {
+                            const isCompleted = isSkillCompleted(role, level.level, skill.name);
+                            return `
+                            <div class="skill-card bg-white border-2 ${isCompleted ? 'border-green-500 bg-green-50' : 'border-gray-200'} rounded-xl p-6 hover:border-blue-600 hover:shadow-lg transition cursor-pointer" data-role="${role}" data-level="${level.level}" data-skill="${skillIndex}">
+                                <div class="flex items-start justify-between mb-3">
+                                    <h5 class="font-bold text-lg">${skill.name}</h5>
+                                    <input type="checkbox" 
+                                           class="skill-complete-checkbox w-5 h-5 text-green-600 rounded" 
+                                           ${isCompleted ? 'checked' : ''}
+                                           data-role="${role}" 
+                                           data-level="${level.level}" 
+                                           data-skill-name="${skill.name}">
+                                </div>
+                                <p class="text-sm text-gray-600 mb-4">${skill.description}</p>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    ${skill.resources.map(resource => `
+                                        <span class="text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded-full">${resource}</span>
+                                    `).join('')}
+                                </div>
+                                <button class="learn-skill-btn w-full py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition text-sm">
+                                    ${isCompleted ? '✓ Selesai' : 'Mulai Belajar'}
+                                </button>
+                            </div>
+                        `;
+                        }).join('')}
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+    
+    // Attach skill card listeners
+    document.querySelectorAll('.skill-card').forEach(card => {
+        const learnBtn = card.querySelector('.learn-skill-btn');
+        const checkbox = card.querySelector('.skill-complete-checkbox');
+        
+        // Prevent checkbox click from triggering card click
+        checkbox.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+        
+        checkbox.addEventListener('change', (e) => {
+            const role = e.target.dataset.role;
+            const level = parseInt(e.target.dataset.level);
+            const skillName = e.target.dataset.skillName;
+            toggleSkillCompletion(role, level, skillName);
+            renderSkillTree(currentRole); // Re-render to update UI
+        });
+        
+        learnBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const role = card.dataset.role;
+            const level = parseInt(card.dataset.level);
+            const skillIndex = parseInt(card.dataset.skill);
+            showSkillDetail(role, level, skillIndex);
+        });
+    });
+}
+
+// Show Skill Detail Modal
+function showSkillDetail(role, level, skillIndex) {
+    const roadmap = skillRoadmaps[role];
+    const levelData = roadmap.levels.find(l => l.level === level);
+    const skill = levelData.skills[skillIndex];
+    
+    Swal.fire({
+        title: skill.name,
+        html: `
+            <div class="text-left">
+                <p class="text-gray-600 mb-4">${skill.description}</p>
+                <h4 class="font-bold mb-2">📚 Learning Resources:</h4>
+                <ul class="space-y-2 mb-4">
+                    ${skill.resources.map(resource => `
+                        <li class="flex items-center gap-2">
+                            <span class="text-blue-600">→</span>
+                            <span>${resource}</span>
+                        </li>
+                    `).join('')}
+                </ul>
+                <p class="text-sm text-gray-500">💡 Klik "Mulai Belajar" untuk menandai skill ini sebagai sedang dipelajari!</p>
+            </div>
+        `,
+        icon: 'info',
+        confirmButtonColor: '#2563eb',
+        confirmButtonText: 'Mulai Belajar',
+        showCancelButton: true,
+        cancelButtonText: 'Tutup',
+        customClass: {
+            popup: 'rounded-2xl',
+            confirmButton: 'rounded-xl px-6 py-3 font-bold',
+            cancelButton: 'rounded-xl px-6 py-3 font-bold'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            showToast(`🚀 Mulai belajar ${skill.name}! Semangat!`, 'success');
+        }
+    });
+}
+
+// Attach Role Button Listeners
+function attachRoleButtonListeners() {
+    document.querySelectorAll('.role-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active state
+            document.querySelectorAll('.role-btn').forEach(b => {
+                b.classList.remove('active', 'bg-blue-600', 'text-white');
+                b.classList.add('bg-gray-100', 'text-gray-700');
+            });
+            btn.classList.add('active', 'bg-blue-600', 'text-white');
+            btn.classList.remove('bg-gray-100', 'text-gray-700');
+            
+            // Render new skill tree
+            currentRole = btn.dataset.role;
+            renderSkillTree(currentRole);
+        });
+    });
+}
+
+// ==================== PORTFOLIO SCORECARD FEATURES ====================
+
+let portfolioScore = 0;
+
+// Initialize Portfolio Scorecard
+function initPortfolioScorecard() {
+    attachPortfolioCheckListeners();
+}
+
+// Attach Portfolio Check Listeners
+function attachPortfolioCheckListeners() {
+    document.querySelectorAll('.portfolio-check').forEach(checkbox => {
+        checkbox.addEventListener('change', updatePortfolioScore);
+    });
+}
+
+// Update Portfolio Score
+function updatePortfolioScore() {
+    const checkboxes = document.querySelectorAll('.portfolio-check');
+    let score = 0;
+    
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            const scoreValue = parseInt(checkbox.parentElement.querySelector('.text-gray-500').textContent.replace('+', ''));
+            score += scoreValue;
+        }
+    });
+    
+    portfolioScore = score;
+    
+    // Update UI
+    document.getElementById('portfolio-score').textContent = score;
+    document.getElementById('progress-text').textContent = `${score}/100`;
+    document.getElementById('progress-bar').style.width = `${score}%`;
+    
+    // Update recommendation
+    const recommendation = document.getElementById('recommendation');
+    if (score === 0) {
+        recommendation.innerHTML = '<p class="text-blue-800 font-medium">💡 Mulai dengan mencentang checklist di atas untuk meningkatkan skor portfolio kamu!</p>';
+        recommendation.className = 'p-4 bg-blue-50 border border-blue-200 rounded-xl';
+    } else if (score < 50) {
+        recommendation.innerHTML = '<p class="text-yellow-800 font-medium">⚠️ Portfolio kamu masih perlu banyak improvement. Lengkapi checklist untuk meningkatkan peluang diterima!</p>';
+        recommendation.className = 'p-4 bg-yellow-50 border border-yellow-200 rounded-xl';
+    } else if (score < 80) {
+        recommendation.innerHTML = '<p class="text-orange-800 font-medium">📈 Lumayan! Tapi masih bisa lebih baik. Lengkapi semua checklist untuk hasil maksimal!</p>';
+        recommendation.className = 'p-4 bg-orange-50 border border-orange-200 rounded-xl';
+    } else if (score < 100) {
+        recommendation.innerHTML = '<p class="text-green-800 font-medium">✨ Bagus! Portfolio kamu sudah cukup baik. Tinggal sedikit lagi untuk sempurna!</p>';
+        recommendation.className = 'p-4 bg-green-50 border border-green-200 rounded-xl';
+    } else {
+        recommendation.innerHTML = '<p class="text-green-800 font-medium">🎉 Perfect! Portfolio kamu sudah siap untuk apply lowongan. Good luck!</p>';
+        recommendation.className = 'p-4 bg-green-50 border border-green-200 rounded-xl';
+        
+        // Confetti effect
+        showToast('🎉 Portfolio Score Perfect! Kamu siap apply lowongan!', 'success');
+    }
+}
+
+// Update initialization
+const originalInit = document.addEventListener;
+document.addEventListener('DOMContentLoaded', () => {
+    animateStats();
+    renderProdi();
+    renderMitraHasnur();
+    renderMitraPolhas();
+    renderSupported();
+    populateProdiFilter();
+    renderJobs(currentJobs);
+    initSkillRoadmap(); // NEW
+    initPortfolioScorecard(); // NEW
+    attachEventListeners();
+});

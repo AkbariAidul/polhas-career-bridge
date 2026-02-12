@@ -113,3 +113,33 @@ button {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 600;
 }
+
+/* BWA Clean White Style - Minimal Additions */
+
+/* Skill Card Clean Style */
+.skill-card {
+    transition: all 0.3s ease;
+}
+
+.skill-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Role Button Clean Style */
+.role-btn {
+    transition: all 0.3s ease;
+}
+
+.role-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Progress Bar Smooth Animation */
+#progress-bar {
+    transition: width 0.5s ease;
+}
+
+/* Modal Backdrop */
+#job-modal {
+    backdrop-filter: blur(4px);
+}

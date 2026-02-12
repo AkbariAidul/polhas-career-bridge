@@ -3,7 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Cache Control - Force Fresh Content -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>Polhas CareerBridge - Platform Magang & Karir Mahasiswa</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Platform lengkap untuk mahasiswa Politeknik Hasnur: 8 roadmap skill interaktif, portfolio scorecard, dan 47 lowongan magang di Hasnur Group & mitra">
+    <meta name="keywords" content="polhas, politeknik hasnur, magang, pkl, lowongan kerja, skill roadmap, portfolio, hasnur group">
+    <meta name="author" content="Politeknik Hasnur">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Polhas CareerBridge - From Learning to Landing Your Dream Job">
+    <meta property="og:description" content="Platform lengkap: 8 roadmap skill interaktif, portfolio scorecard, dan 47 lowongan magang">
+    <meta property="og:image" content="assets/img/logo-website/logo.png">
+    <meta property="og:url" content="https://careerbridge.polhas.ac.id">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Polhas CareerBridge">
+    <meta name="twitter:description" content="Platform lengkap untuk mahasiswa Polhas">
+    <meta name="twitter:image" content="assets/img/logo-website/logo.png">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2563eb">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="CareerBridge">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/img/logo-website/logo.png">
@@ -45,9 +76,10 @@
                 <!-- Menu -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition">Beranda</a>
+                    <a href="#skill-roadmap" class="text-gray-700 hover:text-blue-600 font-medium transition">Skill Roadmap</a>
+                    <a href="#portfolio-check" class="text-gray-700 hover:text-blue-600 font-medium transition">Cek Portfolio</a>
                     <a href="#lowongan" class="text-gray-700 hover:text-blue-600 font-medium transition">Lowongan</a>
                     <a href="#mitra-hasnur" class="text-gray-700 hover:text-blue-600 font-medium transition">Mitra</a>
-                    <a href="#tentang" class="text-gray-700 hover:text-blue-600 font-medium transition">Tentang</a>
                 </div>
                 
                 <!-- CTA Button -->
@@ -64,18 +96,18 @@
             <div class="max-w-4xl mx-auto text-center">
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 rounded-full mb-6">
-                    <span class="text-blue-600 text-sm font-semibold">🎓 Platform Resmi Politeknik Hasnur</span>
+                    <span class="text-blue-600 text-sm font-semibold">🚀 From Learning to Landing Your Dream Job</span>
                 </div>
                 
                 <!-- Heading -->
                 <h1 class="text-5xl md:text-6xl font-bold leading-tight mb-6">
-                    Temukan Peluang Magang<br>
-                    di <span class="text-blue-600">Hasnur Group</span>
+                    Belajar Skill,<br>
+                    Raih <span class="text-blue-600">Karir Impian</span>
                 </h1>
                 
                 <p class="text-xl text-gray-600 leading-relaxed mb-10 max-w-2xl mx-auto">
-                    Platform terpadu untuk mahasiswa Polhas mencari lowongan PKL dan Kerja 
-                    di 30+ perusahaan Hasnur Group
+                    Platform lengkap: 8 roadmap skill interaktif, portfolio scorecard, 
+                    dan 47 lowongan magang di Hasnur Group & mitra
                 </p>
                 
                 <!-- Stats -->
@@ -102,6 +134,128 @@
                     <button class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-xl font-bold hover:border-blue-600 hover:text-blue-600 transition">
                         Pelajari Lebih
                     </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skill Roadmap Section - NEW! -->
+    <section class="py-20 bg-white" id="skill-roadmap">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 rounded-full mb-4">
+                    <span class="text-blue-600 text-sm font-semibold">🌳 Interactive Learning Path - 8 Career Paths</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Roadmap Skill Interaktif</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">Visualisasi skill tree seperti game. Pilih role impianmu dan lihat langkah-langkah belajar yang harus kamu kuasai! Tersedia 8 career paths untuk semua prodi.</p>
+            </div>
+
+            <!-- Role Selection -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12">
+                <button class="role-btn active px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition" data-role="web-dev">
+                    💻 Web Developer
+                </button>
+                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="ui-ux">
+                    🎨 UI/UX Designer
+                </button>
+                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="data-analyst">
+                    📊 Data Analyst
+                </button>
+                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="digital-marketing">
+                    📱 Digital Marketing
+                </button>
+                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="automotive">
+                    🚗 Automotive
+                </button>
+                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="agriculture">
+                    🌾 Agriculture
+                </button>
+                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="accounting">
+                    💰 Accounting
+                </button>
+                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="business">
+                    💼 Business
+                </button>
+            </div>
+
+            <!-- Skill Tree Container -->
+            <div id="skill-tree-container" class="max-w-6xl mx-auto">
+                <!-- Will be rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Scorecard Section - NEW! -->
+    <section class="py-20 bg-gray-50" id="portfolio-check">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-green-100 rounded-full mb-4">
+                        <span class="text-green-600 text-sm font-semibold">✅ Portfolio Assessment</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Cek Kesiapan Portfolio</h2>
+                    <p class="text-gray-600 text-lg">Evaluasi portfolio dan CV kamu. Sudah siap apply lowongan?</p>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                    <!-- Scorecard -->
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center justify-center w-32 h-32 rounded-full bg-blue-50 mb-4">
+                            <span id="portfolio-score" class="text-5xl font-bold text-blue-600">0</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Portfolio Score</h3>
+                        <p class="text-gray-600">Skor kesiapan portfolio kamu</p>
+                    </div>
+
+                    <!-- Checklist -->
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                            <input type="checkbox" id="check-photo" class="portfolio-check w-5 h-5 text-blue-600 rounded">
+                            <label for="check-photo" class="flex-1 font-medium cursor-pointer">Foto profil professional</label>
+                            <span class="text-sm text-gray-500">+10</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                            <input type="checkbox" id="check-summary" class="portfolio-check w-5 h-5 text-blue-600 rounded">
+                            <label for="check-summary" class="flex-1 font-medium cursor-pointer">Summary/About yang menarik</label>
+                            <span class="text-sm text-gray-500">+15</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                            <input type="checkbox" id="check-experience" class="portfolio-check w-5 h-5 text-blue-600 rounded">
+                            <label for="check-experience" class="flex-1 font-medium cursor-pointer">Pengalaman/Project (min 2)</label>
+                            <span class="text-sm text-gray-500">+25</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                            <input type="checkbox" id="check-skills" class="portfolio-check w-5 h-5 text-blue-600 rounded">
+                            <label for="check-skills" class="flex-1 font-medium cursor-pointer">Daftar skills yang relevan</label>
+                            <span class="text-sm text-gray-500">+20</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                            <input type="checkbox" id="check-portfolio" class="portfolio-check w-5 h-5 text-blue-600 rounded">
+                            <label for="check-portfolio" class="flex-1 font-medium cursor-pointer">Link portfolio/GitHub</label>
+                            <span class="text-sm text-gray-500">+15</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                            <input type="checkbox" id="check-contact" class="portfolio-check w-5 h-5 text-blue-600 rounded">
+                            <label for="check-contact" class="flex-1 font-medium cursor-pointer">Kontak yang jelas (email, phone)</label>
+                            <span class="text-sm text-gray-500">+15</span>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="mb-6">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="font-medium">Progress</span>
+                            <span id="progress-text" class="text-gray-600">0/100</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div id="progress-bar" class="bg-blue-600 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendation -->
+                    <div id="recommendation" class="p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                        <p class="text-blue-800 font-medium">💡 Mulai dengan mencentang checklist di atas untuk meningkatkan skor portfolio kamu!</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -271,6 +425,20 @@
                             <!-- Will be populated by JS -->
                         </ul>
                     </div>
+
+                    <!-- Required Skills Section -->
+                    <div id="required-skills-section" class="hidden">
+                        <h4 class="text-lg font-bold mb-3">🎯 Skill yang Dibutuhkan</h4>
+                        <div id="modal-skills" class="space-y-3">
+                            <!-- Will be populated by JS -->
+                        </div>
+                        <button id="view-roadmap-btn" class="mt-4 w-full border-2 border-blue-600 text-blue-600 py-3 rounded-xl font-semibold hover:bg-blue-50 transition flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                            </svg>
+                            Lihat Roadmap Lengkap
+                        </button>
+                    </div>
                     
                     <div class="flex gap-3 pt-4">
                         <button id="save-job-btn" class="flex-1 border-2 border-gray-300 text-gray-700 py-3 rounded-xl font-semibold hover:border-blue-600 hover:text-blue-600 transition flex items-center justify-center gap-2">
@@ -327,6 +495,6 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     
     <!-- Main JavaScript Module -->
-    <script type="module" src="js/main.js"></script>
+    <script type="module" src="./js/main.js"></script>
 </body>
 </html>
