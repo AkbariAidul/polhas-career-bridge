@@ -886,6 +886,13 @@ html {
 /* ==================== AUTH MODAL FIXES ==================== */
 #auth-modal {
     overflow-y: auto !important;
+    overflow-x: hidden !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 9999 !important;
 }
 
 #auth-modal[style*="display: block"] {
@@ -899,21 +906,23 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem 1rem;
+    padding: 3rem 1rem;
 }
 
 #auth-modal .bg-white {
-    max-height: 90vh;
-    overflow-y: auto;
-    max-width: 100%;
+    width: 100%;
+    max-width: 28rem;
     display: block !important;
     visibility: visible !important;
+    max-height: none;
+    overflow: visible;
 }
 
 #login-form,
 #register-form {
     display: block !important;
     visibility: visible !important;
+    overflow: visible !important;
 }
 
 #login-form.hidden,
@@ -921,7 +930,7 @@ html {
     display: none !important;
 }
 
-/* Ensure form fields are always visible */
+/* Ensure all form elements are visible and clickable */
 #register-form input,
 #register-form select,
 #register-form button,
@@ -930,14 +939,19 @@ html {
     width: 100%;
     box-sizing: border-box;
     display: block !important;
+    visibility: visible !important;
 }
 
-/* Ensure button is always clickable */
+/* Ensure buttons are always clickable */
 #register-form button[type="submit"],
 #login-form button[type="submit"] {
-    margin-top: 1rem;
-    padding: 0.625rem;
+    cursor: pointer !important;
+    pointer-events: auto !important;
     min-height: 44px;
+}
+
+/* Close button */
+.close-auth-modal {
     cursor: pointer !important;
     pointer-events: auto !important;
 }
