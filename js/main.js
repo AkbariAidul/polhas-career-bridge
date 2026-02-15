@@ -492,14 +492,12 @@ function openModal(jobId) {
 
     // Show modal
     modal.classList.remove('hidden');
-    modal.classList.add('flex');
     document.body.style.overflow = 'hidden';
 }
 
 // Close Modal Function
 function closeModal() {
     modal.classList.add('hidden');
-    modal.classList.remove('flex');
     document.body.style.overflow = 'auto';
     selectedJob = null;
 }
