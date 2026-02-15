@@ -3,6 +3,20 @@
 
 import { companies, mitraPolhas } from './data.js';
 
+// Default logo untuk perusahaan yang tidak punya logo
+const DEFAULT_HASNUR_LOGO = 'assets/img/mitra-hasnur/politeknik-hasnur.png';
+const HASNUR_GROUP_LOGO = 'assets/img/mitra-hasnur/PT Hasnur Jaya Utama (HJU).png';
+
+// Get logo dengan fallback ke Hasnur Group logo
+function getCompanyLogo(company) {
+    // Jika logo sudah ada dan bukan logo politeknik hasnur, gunakan itu
+    if (company.logo && company.logo !== DEFAULT_HASNUR_LOGO) {
+        return company.logo;
+    }
+    // Jika logo adalah logo politeknik hasnur atau tidak ada, gunakan Hasnur Group logo
+    return HASNUR_GROUP_LOGO;
+}
+
 // Render Hasnur Group Partners
 export function renderHasnurPartners() {
     const container = document.getElementById('hasnur-partners-grid');
@@ -10,7 +24,7 @@ export function renderHasnurPartners() {
 
     container.innerHTML = companies.map(company => `
         <div class="flex flex-col items-center justify-center p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition group cursor-pointer" onclick="showCompanyDetail(${company.id}, 'hasnur')">
-            <img src="${company.logo}" alt="${company.name}" class="h-20 object-contain mb-3 group-hover:scale-110 transition">
+            <img src="${getCompanyLogo(company)}" alt="${company.name}" class="h-20 object-contain mb-3 group-hover:scale-110 transition">
             <p class="text-sm text-gray-600 text-center font-medium">${company.name}</p>
             <button class="mt-3 px-4 py-2 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition opacity-0 group-hover:opacity-100">
                 Lihat Detail
