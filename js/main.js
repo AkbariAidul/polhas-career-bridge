@@ -52,6 +52,7 @@ let completedSkills = JSON.parse(localStorage.getItem('completedSkills')) || {};
 
 // Wait for components to load before attaching auth listeners
 document.addEventListener('componentsLoaded', () => {
+    console.log('✅ componentsLoaded event received in main.js');
     // Initialize auth after components are loaded
     updateNavbar();
     setupDropdownClose();
@@ -993,10 +994,15 @@ function renderRecommendedJobs() {
 // ==================== AUTH EVENT LISTENERS ====================
 
 function attachAuthListeners() {
+    console.log('🔧 Attaching auth event listeners...');
+    
     // Login button
     const loginBtn = document.getElementById('login-btn');
     if (loginBtn) {
+        console.log('✅ Login button found, attaching click listener');
         loginBtn.addEventListener('click', showLoginModal);
+    } else {
+        console.error('❌ Login button NOT found!');
     }
 
     // Close modal buttons

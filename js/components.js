@@ -45,6 +45,7 @@ function highlightActiveNav() {
 function initializeAuth() {
     // Import and initialize auth from main.js will handle this
     // This ensures auth modal event listeners are attached after DOM is ready
+    console.log('✅ Components loaded, dispatching componentsLoaded event');
     const event = new Event('componentsLoaded');
     document.dispatchEvent(event);
 }
