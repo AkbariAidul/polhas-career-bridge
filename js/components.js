@@ -16,11 +16,22 @@ export async function loadComponent(elementId, componentPath) {
 
 // Load all common components
 export async function loadCommonComponents() {
+    console.log('📦 Loading common components...');
     await Promise.all([
         loadComponent('navbar-container', 'components/navbar.html'),
         loadComponent('footer-container', 'components/footer.html'),
         loadComponent('auth-modal-container', 'components/auth-modal.html')
     ]);
+    
+    console.log('✅ All components loaded');
+    
+    // Verify modal exists
+    const modal = document.getElementById('auth-modal');
+    if (modal) {
+        console.log('✅ Auth modal found in DOM');
+    } else {
+        console.error('❌ Auth modal NOT found in DOM after loading!');
+    }
     
     // Highlight active nav link based on current page
     highlightActiveNav();

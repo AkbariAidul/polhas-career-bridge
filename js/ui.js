@@ -5,14 +5,31 @@ import { auth } from './auth.js';
 
 // Show login modal
 export function showLoginModal() {
+    console.log('🔓 showLoginModal called');
     const modal = document.getElementById('auth-modal');
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
     
+    if (!modal) {
+        console.error('❌ Modal not found!');
+        return;
+    }
+    if (!loginForm) {
+        console.error('❌ Login form not found!');
+        return;
+    }
+    
+    console.log('✅ Modal and login form found');
     loginForm.classList.remove('hidden');
     registerForm.classList.add('hidden');
     modal.style.display = 'block';
+    modal.style.overflow = 'auto';
     document.body.style.overflow = 'hidden';
+    
+    // Force scroll to top
+    setTimeout(() => {
+        modal.scrollTop = 0;
+    }, 100);
 }
 
 // Show register modal
