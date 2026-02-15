@@ -1,7 +1,9 @@
 // Component Loader - Load reusable HTML components
 export async function loadComponent(elementId, componentPath) {
     try {
-        const response = await fetch(componentPath);
+        // Add cache-busting timestamp
+        const cacheBuster = `?v=${Date.now()}`;
+        const response = await fetch(componentPath + cacheBuster);
         const html = await response.text();
         const element = document.getElementById(elementId);
         if (element) {

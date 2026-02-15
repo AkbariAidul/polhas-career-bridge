@@ -121,6 +121,8 @@ function animateStats() {
 
     stats.forEach(stat => {
         const el = document.getElementById(stat.id);
+        if (!el) return; // Skip if element doesn't exist
+        
         let current = 0;
         const increment = stat.target / 50;
         const timer = setInterval(() => {
@@ -137,6 +139,9 @@ function animateStats() {
 
 // Render Program Studi
 function renderProdi() {
+    const prodiContainer = document.getElementById('prodi-container');
+    if (!prodiContainer) return; // Skip if element doesn't exist
+    
     prodiContainer.innerHTML = programStudi.map((prodi, index) => `
         <div class="bg-white border border-gray-200 rounded-xl p-6 hover:border-blue-600 hover:shadow-lg transition cursor-pointer" style="animation: fadeInUp 0.6s ease-out ${index * 0.1}s both">
             <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
