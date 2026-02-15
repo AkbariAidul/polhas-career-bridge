@@ -50,13 +50,16 @@ let selectedJob = null;
 let savedJobs = JSON.parse(localStorage.getItem('savedJobs')) || [];
 let completedSkills = JSON.parse(localStorage.getItem('completedSkills')) || {};
 
-// Initialize App
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize auth (always needed)
+// Wait for components to load before attaching auth listeners
+document.addEventListener('componentsLoaded', () => {
+    // Initialize auth after components are loaded
     updateNavbar();
     setupDropdownClose();
     attachAuthListeners();
-    
+});
+
+// Initialize App
+document.addEventListener('DOMContentLoaded', () => {
     // Initialize gamification (always needed)
     userProgress = initGamification();
     
