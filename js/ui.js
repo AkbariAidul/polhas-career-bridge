@@ -20,11 +20,6 @@ export function showLoginModal() {
     registerForm.style.display = 'none';
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
-    
-    // Scroll to top
-    setTimeout(() => {
-        modal.scrollTop = 0;
-    }, 100);
 }
 
 // Show register modal
@@ -44,11 +39,6 @@ export function showRegisterModal() {
     registerForm.style.display = 'block';
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
-    
-    // Scroll to top
-    setTimeout(() => {
-        modal.scrollTop = 0;
-    }, 100);
 }
 
 // Close auth modal
