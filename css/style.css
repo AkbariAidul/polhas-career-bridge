@@ -1030,12 +1030,25 @@ html {
     z-index: 50 !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
-    padding: 2rem 1rem !important;
+    padding: 1rem !important;
     display: none !important;
 }
 
 #auth-modal[style*="display: block"] {
     display: block !important;
+}
+
+#auth-modal > div {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 100vh !important;
+}
+
+#auth-modal .bg-white {
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    flex-shrink: 0 !important;
 }
 
 #login-form,
