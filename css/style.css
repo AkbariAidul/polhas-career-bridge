@@ -881,3 +881,47 @@ html {
         transform: translateY(0);
     }
 }
+
+
+/* ==================== AUTH MODAL FIXES ==================== */
+#auth-modal {
+    overflow-y: auto !important;
+    display: none !important;
+}
+
+#auth-modal.show {
+    display: block !important;
+}
+
+#auth-modal > div {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#auth-modal .bg-white {
+    max-height: 90vh;
+    overflow-y: auto;
+    max-width: 100%;
+}
+
+#register-form {
+    max-height: calc(90vh - 60px);
+    overflow-y: auto;
+}
+
+/* Ensure form fields are always visible */
+#register-form input,
+#register-form select,
+#register-form button {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Ensure button is always clickable */
+#register-form button[type="submit"] {
+    margin-top: 1rem;
+    padding: 0.625rem;
+    min-height: 44px;
+}

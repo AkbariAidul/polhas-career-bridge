@@ -21,10 +21,22 @@ export function showRegisterModal() {
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
     
+    if (!modal || !registerForm) {
+        console.error('❌ Modal or register form not found!');
+        return;
+    }
+    
+    console.log('📝 Showing register form...');
     loginForm.classList.add('hidden');
     registerForm.classList.remove('hidden');
     modal.style.display = 'block';
+    modal.style.overflow = 'auto';
     document.body.style.overflow = 'hidden';
+    
+    // Force scroll to top of modal
+    setTimeout(() => {
+        modal.scrollTop = 0;
+    }, 100);
 }
 
 // Close auth modal
