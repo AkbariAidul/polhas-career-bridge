@@ -1,0 +1,63 @@
+<nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="assets/img/logo-website/logo.png" alt="Polhas CareerBridge" class="h-12">
+                <div class="hidden md:block">
+                    <div class="text-xl font-bold text-gray-900">Polhas CareerBridge</div>
+                    <div class="text-xs text-gray-500">Platform Magang & Karir</div>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="nav-link text-gray-700 hover:text-blue-600 font-medium transition" data-page="index">Beranda</a>
+                <a href="roadmap.html" class="nav-link text-gray-700 hover:text-blue-600 font-medium transition" data-page="roadmap">Skill Roadmap</a>
+                <a href="portfolio.html" class="nav-link text-gray-700 hover:text-blue-600 font-medium transition" data-page="portfolio">Cek Portfolio</a>
+                <a href="jobs.html" class="nav-link text-gray-700 hover:text-blue-600 font-medium transition" data-page="jobs">Lowongan</a>
+                <a href="saved-jobs.html" class="nav-link text-gray-700 hover:text-blue-600 font-medium transition flex items-center gap-2" data-page="saved-jobs">
+                    <span>💼</span> Tersimpan
+                </a>
+                <a href="dashboard.html" class="nav-link text-gray-700 hover:text-blue-600 font-medium transition flex items-center gap-2" data-page="dashboard">
+                    <span>🏆</span> Dashboard
+                </a>
+                <a href="about.html" class="nav-link text-gray-700 hover:text-blue-600 font-medium transition" data-page="about">Tentang</a>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <button id="login-btn" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition shadow-sm">
+                    Masuk
+                </button>
+                <div id="user-menu" class="relative hidden">
+                    <button id="user-menu-btn" class="flex items-center gap-3 hover:bg-gray-50 px-4 py-2 rounded-xl transition">
+                        <div id="user-avatar" class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm">U</div>
+                        <span id="user-name" class="font-semibold text-gray-900">User</span>
+                        <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
+                        <button id="profile-menu-item" class="w-full text-left px-4 py-3 hover:bg-gray-50 transition flex items-center gap-3">
+                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            <span class="font-medium">Profile Saya</span>
+                        </button>
+                        <button id="dashboard-menu-item" class="w-full text-left px-4 py-3 hover:bg-gray-50 transition flex items-center gap-3">
+                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            <span class="font-medium">Dashboard</span>
+                        </button>
+                        <hr class="my-2">
+                        <button id="logout-menu-item" class="w-full text-left px-4 py-3 hover:bg-red-50 transition flex items-center gap-3 text-red-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            <span class="font-medium">Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

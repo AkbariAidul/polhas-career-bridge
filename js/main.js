@@ -1,10 +1,33 @@
 // Import data
 import { jobs, programStudi, companies, mitraPolhas, supported, skillRoadmaps } from './data.js';
 
+// Import gamification
+import { initGamification, showNotification } from './gamification.js';
+
+// Import auth & UI
+import { auth } from './auth.js';
+import { 
+    showLoginModal, 
+    showRegisterModal, 
+    closeAuthModal, 
+    updateNavbar, 
+    toggleUserDropdown,
+    setupDropdownClose,
+    showToast as uiShowToast,
+    showProfileModal,
+    handleLogout
+} from './ui.js';
+
+// Import recommendation
+import { recommendation } from './recommendation.js';
+
 // Debug log
 console.log('=== POLHAS CAREERBRIDGE LOADED ===');
 console.log('Total Jobs:', jobs.length);
 console.log('Total Roadmaps:', Object.keys(skillRoadmaps).length);
+
+// Initialize Gamification
+let userProgress = null;
 
 // DOM Elements
 const jobContainer = document.getElementById('job-container');
@@ -29,16 +52,59 @@ let completedSkills = JSON.parse(localStorage.getItem('completedSkills')) || {};
 
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
-    animateStats();
-    renderProdi();
-    renderMitraHasnur();
-    renderMitraPolhas();
-    renderSupported();
-    populateProdiFilter();
-    renderJobs(currentJobs);
-    initSkillRoadmap();
-    initPortfolioScorecard();
-    attachEventListeners();
+    // Initialize auth (always needed)
+    updateNavbar();
+    setupDropdownClose();
+    attachAuthListeners();
+    
+    // Initialize gamification (always needed)
+    userProgress = initGamification();
+    
+    // Only run if elements exist (for specific pages)
+    if (document.getElementById('stat-jobs')) {
+        animateStats();
+    }
+    
+    if (document.getElementById('prodi-container')) {
+        renderProdi();
+    }
+    
+    if (document.getElementById('mitra-hasnur-container')) {
+        renderMitraHasnur();
+    }
+    
+    if (document.getElementById('mitra-polhas-container')) {
+        renderMitraPolhas();
+    }
+    
+    if (document.getElementById('supported-container')) {
+        renderSupported();
+    }
+    
+    if (document.getElementById('prodi-filter')) {
+        populateProdiFilter();
+    }
+    
+    if (document.getElementById('job-container')) {
+        renderJobs(currentJobs);
+    }
+    
+    if (document.getElementById('skill-tree-container')) {
+        initSkillRoadmap();
+    }
+    
+    if (document.getElementById('portfolio-score')) {
+        initPortfolioScorecard();
+    }
+    
+    if (document.getElementById('job-container') || document.getElementById('job-modal')) {
+        attachEventListeners();
+    }
+    
+    // Show recommendations if user is logged in and element exists
+    if (auth.isLoggedIn() && document.getElementById('recommended-jobs')) {
+        renderRecommendedJobs();
+    }
 });
 
 // Animate Stats Counter
@@ -249,9 +315,23 @@ function toggleSaveJob(jobId) {
     if (index > -1) {
         savedJobs.splice(index, 1);
         showToast('Lowongan dihapus dari simpanan', 'error');
+        
+        // Update gamification - decrement saved jobs
+        if (userProgress) {
+            const currentCount = userProgress.data.stats.savedJobs;
+            if (currentCount > 0) {
+                userProgress.data.stats.savedJobs--;
+                userProgress.saveProgress();
+            }
+        }
     } else {
         savedJobs.push(jobId);
         showToast(`${job.role} disimpan!`, 'success');
+        
+        // Update gamification - increment saved jobs
+        if (userProgress) {
+            userProgress.incrementStat('savedJobs');
+        }
     }
     
     localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
@@ -263,6 +343,11 @@ function openModal(jobId) {
     selectedJob = jobs.find(job => job.id === jobId);
     
     if (!selectedJob) return;
+
+    // Update gamification - increment job views
+    if (userProgress) {
+        userProgress.incrementStat('jobViews');
+    }
 
     // Populate modal content
     document.getElementById('modal-logo').src = selectedJob.logo;
@@ -530,8 +615,22 @@ function toggleSkillCompletion(role, level, skillName) {
     
     if (completedSkills[key]) {
         showToast(`✅ ${skillName} ditandai sebagai selesai!`, 'success');
+        
+        // Update gamification
+        if (userProgress) {
+            userProgress.incrementStat('skillsCompleted');
+        }
     } else {
         showToast(`${skillName} ditandai belum selesai`, 'error');
+        
+        // Update gamification
+        if (userProgress) {
+            const currentCount = userProgress.data.stats.skillsCompleted;
+            if (currentCount > 0) {
+                userProgress.data.stats.skillsCompleted--;
+                userProgress.saveProgress();
+            }
+        }
     }
 }
 
@@ -574,6 +673,11 @@ function renderSkillTree(role) {
     if (!roadmap) {
         console.error('Roadmap not found for role:', role);
         return;
+    }
+    
+    // Update gamification - track roadmap views
+    if (userProgress) {
+        userProgress.updateStat('roadmapsViewed', role);
     }
     
     const container = document.getElementById('skill-tree-container');
@@ -751,6 +855,11 @@ function updatePortfolioScore() {
     document.getElementById('progress-text').textContent = `${score}/100`;
     document.getElementById('progress-bar').style.width = `${score}%`;
     
+    // Update gamification - update portfolio score
+    if (userProgress) {
+        userProgress.updateStat('portfolioScore', score);
+    }
+    
     // Update recommendation
     const recommendation = document.getElementById('recommendation');
     if (score === 0) {
@@ -788,3 +897,225 @@ document.addEventListener('DOMContentLoaded', () => {
     initPortfolioScorecard(); // NEW
     attachEventListeners();
 });
+
+// ==================== RECOMMENDATION SYSTEM ====================
+
+function renderRecommendedJobs() {
+    const section = document.getElementById('recommended-jobs');
+    const container = document.getElementById('recommended-jobs-container');
+    
+    const recommendations = recommendation.getRecommendedJobs(6);
+    
+    if (recommendations.length === 0) {
+        section.classList.add('hidden');
+        return;
+    }
+    
+    section.classList.remove('hidden');
+    
+    container.innerHTML = recommendations.map((rec, index) => {
+        const job = rec.job;
+        const prodiText = Array.isArray(job.prodi) ? job.prodi[0] : job.prodi;
+        const isSaved = savedJobs.includes(job.id);
+        
+        return `
+            <div class="bg-white border-2 border-green-200 rounded-xl p-6 hover:border-green-400 hover:shadow-lg transition cursor-pointer" style="animation: fadeInUp 0.6s ease-out ${index * 0.1}s both">
+                
+                <!-- Match Badge -->
+                <div class="flex items-center justify-between mb-3">
+                    <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">
+                        ${Math.round(rec.score)}% Match
+                    </span>
+                    <button class="save-btn-rec p-2 hover:bg-gray-100 rounded-lg transition ${isSaved ? 'text-blue-600' : 'text-gray-400'}" data-job-id="${job.id}">
+                        <svg class="w-5 h-5" fill="${isSaved ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="flex items-start gap-4 mb-4">
+                    <img src="${job.logo}" alt="${job.company}" class="w-12 h-12 object-contain">
+                    <div class="flex-1">
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">${job.role}</h3>
+                        <p class="text-gray-600 text-sm">${job.company}</p>
+                    </div>
+                </div>
+                
+                <!-- Reasons -->
+                <div class="mb-4 space-y-1">
+                    ${rec.reasons.map(reason => `
+                        <div class="flex items-center gap-2 text-xs text-gray-600">
+                            <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>${reason}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="flex gap-2 mb-4">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-lg text-xs font-semibold">
+                        ${job.type}
+                    </span>
+                    <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-xs font-medium">
+                        📍 ${job.location}
+                    </span>
+                </div>
+                
+                <button class="view-rec-btn w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold transition" data-job-id="${job.id}">
+                    Lihat Detail
+                </button>
+            </div>
+        `;
+    }).join('');
+    
+    // Attach handlers
+    container.querySelectorAll('.view-rec-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const jobId = parseInt(btn.dataset.jobId);
+            openModal(jobId);
+        });
+    });
+    
+    container.querySelectorAll('.save-btn-rec').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const jobId = parseInt(btn.dataset.jobId);
+            toggleSaveJob(jobId);
+            renderRecommendedJobs(); // Re-render to update button state
+        });
+    });
+}
+
+// ==================== AUTH EVENT LISTENERS ====================
+
+function attachAuthListeners() {
+    // Login button
+    const loginBtn = document.getElementById('login-btn');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', showLoginModal);
+    }
+
+    // Close modal buttons
+    const closeModalBtns = document.querySelectorAll('.close-auth-modal');
+    closeModalBtns.forEach(btn => {
+        btn.addEventListener('click', closeAuthModal);
+    });
+
+    // Switch to register
+    const switchToRegister = document.getElementById('switch-to-register');
+    if (switchToRegister) {
+        switchToRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            showRegisterModal();
+        });
+    }
+
+    // Switch to login
+    const switchToLogin = document.getElementById('switch-to-login');
+    if (switchToLogin) {
+        switchToLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginModal();
+        });
+    }
+
+    // Login form submit
+    const loginForm = document.getElementById('login-form-element');
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleLogin);
+    }
+
+    // Register form submit
+    const registerForm = document.getElementById('register-form-element');
+    if (registerForm) {
+        registerForm.addEventListener('submit', handleRegister);
+    }
+
+    // User menu toggle
+    const userMenuBtn = document.getElementById('user-menu-btn');
+    if (userMenuBtn) {
+        userMenuBtn.addEventListener('click', toggleUserDropdown);
+    }
+
+    // Profile menu item
+    const profileMenuItem = document.getElementById('profile-menu-item');
+    if (profileMenuItem) {
+        profileMenuItem.addEventListener('click', () => {
+            document.getElementById('user-dropdown').classList.add('hidden');
+            showProfileModal();
+        });
+    }
+
+    // Dashboard menu item
+    const dashboardMenuItem = document.getElementById('dashboard-menu-item');
+    if (dashboardMenuItem) {
+        dashboardMenuItem.addEventListener('click', () => {
+            document.getElementById('user-dropdown').classList.add('hidden');
+            window.location.href = 'dashboard.html';
+        });
+    }
+
+    // Logout menu item
+    const logoutMenuItem = document.getElementById('logout-menu-item');
+    if (logoutMenuItem) {
+        logoutMenuItem.addEventListener('click', handleLogout);
+    }
+
+    // Close modal on backdrop click
+    const authModal = document.getElementById('auth-modal');
+    if (authModal) {
+        authModal.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                closeAuthModal();
+            }
+        });
+    }
+}
+
+// Handle login
+function handleLogin(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    
+    const response = auth.login(email, password);
+    
+    if (response.success) {
+        uiShowToast(response.message, 'success');
+        closeAuthModal();
+        updateNavbar();
+        
+        // Reset form
+        e.target.reset();
+    } else {
+        uiShowToast(response.message, 'error');
+    }
+}
+
+// Handle register
+function handleRegister(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('register-name').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    const prodi = document.getElementById('register-prodi').value;
+    
+    const response = auth.register({ name, email, password, prodi });
+    
+    if (response.success) {
+        uiShowToast(response.message, 'success');
+        
+        // Auto login after register
+        auth.login(email, password);
+        closeAuthModal();
+        updateNavbar();
+        
+        // Reset form
+        e.target.reset();
+    } else {
+        uiShowToast(response.message, 'error');
+    }
+}

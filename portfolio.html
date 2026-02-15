@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Portfolio Check - Polhas CareerBridge</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50 text-gray-900 font-jakarta antialiased">
+    
+    <!-- Navbar Container -->
+    <div id="navbar-container"></div>
+
+    <!-- Portfolio Scorecard Section -->
+    <section class="pt-32 pb-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-green-100 rounded-full mb-4">
+                        <span class="text-green-600 text-sm font-semibold">✅ Portfolio Assessment</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">Cek Kesiapan Portfolio</h1>
+                    <p class="text-gray-600 text-lg">Evaluasi portfolio dan CV kamu. Sudah siap apply lowongan?</p>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                    <!-- Scorecard -->
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center justify-center w-32 h-32 rounded-full bg-blue-50 mb-4">
+                            <span id="portfolio-score" class="text-5xl font-bold text-blue-600">0</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Portfolio Score</h3>
+                        <p class="text-gray-600">Skor kesiapan portfolio kamu</p>
+                    </div>
+
+                    <!-- Checklist -->
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                            <input type="checkbox" id="check-photo" class="portfolio-check w-5 h-5 text-blue-600 rounded">
+                            <label for="check-photo" class="flex-1 font-medium cursor-pointer">Foto profil professional</label>
+                            <span class="text-sm text-gray-500">+10</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                            <input type="checkbox" id="check-summary" class="portfolio-check w-5 h-5 text-blue-600 rounded">
+                            <label for="check-summary" class="flex-1 font-medium cursor-pointer">Summary/About yang menarik</label>
+                            <span class="text-sm text-gray-500">+15</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                            <input type="checkbox" id="check-experience" class="portfolio-check w-5 h-5 text-blue-600 rounded">
+                            <label for="check-experience" class="flex-1 font-medium cursor-pointer">Pengalaman/Project (min 2)</label>
+                            <span class="text-sm text-gray-500">+25</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                            <input type="checkbox" id="check-skills" class="portfolio-check w-5 h-5 text-blue-600 rounded">
+                            <label for="check-skills" class="flex-1 font-medium cursor-pointer">Daftar skills yang relevan</label>
+                            <span class="text-sm text-gray-500">+20</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                            <input type="checkbox" id="check-portfolio" class="portfolio-check w-5 h-5 text-blue-600 rounded">
+                            <label for="check-portfolio" class="flex-1 font-medium cursor-pointer">Link portfolio/GitHub</label>
+                            <span class="text-sm text-gray-500">+15</span>
+                        </div>
+                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                            <input type="checkbox" id="check-contact" class="portfolio-check w-5 h-5 text-blue-600 rounded">
+                            <label for="check-contact" class="flex-1 font-medium cursor-pointer">Kontak yang jelas (email, phone)</label>
+                            <span class="text-sm text-gray-500">+15</span>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="mb-6">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="font-medium">Progress</span>
+                            <span id="progress-text" class="text-gray-600">0/100</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div id="progress-bar" class="bg-blue-600 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendation -->
+                    <div id="recommendation" class="p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                        <p class="text-blue-800 font-medium">💡 Mulai dengan mencentang checklist di atas untuk meningkatkan skor portfolio kamu!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
+
+    <!-- Auth Modal Container -->
+    <div id="auth-modal-container"></div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    
+    <!-- Load Components First -->
+    <script type="module">
+        import { loadCommonComponents } from './js/components.js';
+        await loadCommonComponents();
+    </script>
+    
+    <!-- Then load main.js -->
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>

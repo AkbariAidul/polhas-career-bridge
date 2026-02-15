@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Skill Roadmap - Polhas CareerBridge</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-white text-gray-900 font-jakarta antialiased">
+    
+    <!-- Navbar Container -->
+    <div id="navbar-container"></div>
+
+    <!-- Skill Roadmap Section -->
+    <section class="pt-32 pb-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 rounded-full mb-4">
+                    <span class="text-blue-600 text-sm font-semibold">🌳 Interactive Learning Path - 8 Career Paths</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Roadmap Skill Interaktif</h1>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">Visualisasi skill tree seperti game. Pilih role impianmu dan lihat langkah-langkah belajar yang harus kamu kuasai! Tersedia 8 career paths untuk semua prodi.</p>
+            </div>
+
+            <!-- Role Selection -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12">
+                <button class="role-btn active px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition" data-role="web-dev">
+                    💻 Web Developer
+                </button>
+                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="ui-ux">
+                    🎨 UI/UX Designer
+                </button>
+                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="data-analyst">
+                    📊 Data Analyst
+                </button>
+                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="digital-marketing">
+                    📱 Digital Marketing
+                </button>
+                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="automotive">
+                    🚗 Automotive
+                </button>
+                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="agriculture">
+                    🌾 Agriculture
+                </button>
+                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="accounting">
+                    💰 Accounting
+                </button>
+                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="business">
+                    💼 Business
+                </button>
+            </div>
+
+            <!-- Skill Tree Container -->
+            <div id="skill-tree-container" class="max-w-6xl mx-auto">
+                <!-- Will be rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
+
+    <!-- Auth Modal Container -->
+    <div id="auth-modal-container"></div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    
+    <!-- Load Components First -->
+    <script type="module">
+        import { loadCommonComponents } from './js/components.js';
+        await loadCommonComponents();
+    </script>
+    
+    <!-- Then load main.js -->
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>

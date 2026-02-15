@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Cache Control -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <title>My Dashboard - Polhas CareerBridge</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50 text-gray-900 font-jakarta antialiased">
+    
+    <!-- Navbar Container -->
+    <div id="navbar-container"></div>
+
+    <!-- Main Content -->
+    <main class="pt-32 pb-20">
+        <div class="container mx-auto px-6">
+            
+            <!-- Progress Dashboard -->
+            <div class="progress-dashboard">
+                <div class="dashboard-header">
+                    <div class="user-level">
+                        <div class="level-badge" id="level-badge">1</div>
+                        <div class="level-info">
+                            <h3 id="level-title">Level 1</h3>
+                            <p>Keep learning to level up!</p>
+                        </div>
+                    </div>
+                    <div class="points-display">
+                        <span class="points-number" id="total-points">0</span>
+                        <span class="points-label">Total Points</span>
+                    </div>
+                </div>
+
+                <!-- Level Progress -->
+                <div class="level-progress">
+                    <div class="level-progress-label">
+                        <span>Progress to Level <span id="next-level">2</span></span>
+                        <span><span id="current-points">0</span> / <span id="points-needed">100</span> points</span>
+                    </div>
+                    <div class="level-progress-bar">
+                        <div class="level-progress-fill" id="level-progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-number" id="skills-completed">0</div>
+                    <div class="stat-label">Skills Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💼</div>
+                    <div class="stat-number" id="jobs-saved">0</div>
+                    <div class="stat-label">Jobs Saved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👁️</div>
+                    <div class="stat-number" id="jobs-viewed">0</div>
+                    <div class="stat-label">Jobs Viewed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-number" id="portfolio-score">0</div>
+                    <div class="stat-label">Portfolio Score</div>
+                </div>
+            </div>
+
+            <!-- Achievements Section -->
+            <div class="achievements-section">
+                <div class="achievements-header">
+                    <h3>🏆 Achievements</h3>
+                    <span class="achievement-progress" id="achievement-progress">0 / 12 Unlocked</span>
+                </div>
+                <div class="achievements-grid" id="achievements-grid">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="mt-12 text-center">
+                <h3 class="text-2xl font-bold mb-6">Continue Your Journey</h3>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="roadmap.html" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg">
+                        📚 Explore Roadmaps
+                    </a>
+                    <a href="jobs.html" class="bg-white text-gray-700 px-8 py-4 rounded-xl font-bold hover:bg-gray-50 transition border-2 border-gray-200">
+                        💼 Browse Jobs
+                    </a>
+                    <a href="portfolio.html" class="bg-white text-gray-700 px-8 py-4 rounded-xl font-bold hover:bg-gray-50 transition border-2 border-gray-200">
+                        ✅ Check Portfolio
+                    </a>
+                    <button id="share-progress-btn" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl font-bold hover:from-purple-700 hover:to-pink-700 transition shadow-lg">
+                        📤 Share Progress
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
+
+    <!-- Auth Modal Container -->
+    <div id="auth-modal-container"></div>
+
+    <!-- Load Components First -->
+    <script type="module">
+        import { loadCommonComponents } from './js/components.js';
+        await loadCommonComponents();
+    </script>
+
+    <!-- Dashboard JavaScript -->
+    <script type="module">
+        import { UserProgress, achievements } from './js/gamification.js';
+
+        // Initialize
+        const userProgress = new UserProgress();
+        const progress = userProgress.getProgress();
+
+        // Update Level Display
+        document.getElementById('level-badge').textContent = progress.level;
+        document.getElementById('level-title').textContent = `Level ${progress.level}`;
+        document.getElementById('total-points').textContent = progress.points;
+
+        // Update Level Progress
+        const pointsInCurrentLevel = progress.points % 100;
+        const nextLevel = progress.level + 1;
+        document.getElementById('next-level').textContent = nextLevel;
+        document.getElementById('current-points').textContent = pointsInCurrentLevel;
+        document.getElementById('points-needed').textContent = 100;
+        document.getElementById('level-progress-fill').style.width = `${pointsInCurrentLevel}%`;
+
+        // Update Stats
+        document.getElementById('skills-completed').textContent = progress.stats.skillsCompleted;
+        document.getElementById('jobs-saved').textContent = progress.stats.savedJobs;
+        document.getElementById('jobs-viewed').textContent = progress.stats.jobViews;
+        document.getElementById('portfolio-score').textContent = progress.stats.portfolioScore;
+
+        // Render Achievements
+        const achievementsGrid = document.getElementById('achievements-grid');
+        const achievementProgress = userProgress.getAchievementProgress();
+        
+        document.getElementById('achievement-progress').textContent = 
+            `${achievementProgress.unlocked} / ${achievementProgress.total} Unlocked (${achievementProgress.percentage}%)`;
+
+        Object.values(achievements).forEach(achievement => {
+            const isUnlocked = userProgress.hasAchievement(achievement.id);
+            const achievementEl = document.createElement('div');
+            achievementEl.className = `achievement-item ${isUnlocked ? 'unlocked' : 'locked'}`;
+            achievementEl.innerHTML = `
+                <div class="achievement-item-icon">${achievement.icon}</div>
+                <div class="achievement-item-name">${achievement.name}</div>
+                <div class="achievement-item-points">${achievement.points} pts</div>
+            `;
+            
+            // Show tooltip on hover
+            achievementEl.title = `${achievement.description}\n${isUnlocked ? '✓ Unlocked' : '🔒 Locked'}`;
+            
+            achievementsGrid.appendChild(achievementEl);
+        });
+
+        // Animate numbers on load
+        function animateValue(element, start, end, duration) {
+            const range = end - start;
+            const increment = range / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    element.textContent = end;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 16);
+        }
+
+        // Animate stats
+        setTimeout(() => {
+            animateValue(document.getElementById('skills-completed'), 0, progress.stats.skillsCompleted, 1000);
+            animateValue(document.getElementById('jobs-saved'), 0, progress.stats.savedJobs, 1000);
+            animateValue(document.getElementById('jobs-viewed'), 0, progress.stats.jobViews, 1000);
+            animateValue(document.getElementById('portfolio-score'), 0, progress.stats.portfolioScore, 1000);
+            animateValue(document.getElementById('total-points'), 0, progress.points, 1500);
+        }, 300);
+
+        // Share Progress Button
+        document.getElementById('share-progress-btn').addEventListener('click', shareProgress);
+
+        function shareProgress() {
+            const text = `🎓 Polhas CareerBridge Progress\n\n` +
+                `Level ${progress.level} | ${progress.points} Points\n` +
+                `✅ ${progress.stats.skillsCompleted} Skills Completed\n` +
+                `💼 ${progress.stats.savedJobs} Jobs Saved\n` +
+                `🏆 ${achievementProgress.unlocked}/${achievementProgress.total} Achievements\n\n` +
+                `Join me at Polhas CareerBridge! 🚀`;
+
+            const url = window.location.origin;
+
+            // Check if Web Share API is supported
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Polhas CareerBridge Progress',
+                    text: text,
+                    url: url
+                }).then(() => {
+                    console.log('Shared successfully');
+                }).catch((error) => {
+                    console.log('Error sharing:', error);
+                    fallbackShare(text, url);
+                });
+            } else {
+                fallbackShare(text, url);
+            }
+        }
+
+        function fallbackShare(text, url) {
+            Swal.fire({
+                title: 'Share Your Progress',
+                html: `
+                    <div class="text-left space-y-4">
+                        <p class="text-gray-600 mb-4">Pilih platform untuk share:</p>
+                        <div class="space-y-2">
+                            <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}" target="_blank" class="block w-full bg-blue-400 text-white py-3 rounded-lg font-semibold hover:bg-blue-500 transition text-center">
+                                🐦 Share to Twitter
+                            </a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}" target="_blank" class="block w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition text-center">
+                                📘 Share to Facebook
+                            </a>
+                            <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}" target="_blank" class="block w-full bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition text-center">
+                                💼 Share to LinkedIn
+                            </a>
+                            <button onclick="copyToClipboard('${text.replace(/'/g, "\\'")}\\n\\n${url}')" class="w-full bg-gray-600 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition">
+                                📋 Copy to Clipboard
+                            </button>
+                        </div>
+                    </div>
+                `,
+                showConfirmButton: false,
+                showCloseButton: true,
+                customClass: {
+                    popup: 'rounded-2xl'
+                }
+            });
+        }
+
+        window.copyToClipboard = function(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Copied!',
+                    text: 'Progress copied to clipboard',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            });
+        };
+    </script>
+</body>
+</html>
