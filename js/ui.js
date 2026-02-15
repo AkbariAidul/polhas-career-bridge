@@ -11,8 +11,7 @@ export function showLoginModal() {
     
     loginForm.classList.remove('hidden');
     registerForm.classList.add('hidden');
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
+    modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
 }
 
@@ -24,16 +23,14 @@ export function showRegisterModal() {
     
     loginForm.classList.add('hidden');
     registerForm.classList.remove('hidden');
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
+    modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
 }
 
 // Close auth modal
 export function closeAuthModal() {
     const modal = document.getElementById('auth-modal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
+    modal.style.display = 'none';
     document.body.style.overflow = 'auto';
 }
 
