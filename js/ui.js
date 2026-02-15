@@ -10,23 +10,18 @@ export function showLoginModal() {
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
     
-    if (!modal) {
-        console.error('❌ Modal not found!');
-        return;
-    }
-    if (!loginForm) {
-        console.error('❌ Login form not found!');
+    if (!modal || !loginForm) {
+        console.error('❌ Modal or login form not found!');
         return;
     }
     
-    console.log('✅ Modal and login form found');
-    loginForm.classList.remove('hidden');
-    registerForm.classList.add('hidden');
+    console.log('✅ Showing login form');
+    loginForm.style.display = 'block';
+    registerForm.style.display = 'none';
     modal.style.display = 'block';
-    modal.style.overflow = 'auto';
     document.body.style.overflow = 'hidden';
     
-    // Force scroll to top
+    // Scroll to top
     setTimeout(() => {
         modal.scrollTop = 0;
     }, 100);
@@ -34,6 +29,7 @@ export function showLoginModal() {
 
 // Show register modal
 export function showRegisterModal() {
+    console.log('📝 showRegisterModal called');
     const modal = document.getElementById('auth-modal');
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
@@ -43,14 +39,13 @@ export function showRegisterModal() {
         return;
     }
     
-    console.log('📝 Showing register form...');
-    loginForm.classList.add('hidden');
-    registerForm.classList.remove('hidden');
+    console.log('✅ Showing register form');
+    loginForm.style.display = 'none';
+    registerForm.style.display = 'block';
     modal.style.display = 'block';
-    modal.style.overflow = 'auto';
     document.body.style.overflow = 'hidden';
     
-    // Force scroll to top of modal
+    // Scroll to top
     setTimeout(() => {
         modal.scrollTop = 0;
     }, 100);
@@ -58,6 +53,7 @@ export function showRegisterModal() {
 
 // Close auth modal
 export function closeAuthModal() {
+    console.log('❌ Closing modal');
     const modal = document.getElementById('auth-modal');
     modal.style.display = 'none';
     document.body.style.overflow = 'auto';
