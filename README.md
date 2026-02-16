@@ -1,395 +1,247 @@
 # 🎓 Polhas CareerBridge
 
-Platform lengkap untuk mahasiswa Politeknik Hasnur: Skill roadmap interaktif, portfolio scorecard, dan lowongan magang di Hasnur Group & mitra.
+Platform lengkap untuk mahasiswa Politeknik Hasnur: Skill roadmap interaktif, portfolio scorecard, dan lowongan magang dari Hasnur Group & mitra.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![Status](https://img.shields.io/badge/status-production-success)
+![Polhas CareerBridge](assets/img/logo-website/logo.png)
 
----
+## 🚀 Fitur Utama
 
-## ✨ Fitur Utama
+### 1. 🗺️ Skill Roadmap Interaktif
+- 8 career paths (Web Dev, Mobile Dev, Data Science, dll)
+- Skill tree dengan progress tracking
+- Checklist skill yang bisa dicentang
+- Rekomendasi learning resources
 
-### 🌳 8 Skill Roadmap Interaktif
-Visualisasi skill tree seperti game untuk 8 career paths:
-- 💻 **Web Developer** - Full Stack Development
-- 🎨 **UI/UX Designer** - Design & Prototyping
-- 📊 **Data Analyst** - Data Analysis & Visualization
-- 📱 **Digital Marketing** - SEO, Ads & Social Media
-- 🚗 **Automotive Engineering** - Teknik Otomotif
-- 🌾 **Agriculture & Plantation** - Budidaya Perkebunan
-- 💰 **Accounting & Finance** - Akuntansi & Keuangan
-- 💼 **Business & Marketing** - Bisnis & Pemasaran
+### 2. 📊 Portfolio Scorecard
+- Evaluasi kesiapan portfolio & CV
+- Scoring system 0-100
+- Rekomendasi improvement
+- Checklist komponen portfolio
 
-**Fitur Roadmap:**
-- Klik tombol career path untuk melihat skill tree
-- Centang checkbox untuk menandai skill yang sudah dikuasai
-- Progress tersimpan otomatis di browser
-- Klik "Mulai Belajar" untuk detail skill & resources
+### 3. 💼 Job Listings
+- 47 lowongan magang & kerja
+- Filter berdasarkan tipe & prodi
+- Skill matching dengan lowongan
+- Save & bookmark lowongan favorit
+- Deep linking untuk share lowongan
 
-### ✅ Portfolio Scorecard
-Evaluasi kesiapan portfolio dan CV dengan sistem scoring interaktif.
+### 4. 🏆 Gamification System
+- Level & XP system
+- Achievements & badges
+- Progress tracking
+- Leaderboard (coming soon)
 
-**Kriteria Penilaian:**
-- Foto profil professional (+10)
-- Summary/About yang menarik (+15)
-- Pengalaman/Project min 2 (+25)
-- Daftar skills yang relevan (+20)
-- Link portfolio/GitHub (+15)
-- Kontak yang jelas (+15)
+### 5. 🎯 Smart Recommendation
+- AI-powered job matching
+- Berdasarkan prodi & skill
+- Personalized suggestions
 
-**Total Score: 100**
+### 6. 📱 Fully Responsive
+- Mobile-first design
+- Hamburger menu
+- Touch-optimized
+- PWA-ready
 
-### 💼 47 Lowongan Magang & Kerja
+## 🛠️ Tech Stack
 
-**Distribusi per Program Studi:**
-- D3 Teknik Otomotif: 6 lowongan
-- D3 Teknik Informatika: 6 lowongan
-- D3 Budidaya Tanaman Perkebunan: 6 lowongan
-- D4 Teknologi Rekayasa Multimedia: 7 lowongan
-- D4 Akuntansi Bisnis Digital: 6 lowongan
-- D4 Bisnis Digital: 8 lowongan
-- D4 Manajemen Pemasaran Internasional: 8 lowongan
-
-**Perusahaan:**
-- 25 perusahaan Hasnur Group
-- 6 perusahaan mitra Polhas
-
-**Fitur Lowongan:**
-- Filter by program studi
-- Filter by tipe (PKL/Kerja)
-- Search by keyword
-- Simpan lowongan favorit
-- Lihat detail lengkap
-- Skill matching untuk lowongan tertentu
-
----
-
-## 🚀 Cara Menjalankan
-
-### Prasyarat
-- **VS Code** dengan extension **Live Server**
-- Browser modern (Chrome/Firefox/Edge)
-
-### Langkah-langkah
-
-1. **Clone atau download repository**
-   ```bash
-   git clone <repository-url>
-   cd polhas-career-bridge
-   ```
-
-2. **Buka dengan VS Code**
-   ```bash
-   code .
-   ```
-
-3. **Jalankan dengan Live Server**
-   - Klik kanan file `index.html`
-   - Pilih **"Open with Live Server"**
-   - Website akan terbuka di `http://127.0.0.1:5500`
-
-4. **Selesai!** Website siap digunakan 🎉
-
----
-
-## 🐛 Troubleshooting
-
-### Website Menampilkan Versi Lama?
-
-Jika website menampilkan versi lama (hanya 4 tombol roadmap, bukan 8):
-
-**Solusi 1: Clear Browser Cache**
-1. Tekan `Ctrl + Shift + Delete`
-2. Pilih **"All time"** atau **"Sepanjang waktu"**
-3. Centang **"Cached images and files"**
-4. Klik **"Clear data"**
-5. Tutup browser sepenuhnya
-6. Buka lagi dan akses website
-
-**Solusi 2: Hard Refresh**
-1. Buka website
-2. Tekan `Ctrl + Shift + R` (atau `Ctrl + F5`)
-
-**Solusi 3: Gunakan Incognito Mode**
-1. Tekan `Ctrl + Shift + N` (Chrome/Edge) atau `Ctrl + Shift + P` (Firefox)
-2. Buka `http://127.0.0.1:5500`
-
-**Solusi 4: Gunakan Browser Lain**
-- Coba Chrome, Firefox, atau Edge
-- Browser yang belum pernah buka website ini tidak punya cache
-
-### JavaScript Tidak Jalan?
-
-Pastikan:
-- ✅ Menggunakan **Live Server** (bukan double-click index.html)
-- ✅ Browser support ES6 modules
-- ✅ Tidak ada error di Console (F12)
-
----
+- **Frontend**: HTML5, CSS3 (Tailwind CSS), JavaScript (ES6+)
+- **Libraries**: 
+  - SweetAlert2 (modals)
+  - Toastify (notifications)
+  - Particles.js (background effects)
+  - AOS (scroll animations)
+- **Architecture**: Component-based, modular JavaScript
+- **Storage**: LocalStorage (auth & data persistence)
 
 ## 📁 Struktur Project
 
 ```
 polhas-career-bridge/
 ├── assets/
-│   └── img/                    # Gambar logo perusahaan
-│       ├── logo-website/       # Logo website
-│       ├── mitra-hasnur/       # Logo Hasnur Group (3 files)
-│       ├── mitra-polhas/       # Logo mitra Polhas (6 files)
-│       └── supported/          # Logo pendukung (4 files)
+│   └── img/                    # Images & logos
+├── components/
+│   ├── navbar.html            # Responsive navbar with mobile menu
+│   ├── footer.html            # Footer component
+│   └── auth-modal.html        # Login/Register modal
 ├── css/
-│   └── style.css              # Styling BWA clean white
+│   └── style.css              # Custom styles & responsive design
 ├── js/
-│   ├── data.js                # Data lowongan & roadmaps
-│   └── main.js                # Logic aplikasi
-├── .gitignore                 # Git ignore file
-├── index.html                 # Halaman utama
-└── README.md                  # Dokumentasi ini
+│   ├── auth.js                # Authentication system
+│   ├── components.js          # Component loader
+│   ├── data.js                # Jobs & roadmap data
+│   ├── gamification.js        # Gamification system
+│   ├── main.js                # Main application logic
+│   ├── particles-config.js    # Particles configuration
+│   ├── partners.js            # Partners data
+│   ├── recommendation.js      # Job recommendation engine
+│   └── ui.js                  # UI utilities
+├── index.html                 # Homepage
+├── jobs.html                  # Job listings page
+├── saved-jobs.html            # Saved jobs page
+├── roadmap.html               # Skill roadmap page
+├── portfolio.html             # Portfolio scorecard page
+├── dashboard.html             # User dashboard
+├── about.html                 # About page
+├── PITCHING_NARASI.md         # Pitching narrative
+└── README.md                  # This file
 ```
 
----
+## 🚀 Quick Start
 
-## 🛠️ Tech Stack
+### Prerequisites
+- Modern web browser (Chrome, Firefox, Safari, Edge)
+- Local web server (optional, for development)
 
-### Frontend
-- **HTML5** - Struktur semantic
-- **Tailwind CSS** (via CDN) - Utility-first CSS framework
-- **Vanilla JavaScript** (ES6 Modules) - No framework, pure JS
+### Installation
 
-### Libraries
-- **SweetAlert2** - Beautiful modals & alerts
-- **Toastify** - Toast notifications
-- **Plus Jakarta Sans** - Font (BWA style)
+1. Clone repository:
+```bash
+git clone https://github.com/AkbariAidul/polhas-career-bridge.git
+cd polhas-career-bridge
+```
 
-### Storage
-- **LocalStorage** - Menyimpan progress skill & lowongan favorit
+2. Open dengan live server atau langsung buka `index.html` di browser
 
 ### Development
-- **VS Code** - Code editor
-- **Live Server** - Development server
 
----
+Untuk development, gunakan live server:
+```bash
+# Jika menggunakan VS Code
+# Install extension "Live Server"
+# Klik kanan index.html > Open with Live Server
 
-## 📊 Data
+# Atau gunakan Python
+python -m http.server 8000
 
-### Lowongan (47 total)
-Data lowongan tersimpan di `js/data.js` dalam array `jobs`:
-
-```javascript
-{
-    id: Number,              // Unique ID
-    company: String,         // Nama perusahaan
-    companyId: Number,       // Reference ke companies
-    logo: String,            // Path logo
-    role: String,            // Posisi
-    type: String,            // "PKL" atau "Kerja"
-    prodi: Array<String>,    // Program studi (bisa multiple)
-    description: String,     // Deskripsi lowongan
-    requirements: Array,     // Persyaratan
-    requiredSkills: Array,   // Skill yang dibutuhkan (optional)
-    location: String,        // Lokasi
-    posted: String          // Tanggal posting
-}
+# Atau gunakan Node.js
+npx serve
 ```
 
-### Skill Roadmaps (8 total)
-Data roadmap tersimpan di `js/data.js` dalam object `skillRoadmaps`:
+## 📱 Fitur Responsive
 
-```javascript
-{
-    "role-key": {
-        title: String,           // Judul roadmap
-        description: String,     // Deskripsi
-        levels: [                // 4 levels per roadmap
-            {
-                level: Number,   // 1-4
-                title: String,   // Judul level
-                skills: [        // Skills per level
-                    {
-                        name: String,
-                        description: String,
-                        resources: Array<String>,
-                        completed: Boolean
-                    }
-                ]
-            }
-        ]
-    }
-}
-```
+Website ini fully responsive dengan breakpoints:
+- **Mobile**: < 768px (1 column layout)
+- **Tablet**: 768px - 1024px (2 column layout)
+- **Desktop**: > 1024px (4 column layout)
 
-### Perusahaan (25 total)
-Data perusahaan Hasnur Group tersimpan di `js/data.js` dalam array `companies`.
-
-### Program Studi (7 total)
-Data program studi tersimpan di `js/data.js` dalam array `programStudi`.
-
----
+Fitur mobile:
+- Hamburger menu
+- Touch-optimized buttons (min 44px)
+- Reduced animations
+- Optimized particles
+- iOS Safari fixes
 
 ## 🎨 Design System
 
-### Colors (BWA Clean White Style)
-- **Primary:** `#2563eb` (Blue 600)
-- **Secondary:** `#8b5cf6` (Purple 600)
-- **Success:** `#10b981` (Green 500)
-- **Background:** `#ffffff` (White)
-- **Gray:** `#f9fafb` (Gray 50)
+### Colors
+- **Primary**: Blue (#3b82f6)
+- **Secondary**: Purple (#8b5cf6)
+- **Accent**: Pink (#ec4899)
+- **Success**: Green (#10b981)
+- **Warning**: Orange (#f59e0b)
+- **Error**: Red (#ef4444)
 
 ### Typography
-- **Font Family:** Plus Jakarta Sans
-- **Weights:** 300, 400, 500, 600, 700, 800
+- **Font**: Plus Jakarta Sans
+- **Headings**: Bold, gradient text
+- **Body**: Regular, gray-900
 
-### Spacing
-- **Container:** `max-width: 1280px`
-- **Padding:** `px-6` (24px)
-- **Gap:** `gap-6` (24px)
+### Components
+- Glassmorphism effects
+- Rounded corners (rounded-3xl)
+- Gradient backgrounds
+- Smooth animations
+- Shadow effects
 
-### Border Radius
-- **Small:** `rounded-lg` (8px)
-- **Medium:** `rounded-xl` (12px)
-- **Large:** `rounded-2xl` (16px)
+## 🔐 Authentication
 
----
+Simple authentication system menggunakan LocalStorage:
+- Register dengan nama, email, password, prodi
+- Login dengan email & password
+- Profile management
+- Avatar generation
+- Session persistence
 
-## 🎯 Fitur Interaktif
+**Note**: Ini adalah demo authentication. Untuk production, gunakan backend authentication yang proper.
 
-### 1. Skill Roadmap
-- Klik tombol career path → Tampil skill tree
-- Centang checkbox → Tandai skill selesai
-- Progress tersimpan di LocalStorage
-- Klik "Mulai Belajar" → Detail skill
+## 📊 Data Structure
 
-### 2. Portfolio Scorecard
-- Centang checklist → Hitung skor otomatis
-- Progress bar animasi
-- Rekomendasi berdasarkan skor
-- Skor tersimpan otomatis
-
-### 3. Lowongan
-- Search real-time
-- Filter by prodi & tipe
-- Klik "Lihat Detail" → Modal detail
-- Simpan lowongan favorit
-- Skill matching (jika ada requiredSkills)
-
-### 4. Job Detail Modal
-- Info lengkap lowongan
-- Persyaratan detail
-- Skill yang dibutuhkan (jika ada)
-- Link ke roadmap terkait
-- Tombol "Lamar Sekarang"
-
----
-
-## 💾 LocalStorage
-
-Data yang disimpan di browser:
-
-### savedJobs
-Array ID lowongan yang disimpan user:
-```javascript
-["1", "5", "12"]
-```
-
-### completedSkills
-Object skill yang sudah diselesaikan:
+### Jobs
 ```javascript
 {
-    "web-dev-1-HTML": true,
-    "web-dev-1-CSS": true,
-    "ui-ux-1-Figma Basics": true
+  id: 1,
+  role: "Frontend Developer",
+  company: "PT Hasnur Jaya Utama",
+  type: "Magang",
+  location: "Banjarmasin",
+  prodi: ["Teknik Informatika"],
+  description: "...",
+  requirements: [...],
+  requiredSkills: [
+    {
+      role: "web-dev",
+      level: 1,
+      skills: ["HTML", "CSS", "JavaScript"]
+    }
+  ]
 }
 ```
 
-**Note:** Data akan hilang jika clear browser data atau ganti browser.
-
----
-
-## 🚀 Deployment
-
-### Hosting Options
-- **GitHub Pages** - Free, mudah setup
-- **Netlify** - Free, auto deploy from Git
-- **Vercel** - Free, fast deployment
-- **Firebase Hosting** - Free tier available
-
-### Pre-deployment Checklist
-- [ ] Test di multiple browsers
-- [ ] Test responsive design
-- [ ] Optimize images
-- [ ] Update meta tags (title, description, OG tags)
-- [ ] Test all features
-- [ ] No console errors
-
-### Deploy ke GitHub Pages
-
-1. Push ke GitHub repository
-2. Go to Settings → Pages
-3. Source: Deploy from branch `main`
-4. Folder: `/ (root)`
-5. Save
-6. Website akan live di `https://username.github.io/repo-name`
-
----
+### Skill Roadmaps
+```javascript
+{
+  "web-dev": {
+    title: "Web Development",
+    description: "...",
+    levels: [
+      {
+        level: 1,
+        title: "Beginner",
+        skills: [
+          {
+            name: "HTML",
+            description: "...",
+            resources: [...]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
 ## 🤝 Contributing
 
-Ingin berkontribusi? Silakan:
+Contributions are welcome! Please follow these steps:
 
-1. Fork repository
+1. Fork the repository
 2. Create feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to branch (`git push origin feature/AmazingFeature`)
 5. Open Pull Request
 
----
+## 📝 License
 
-## 📄 License
+This project is licensed under the MIT License.
 
-Project ini dibuat untuk **Politeknik Hasnur** dan didukung oleh:
-- PT Spektrum Inovasi Teknologi (Spinotek)
-- HIMA Teknik Informatika
-- Shift Digital Indonesia
+## 👥 Team
 
----
+- **Developer**: Akbari Aidul
+- **Institution**: Politeknik Hasnur
+- **Contact**: akbariaidul@gmail.com
 
-## 👥 Credits
+## 🙏 Acknowledgments
 
-**Developed by:**
 - Politeknik Hasnur
-- PT Spektrum Inovasi Teknologi (Spinotek)
-- HIMA Teknik Informatika
-- Shift Digital Indonesia
-
-**Supported by:**
 - Hasnur Group
-- Yayasan Hasnur Centre
+- All contributors and supporters
+
+## 📞 Support
+
+Untuk pertanyaan atau dukungan:
+- Email: akbariaidul@gmail.com
+- GitHub Issues: [Create an issue](https://github.com/AkbariAidul/polhas-career-bridge/issues)
 
 ---
 
-## 📞 Contact
-
-- **Website:** [polhas.ac.id](https://polhas.ac.id)
-- **Email:** info@polhas.ac.id
-- **Location:** Banjarmasin, Kalimantan Selatan
-
----
-
-## 📈 Version History
-
-### v1.0.0 (2026-02-12)
-- ✅ 8 Interactive skill roadmaps
-- ✅ Portfolio scorecard
-- ✅ 47 job listings
-- ✅ Search & filter system
-- ✅ LocalStorage integration
-- ✅ Responsive design
-- ✅ BWA clean white style
-
----
-
-**Made with ❤️ by Politeknik Hasnur**
-
-**Version:** 1.0.0  
-**Last Updated:** February 12, 2026  
-**Status:** Production Ready ✅
+Made with ❤️ by Politeknik Hasnur Students

@@ -1,10 +1,33 @@
 // Import data
 import { jobs, programStudi, companies, mitraPolhas, supported, skillRoadmaps } from './data.js';
 
+// Import gamification
+import { initGamification, showNotification } from './gamification.js';
+
+// Import auth & UI
+import { auth } from './auth.js';
+import { 
+    showLoginModal, 
+    showRegisterModal, 
+    closeAuthModal, 
+    updateNavbar, 
+    toggleUserDropdown,
+    setupDropdownClose,
+    showToast as uiShowToast,
+    showProfileModal,
+    handleLogout
+} from './ui.js';
+
+// Import recommendation
+import { recommendation } from './recommendation.js';
+
 // Debug log
 console.log('=== POLHAS CAREERBRIDGE LOADED ===');
 console.log('Total Jobs:', jobs.length);
 console.log('Total Roadmaps:', Object.keys(skillRoadmaps).length);
+
+// Initialize Gamification
+let userProgress = null;
 
 // DOM Elements
 const jobContainer = document.getElementById('job-container');
@@ -27,19 +50,91 @@ let selectedJob = null;
 let savedJobs = JSON.parse(localStorage.getItem('savedJobs')) || [];
 let completedSkills = JSON.parse(localStorage.getItem('completedSkills')) || {};
 
+// Wait for components to load before attaching auth listeners
+document.addEventListener('componentsLoaded', () => {
+    console.log('✅ componentsLoaded event received in main.js');
+    // Initialize auth after components are loaded
+    updateNavbar();
+    setupDropdownClose();
+    attachAuthListeners();
+});
+
+// Fallback: Also try to attach listeners after a short delay
+setTimeout(() => {
+    console.log('⏰ Fallback: Attempting to attach auth listeners...');
+    attachAuthListeners();
+}, 1000);
+
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
-    animateStats();
-    renderProdi();
-    renderMitraHasnur();
-    renderMitraPolhas();
-    renderSupported();
-    populateProdiFilter();
-    renderJobs(currentJobs);
-    initSkillRoadmap();
-    initPortfolioScorecard();
-    attachEventListeners();
+    // Initialize gamification (always needed)
+    userProgress = initGamification();
+    
+    // Only run if elements exist (for specific pages)
+    if (document.getElementById('stat-jobs')) {
+        animateStats();
+    }
+    
+    if (document.getElementById('prodi-container')) {
+        renderProdi();
+    }
+    
+    if (document.getElementById('mitra-hasnur-container')) {
+        renderMitraHasnur();
+    }
+    
+    if (document.getElementById('mitra-polhas-container')) {
+        renderMitraPolhas();
+    }
+    
+    if (document.getElementById('supported-container')) {
+        renderSupported();
+    }
+    
+    if (document.getElementById('prodi-filter')) {
+        populateProdiFilter();
+    }
+    
+    if (document.getElementById('job-container')) {
+        renderJobs(currentJobs);
+    }
+    
+    if (document.getElementById('skill-tree-container')) {
+        initSkillRoadmap();
+    }
+    
+    if (document.getElementById('portfolio-score')) {
+        initPortfolioScorecard();
+    }
+    
+    if (document.getElementById('job-container') || document.getElementById('job-modal')) {
+        attachEventListeners();
+    }
+    
+    // Show recommendations if user is logged in and element exists
+    if (auth.isLoggedIn() && document.getElementById('recommended-jobs')) {
+        renderRecommendedJobs();
+    }
+    
+    // Check for URL hash to open specific job modal
+    checkUrlHashForJob();
 });
+
+// Check URL hash and open job modal if needed
+function checkUrlHashForJob() {
+    const hash = window.location.hash;
+    if (hash.startsWith('#job-')) {
+        const jobId = parseInt(hash.replace('#job-', ''));
+        if (jobId && jobs.find(j => j.id === jobId)) {
+            // Small delay to ensure DOM is ready
+            setTimeout(() => {
+                openModal(jobId);
+                // Clear hash after opening modal
+                history.replaceState(null, null, ' ');
+            }, 500);
+        }
+    }
+}
 
 // Animate Stats Counter
 function animateStats() {
@@ -51,6 +146,8 @@ function animateStats() {
 
     stats.forEach(stat => {
         const el = document.getElementById(stat.id);
+        if (!el) return; // Skip if element doesn't exist
+        
         let current = 0;
         const increment = stat.target / 50;
         const timer = setInterval(() => {
@@ -67,6 +164,9 @@ function animateStats() {
 
 // Render Program Studi
 function renderProdi() {
+    const prodiContainer = document.getElementById('prodi-container');
+    if (!prodiContainer) return; // Skip if element doesn't exist
+    
     prodiContainer.innerHTML = programStudi.map((prodi, index) => `
         <div class="bg-white border border-gray-200 rounded-xl p-6 hover:border-blue-600 hover:shadow-lg transition cursor-pointer" style="animation: fadeInUp 0.6s ease-out ${index * 0.1}s both">
             <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
@@ -86,6 +186,8 @@ function populateProdiFilter() {
 
 // Render Mitra Hasnur
 function renderMitraHasnur() {
+    if (!mitraHasnurContainer) return; // Skip if element doesn't exist
+    
     // Filter companies yang punya logo di mitra-hasnur
     const mitraHasnur = companies.filter(c => c.logo.includes('mitra-hasnur'));
     
@@ -101,6 +203,8 @@ function renderMitraHasnur() {
 
 // Render Mitra Polhas
 function renderMitraPolhas() {
+    if (!mitraPolhasContainer) return; // Skip if element doesn't exist
+    
     if (mitraPolhas.length === 0) {
         mitraPolhasContainer.innerHTML = `
             <div class="col-span-full text-center py-12">
@@ -122,6 +226,8 @@ function renderMitraPolhas() {
 
 // Render Supported
 function renderSupported() {
+    if (!supportedContainer) return; // Skip if element doesn't exist
+    
     supportedContainer.innerHTML = supported.map((item, index) => `
         <div class="bg-white border border-gray-200 rounded-xl p-6 hover:border-blue-600 hover:shadow-lg transition" style="animation: fadeInUp 0.6s ease-out ${index * 0.1}s both">
             <div class="h-20 flex items-center justify-center mb-3">
@@ -154,14 +260,16 @@ function renderJobs(data) {
         const prodiText = Array.isArray(job.prodi) ? job.prodi[0] : job.prodi;
         
         return `
-            <div class="bg-white border border-gray-200 rounded-xl p-6 hover:border-blue-600 hover:shadow-lg transition cursor-pointer job-card" 
+            <div class="bg-gradient-to-br from-white to-gray-50/50 border-2 border-gray-200 rounded-3xl p-6 hover:border-blue-400 hover:shadow-2xl transition-all duration-300 cursor-pointer job-card group" 
                  style="animation: fadeInUp 0.6s ease-out ${index * 0.1}s both"
                  data-job-id="${job.id}">
                 
                 <!-- Card Header -->
-                <div class="flex items-start justify-between mb-4">
-                    <img src="${job.logo}" alt="${job.company}" class="w-12 h-12 object-contain">
-                    <button class="save-btn p-2 hover:bg-gray-100 rounded-lg transition ${isSaved ? 'text-blue-600' : 'text-gray-400'}" data-job-id="${job.id}">
+                <div class="flex items-start justify-between mb-5">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-3 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <img src="${job.logo}" alt="${job.company}" class="w-full h-full object-contain">
+                    </div>
+                    <button class="save-btn p-2.5 hover:bg-gradient-to-br hover:from-blue-50 hover:to-purple-50 rounded-xl transition-all ${isSaved ? 'text-blue-600' : 'text-gray-400'}" data-job-id="${job.id}">
                         <svg class="w-5 h-5" fill="${isSaved ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
                         </svg>
@@ -169,28 +277,28 @@ function renderJobs(data) {
                 </div>
                 
                 <!-- Job Title -->
-                <h3 class="text-xl font-bold text-gray-900 mb-2">${job.role}</h3>
-                <p class="text-gray-600 text-sm mb-4">${job.company}</p>
+                <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">${job.role}</h3>
+                <p class="text-gray-600 text-sm mb-4 font-medium">${job.company}</p>
                 
                 <!-- Job Meta -->
                 <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-lg text-xs font-semibold">
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full text-xs font-bold shadow-lg shadow-blue-500/30">
                         ${job.type}
                     </span>
-                    <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-xs font-medium">
+                    <span class="px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-full text-xs font-semibold flex items-center gap-1">
                         📍 ${job.location}
                     </span>
                 </div>
                 
                 <!-- Prodi Badge -->
                 <div class="mb-4">
-                    <span class="text-xs text-gray-600">
+                    <span class="text-xs text-gray-600 font-medium bg-purple-50 px-3 py-1.5 rounded-full">
                         ${prodiText}
                     </span>
                 </div>
                 
                 <!-- Action Button -->
-                <button class="view-detail-btn w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition">
+                <button class="view-detail-btn w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3.5 rounded-2xl font-bold transition-all hover:scale-105 shadow-lg shadow-blue-500/30">
                     Lihat Detail
                 </button>
             </div>
@@ -249,9 +357,23 @@ function toggleSaveJob(jobId) {
     if (index > -1) {
         savedJobs.splice(index, 1);
         showToast('Lowongan dihapus dari simpanan', 'error');
+        
+        // Update gamification - decrement saved jobs
+        if (userProgress) {
+            const currentCount = userProgress.data.stats.savedJobs;
+            if (currentCount > 0) {
+                userProgress.data.stats.savedJobs--;
+                userProgress.saveProgress();
+            }
+        }
     } else {
         savedJobs.push(jobId);
         showToast(`${job.role} disimpan!`, 'success');
+        
+        // Update gamification - increment saved jobs
+        if (userProgress) {
+            userProgress.incrementStat('savedJobs');
+        }
     }
     
     localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
@@ -264,6 +386,11 @@ function openModal(jobId) {
     
     if (!selectedJob) return;
 
+    // Update gamification - increment job views
+    if (userProgress) {
+        userProgress.incrementStat('jobViews');
+    }
+
     // Populate modal content
     document.getElementById('modal-logo').src = selectedJob.logo;
     document.getElementById('modal-logo').alt = selectedJob.company;
@@ -275,6 +402,9 @@ function openModal(jobId) {
         ? selectedJob.prodi.join(', ') 
         : selectedJob.prodi;
     document.getElementById('modal-prodi').textContent = prodiText;
+    
+    // Add location
+    document.getElementById('modal-location').textContent = selectedJob.location;
     
     document.getElementById('modal-description').textContent = selectedJob.description;
     
@@ -297,48 +427,67 @@ function openModal(jobId) {
         // Calculate skill match
         const { matchedSkills, totalSkills, percentage } = calculateSkillMatch(selectedJob.requiredSkills);
         
+        // Determine match status color and message
+        let matchColor = 'blue';
+        let matchMessage = 'Mulai belajar skill yang dibutuhkan!';
+        
+        if (percentage >= 80) {
+            matchColor = 'green';
+            matchMessage = 'Kamu sangat cocok untuk posisi ini! 🎉';
+        } else if (percentage >= 50) {
+            matchColor = 'yellow';
+            matchMessage = 'Lumayan! Tingkatkan skill untuk peluang lebih besar.';
+        } else if (percentage > 0) {
+            matchColor = 'orange';
+            matchMessage = 'Masih perlu banyak belajar, tapi jangan menyerah!';
+        }
+        
         modalSkills.innerHTML = `
-            <div class="mb-4 p-4 bg-blue-50 rounded-xl">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="font-semibold text-gray-900">Skill Match</span>
-                    <span class="text-2xl font-bold text-blue-600">${percentage}%</span>
+            <div class="mb-4 p-6 bg-gradient-to-br from-${matchColor}-50 to-${matchColor}-100/50 rounded-2xl border-2 border-${matchColor}-200 shadow-lg">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="font-bold text-gray-900 text-lg">Skill Match</span>
+                    <span class="text-3xl font-black bg-gradient-to-r from-${matchColor}-600 to-${matchColor}-700 bg-clip-text text-transparent">${percentage}%</span>
                 </div>
-                <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div class="bg-blue-600 h-2 rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
+                <div class="w-full bg-white/50 rounded-full h-4 overflow-hidden shadow-inner">
+                    <div class="bg-gradient-to-r from-${matchColor}-500 to-${matchColor}-600 h-4 rounded-full transition-all duration-1000 ease-out shadow-lg" style="width: ${percentage}%"></div>
                 </div>
-                <p class="text-sm text-gray-600 mt-2">${matchedSkills} dari ${totalSkills} skill sudah kamu kuasai</p>
+                <p class="text-sm text-gray-800 mt-3 font-semibold">${matchedSkills} dari ${totalSkills} skill sudah kamu kuasai</p>
+                <p class="text-xs text-${matchColor}-700 mt-1 font-medium">${matchMessage}</p>
             </div>
             
             ${selectedJob.requiredSkills.map(skillGroup => {
                 const roadmap = skillRoadmaps[skillGroup.role];
+                if (!roadmap) return '';
+                
                 const level = roadmap.levels.find(l => l.level === skillGroup.level);
+                if (!level) return '';
                 
                 return `
-                    <div class="border border-gray-200 rounded-xl p-4">
-                        <div class="flex items-center gap-2 mb-3">
-                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                                ${skillGroup.level}
+                    <div class="bg-gradient-to-br from-white to-gray-50/50 border-2 border-gray-200 rounded-2xl p-5 mb-3 hover:border-blue-300 hover:shadow-xl transition-all duration-300">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-600 via-blue-500 to-purple-600 text-white rounded-xl flex items-center justify-center text-base font-black shadow-lg">
+                                L${skillGroup.level}
                             </div>
                             <div>
-                                <h5 class="font-semibold text-sm">${level.title}</h5>
-                                <p class="text-xs text-gray-500">${roadmap.title}</p>
+                                <h5 class="font-bold text-base text-gray-900">${level.title}</h5>
+                                <p class="text-xs text-gray-500 font-medium">${roadmap.title}</p>
                             </div>
                         </div>
-                        <div class="space-y-2">
+                        <div class="space-y-2.5 pl-1">
                             ${skillGroup.skills.map(skillName => {
                                 const skill = level.skills.find(s => s.name === skillName);
                                 const isCompleted = isSkillCompleted(skillGroup.role, skillGroup.level, skillName);
                                 
                                 return `
-                                    <div class="flex items-center gap-2 text-sm">
+                                    <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 group">
                                         <input type="checkbox" 
-                                               class="skill-checkbox w-4 h-4 text-blue-600 rounded" 
+                                               class="skill-checkbox w-5 h-5 text-blue-600 rounded-lg border-2 border-gray-300 cursor-pointer transition-all" 
                                                data-role="${skillGroup.role}" 
                                                data-level="${skillGroup.level}" 
                                                data-skill="${skillName}"
                                                ${isCompleted ? 'checked' : ''}>
-                                        <span class="${isCompleted ? 'text-gray-900 font-medium' : 'text-gray-600'}">${skillName}</span>
-                                        ${isCompleted ? '<span class="text-green-600 text-xs">✓</span>' : ''}
+                                        <span class="${isCompleted ? 'text-gray-900 font-bold' : 'text-gray-600 font-medium'} text-sm flex-1 group-hover:text-blue-700 transition-colors">${skillName}</span>
+                                        ${isCompleted ? '<span class="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full shadow-md">✓ Dikuasai</span>' : '<span class="text-gray-400 text-xs font-medium">Belum dikuasai</span>'}
                                     </div>
                                 `;
                             }).join('')}
@@ -346,6 +495,12 @@ function openModal(jobId) {
                     </div>
                 `;
             }).join('')}
+            
+            <div class="mt-4 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border-2 border-blue-200">
+                <p class="text-xs text-blue-900 font-medium">
+                    💡 <strong>Tips:</strong> Centang skill yang sudah kamu kuasai untuk melihat skill match kamu dengan lowongan ini!
+                </p>
+            </div>
         `;
         
         // Attach checkbox listeners
@@ -363,49 +518,55 @@ function openModal(jobId) {
         
         // Attach view roadmap button listener
         const viewRoadmapBtn = document.getElementById('view-roadmap-btn');
-        viewRoadmapBtn.onclick = () => {
-            closeModal();
-            
-            // Get the primary role from required skills
-            const primaryRole = selectedJob.requiredSkills[0].role;
-            
-            // Scroll to skill roadmap section
-            document.getElementById('skill-roadmap').scrollIntoView({ behavior: 'smooth' });
-            
-            // Switch to the relevant role
-            setTimeout(() => {
-                document.querySelectorAll('.role-btn').forEach(btn => {
-                    if (btn.dataset.role === primaryRole) {
-                        btn.click();
-                    }
-                });
-            }, 500);
-        };
+        if (viewRoadmapBtn) {
+            viewRoadmapBtn.onclick = () => {
+                closeModal();
+                
+                // Get the primary role from required skills
+                const primaryRole = selectedJob.requiredSkills[0].role;
+                
+                // Navigate to roadmap page
+                window.location.href = `roadmap.html?role=${primaryRole}`;
+            };
+        }
     } else {
         requiredSkillsSection.classList.add('hidden');
     }
 
     // Update save button state
     const isSaved = savedJobs.includes(selectedJob.id);
-    const saveIcon = saveJobBtn.querySelector('svg');
     if (isSaved) {
-        saveJobBtn.classList.add('border-blue-600', 'text-blue-600');
-        saveIcon.setAttribute('fill', 'currentColor');
+        saveJobBtn.classList.add('border-blue-600', 'text-blue-600', 'bg-blue-50');
+        saveJobBtn.innerHTML = `
+            <svg class="w-5 h-5 inline-block mr-1" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+            </svg>
+            Tersimpan
+        `;
     } else {
-        saveJobBtn.classList.remove('border-blue-600', 'text-blue-600');
-        saveIcon.setAttribute('fill', 'none');
+        saveJobBtn.classList.remove('border-blue-600', 'text-blue-600', 'bg-blue-50');
+        saveJobBtn.innerHTML = `
+            <svg class="w-5 h-5 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+            </svg>
+            Simpan
+        `;
     }
 
-    // Show modal
+    // Show modal with animation
     modal.classList.remove('hidden');
-    modal.classList.add('flex');
     document.body.style.overflow = 'hidden';
+    
+    // Scroll modal to top
+    const modalContent = modal.querySelector('.bg-white');
+    if (modalContent) {
+        modalContent.scrollTop = 0;
+    }
 }
 
 // Close Modal Function
 function closeModal() {
     modal.classList.add('hidden');
-    modal.classList.remove('flex');
     document.body.style.overflow = 'auto';
     selectedJob = null;
 }
@@ -530,8 +691,22 @@ function toggleSkillCompletion(role, level, skillName) {
     
     if (completedSkills[key]) {
         showToast(`✅ ${skillName} ditandai sebagai selesai!`, 'success');
+        
+        // Update gamification
+        if (userProgress) {
+            userProgress.incrementStat('skillsCompleted');
+        }
     } else {
         showToast(`${skillName} ditandai belum selesai`, 'error');
+        
+        // Update gamification
+        if (userProgress) {
+            const currentCount = userProgress.data.stats.skillsCompleted;
+            if (currentCount > 0) {
+                userProgress.data.stats.skillsCompleted--;
+                userProgress.saveProgress();
+            }
+        }
     }
 }
 
@@ -574,6 +749,11 @@ function renderSkillTree(role) {
     if (!roadmap) {
         console.error('Roadmap not found for role:', role);
         return;
+    }
+    
+    // Update gamification - track roadmap views
+    if (userProgress) {
+        userProgress.updateStat('roadmapsViewed', role);
     }
     
     const container = document.getElementById('skill-tree-container');
@@ -751,6 +931,11 @@ function updatePortfolioScore() {
     document.getElementById('progress-text').textContent = `${score}/100`;
     document.getElementById('progress-bar').style.width = `${score}%`;
     
+    // Update gamification - update portfolio score
+    if (userProgress) {
+        userProgress.updateStat('portfolioScore', score);
+    }
+    
     // Update recommendation
     const recommendation = document.getElementById('recommendation');
     if (score === 0) {
@@ -788,3 +973,222 @@ document.addEventListener('DOMContentLoaded', () => {
     initPortfolioScorecard(); // NEW
     attachEventListeners();
 });
+
+// ==================== RECOMMENDATION SYSTEM ====================
+
+function renderRecommendedJobs() {
+    const section = document.getElementById('recommended-jobs');
+    const container = document.getElementById('recommended-jobs-container');
+    
+    const recommendations = recommendation.getRecommendedJobs(6);
+    
+    if (recommendations.length === 0) {
+        section.classList.add('hidden');
+        return;
+    }
+    
+    section.classList.remove('hidden');
+    
+    container.innerHTML = recommendations.map((rec, index) => {
+        const job = rec.job;
+        const prodiText = Array.isArray(job.prodi) ? job.prodi[0] : job.prodi;
+        const isSaved = savedJobs.includes(job.id);
+        
+        return `
+            <div class="bg-white border-2 border-green-200 rounded-xl p-6 hover:border-green-400 hover:shadow-lg transition cursor-pointer" style="animation: fadeInUp 0.6s ease-out ${index * 0.1}s both">
+                
+                <!-- Match Badge -->
+                <div class="flex items-center justify-between mb-3">
+                    <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">
+                        ${Math.round(rec.score)}% Match
+                    </span>
+                    <button class="save-btn-rec p-2 hover:bg-gray-100 rounded-lg transition ${isSaved ? 'text-blue-600' : 'text-gray-400'}" data-job-id="${job.id}">
+                        <svg class="w-5 h-5" fill="${isSaved ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="flex items-start gap-4 mb-4">
+                    <img src="${job.logo}" alt="${job.company}" class="w-12 h-12 object-contain">
+                    <div class="flex-1">
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">${job.role}</h3>
+                        <p class="text-gray-600 text-sm">${job.company}</p>
+                    </div>
+                </div>
+                
+                <!-- Reasons -->
+                <div class="mb-4 space-y-1">
+                    ${rec.reasons.map(reason => `
+                        <div class="flex items-center gap-2 text-xs text-gray-600">
+                            <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>${reason}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="flex gap-2 mb-4">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-lg text-xs font-semibold">
+                        ${job.type}
+                    </span>
+                    <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-xs font-medium">
+                        📍 ${job.location}
+                    </span>
+                </div>
+                
+                <button class="view-rec-btn w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold transition" data-job-id="${job.id}">
+                    Lihat Detail
+                </button>
+            </div>
+        `;
+    }).join('');
+    
+    // Attach handlers
+    container.querySelectorAll('.view-rec-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const jobId = parseInt(btn.dataset.jobId);
+            openModal(jobId);
+        });
+    });
+    
+    container.querySelectorAll('.save-btn-rec').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const jobId = parseInt(btn.dataset.jobId);
+            toggleSaveJob(jobId);
+            renderRecommendedJobs(); // Re-render to update button state
+        });
+    });
+}
+
+// ==================== AUTH EVENT LISTENERS ====================
+
+// Helper functions for switch buttons
+function handleSwitchToRegister(e) {
+    e.preventDefault();
+    showRegisterModal();
+}
+
+function handleSwitchToLogin(e) {
+    e.preventDefault();
+    showLoginModal();
+}
+
+function attachAuthListeners() {
+    console.log('🔧 Attaching auth event listeners...');
+    
+    // Login button
+    const loginBtn = document.getElementById('login-btn');
+    if (loginBtn) {
+        console.log('✅ Login button found, attaching click listener');
+        // Remove existing listener first to avoid duplicates
+        loginBtn.removeEventListener('click', showLoginModal);
+        loginBtn.addEventListener('click', showLoginModal);
+    } else {
+        console.error('❌ Login button NOT found!');
+    }
+
+    // Close modal buttons
+    const closeModalBtns = document.querySelectorAll('.close-auth-modal');
+    closeModalBtns.forEach(btn => {
+        btn.removeEventListener('click', closeAuthModal);
+        btn.addEventListener('click', closeAuthModal);
+    });
+
+    // Switch to register
+    const switchToRegister = document.getElementById('switch-to-register');
+    if (switchToRegister) {
+        switchToRegister.removeEventListener('click', handleSwitchToRegister);
+        switchToRegister.addEventListener('click', handleSwitchToRegister);
+    }
+
+    // Switch to login
+    const switchToLogin = document.getElementById('switch-to-login');
+    if (switchToLogin) {
+        switchToLogin.removeEventListener('click', handleSwitchToLogin);
+        switchToLogin.addEventListener('click', handleSwitchToLogin);
+    }
+
+    // Login form submit
+    const loginForm = document.getElementById('login-form-element');
+    if (loginForm) {
+        loginForm.removeEventListener('submit', handleLogin);
+        loginForm.addEventListener('submit', handleLogin);
+    }
+
+    // Register form submit
+    const registerForm = document.getElementById('register-form-element');
+    if (registerForm) {
+        registerForm.removeEventListener('submit', handleRegister);
+        registerForm.addEventListener('submit', handleRegister);
+    }
+
+    // User menu toggle
+    const userMenuBtn = document.getElementById('user-menu-btn');
+    if (userMenuBtn) {
+        userMenuBtn.removeEventListener('click', toggleUserDropdown);
+        userMenuBtn.addEventListener('click', toggleUserDropdown);
+    }
+
+    // Note: Dropdown menu item listeners are handled by setupDropdownMenuListeners() in ui.js
+    // which is called automatically by updateNavbar()
+
+    // Close modal on backdrop click
+    const authModal = document.getElementById('auth-modal');
+    if (authModal) {
+        authModal.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                closeAuthModal();
+            }
+        });
+    }
+}
+
+// Handle login
+function handleLogin(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    
+    const response = auth.login(email, password);
+    
+    if (response.success) {
+        uiShowToast(response.message, 'success');
+        closeAuthModal();
+        updateNavbar();
+        
+        // Reset form
+        e.target.reset();
+    } else {
+        uiShowToast(response.message, 'error');
+    }
+}
+
+// Handle register
+function handleRegister(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('register-name').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    const prodi = document.getElementById('register-prodi').value;
+    
+    const response = auth.register({ name, email, password, prodi });
+    
+    if (response.success) {
+        uiShowToast(response.message, 'success');
+        
+        // Auto login after register
+        auth.login(email, password);
+        closeAuthModal();
+        updateNavbar();
+        
+        // Reset form
+        e.target.reset();
+    } else {
+        uiShowToast(response.message, 'error');
+    }
+}

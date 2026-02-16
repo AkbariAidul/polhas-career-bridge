@@ -1,500 +1,360 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Cache Control - Force Fresh Content -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    
     <title>Polhas CareerBridge - Platform Magang & Karir Mahasiswa</title>
     
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Platform lengkap untuk mahasiswa Politeknik Hasnur: 8 roadmap skill interaktif, portfolio scorecard, dan 47 lowongan magang di Hasnur Group & mitra">
-    <meta name="keywords" content="polhas, politeknik hasnur, magang, pkl, lowongan kerja, skill roadmap, portfolio, hasnur group">
-    <meta name="author" content="Politeknik Hasnur">
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Polhas CareerBridge - From Learning to Landing Your Dream Job">
-    <meta property="og:description" content="Platform lengkap: 8 roadmap skill interaktif, portfolio scorecard, dan 47 lowongan magang">
-    <meta property="og:image" content="assets/img/logo-website/logo.png">
-    <meta property="og:url" content="https://careerbridge.polhas.ac.id">
-    <meta property="og:type" content="website">
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Polhas CareerBridge">
-    <meta name="twitter:description" content="Platform lengkap untuk mahasiswa Polhas">
-    <meta name="twitter:image" content="assets/img/logo-website/logo.png">
-    
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#2563eb">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="CareerBridge">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/img/logo-website/logo.png">
-    <link rel="shortcut icon" type="image/png" href="assets/img/logo-website/logo.png">
-    <link rel="apple-touch-icon" href="assets/img/logo-website/logo.png">
-    
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts - Plus Jakarta Sans (BWA Style) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'jakarta': ['"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- SweetAlert2 CDN -->
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-    <!-- Toastify CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    
-    <!-- Custom Styles -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-white text-gray-900 font-jakarta antialiased">
     
-    <!-- Navbar - BWA Clean White -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <!-- Logo -->
-                <div class="flex items-center space-x-3">
-                    <img src="assets/img/logo-website/logo.png" alt="Polhas CareerBridge" class="h-12">
-                    <div class="hidden md:block">
-                        <div class="text-xl font-bold text-gray-900">Polhas CareerBridge</div>
-                        <div class="text-xs text-gray-500">Platform Magang & Karir</div>
-                    </div>
-                </div>
-                
-                <!-- Menu -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition">Beranda</a>
-                    <a href="#skill-roadmap" class="text-gray-700 hover:text-blue-600 font-medium transition">Skill Roadmap</a>
-                    <a href="#portfolio-check" class="text-gray-700 hover:text-blue-600 font-medium transition">Cek Portfolio</a>
-                    <a href="#lowongan" class="text-gray-700 hover:text-blue-600 font-medium transition">Lowongan</a>
-                    <a href="#mitra-hasnur" class="text-gray-700 hover:text-blue-600 font-medium transition">Mitra</a>
-                </div>
-                
-                <!-- CTA Button -->
-                <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition shadow-sm">
-                    Masuk
-                </button>
-            </div>
-        </div>
-    </nav>
+    <!-- Particles Background -->
+    <div id="particles-js" class="fixed top-0 left-0 w-full h-full z-0 pointer-events-none"></div>
+    
+    <!-- Navbar Container -->
+    <div id="navbar-container" class="relative z-50"></div>
 
-    <!-- Hero Section - BWA Clean White Style -->
-    <section class="pt-32 pb-20 bg-gradient-to-b from-blue-50 to-white">
-        <div class="container mx-auto px-6">
+    <!-- Hero Section -->
+    <section class="pt-32 pb-24 bg-gradient-to-br from-blue-50/50 via-white/50 to-purple-50/50 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
             <div class="max-w-4xl mx-auto text-center">
-                <!-- Badge -->
-                <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 rounded-full mb-6">
-                    <span class="text-blue-600 text-sm font-semibold">🚀 From Learning to Landing Your Dream Job</span>
+                <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/80 backdrop-blur-sm border border-blue-100 rounded-full mb-8 shadow-sm" data-aos="fade-down">
+                    <span class="text-blue-600 text-sm font-bold">🚀 From Learning to Landing Your Dream Job</span>
                 </div>
                 
-                <!-- Heading -->
-                <h1 class="text-5xl md:text-6xl font-bold leading-tight mb-6">
+                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-8" data-aos="fade-up" data-aos-delay="100">
                     Belajar Skill,<br>
-                    Raih <span class="text-blue-600">Karir Impian</span>
+                    Raih <span class="text-gradient">Karir Impian</span>
                 </h1>
                 
-                <p class="text-xl text-gray-600 leading-relaxed mb-10 max-w-2xl mx-auto">
-                    Platform lengkap: 8 roadmap skill interaktif, portfolio scorecard, 
-                    dan 47 lowongan magang di Hasnur Group & mitra
+                <p class="text-xl md:text-2xl text-gray-600 leading-relaxed mb-12 max-w-3xl mx-auto font-medium" data-aos="fade-up" data-aos-delay="200">
+                    Platform lengkap untuk mahasiswa Politeknik Hasnur: Skill roadmap interaktif, portfolio scorecard, dan 47 lowongan magang
                 </p>
                 
-                <!-- Stats -->
-                <div class="grid grid-cols-3 gap-8 max-w-2xl mx-auto mb-10">
-                    <div class="text-center">
-                        <div class="text-4xl font-bold text-blue-600" id="stat-jobs">0</div>
-                        <div class="text-sm text-gray-600 mt-1">Lowongan Aktif</div>
+                <div class="grid grid-cols-3 gap-8 max-w-2xl mx-auto mb-12" data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-gray-100">
+                        <div class="text-5xl font-black text-gradient mb-2">47</div>
+                        <div class="text-sm font-semibold text-gray-600">Lowongan Aktif</div>
                     </div>
-                    <div class="text-center">
-                        <div class="text-4xl font-bold text-blue-600" id="stat-companies">0</div>
-                        <div class="text-sm text-gray-600 mt-1">Perusahaan</div>
+                    <div class="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-gray-100">
+                        <div class="text-5xl font-black text-gradient mb-2">25</div>
+                        <div class="text-sm font-semibold text-gray-600">Perusahaan</div>
                     </div>
-                    <div class="text-center">
-                        <div class="text-4xl font-bold text-blue-600" id="stat-prodi">0</div>
-                        <div class="text-sm text-gray-600 mt-1">Program Studi</div>
+                    <div class="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-gray-100">
+                        <div class="text-5xl font-black text-gradient mb-2">8</div>
+                        <div class="text-sm font-semibold text-gray-600">Career Paths</div>
                     </div>
                 </div>
                 
-                <!-- CTA Buttons -->
-                <div class="flex flex-wrap justify-center gap-4">
-                    <a href="#lowongan" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-600/20">
-                        Jelajahi Lowongan
+                <div class="flex flex-wrap justify-center gap-4" data-aos="fade-up" data-aos-delay="400">
+                    <a href="jobs.html" class="group bg-blue-600 text-white px-10 py-4 rounded-2xl font-bold hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105">
+                        <span class="flex items-center gap-2">
+                            Jelajahi Lowongan
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </span>
                     </a>
-                    <button class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-xl font-bold hover:border-blue-600 hover:text-blue-600 transition">
-                        Pelajari Lebih
-                    </button>
+                    <a href="roadmap.html" class="border-2 border-gray-700 bg-white text-gray-900 px-10 py-4 rounded-2xl font-bold hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300 shadow-md hover:shadow-lg">
+                        Lihat Roadmap
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Skill Roadmap Section - NEW! -->
-    <section class="py-20 bg-white" id="skill-roadmap">
+    <!-- Features Section -->
+    <section class="py-24 bg-white relative z-10">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 rounded-full mb-4">
-                    <span class="text-blue-600 text-sm font-semibold">🌳 Interactive Learning Path - 8 Career Paths</span>
-                </div>
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Roadmap Skill Interaktif</h2>
-                <p class="text-gray-600 text-lg max-w-2xl mx-auto">Visualisasi skill tree seperti game. Pilih role impianmu dan lihat langkah-langkah belajar yang harus kamu kuasai! Tersedia 8 career paths untuk semua prodi.</p>
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Fitur Lengkap untuk Karirmu</h2>
+                <p class="text-xl text-gray-600">Semua yang kamu butuhkan dalam satu platform</p>
             </div>
 
-            <!-- Role Selection -->
-            <div class="flex flex-wrap justify-center gap-3 mb-12">
-                <button class="role-btn active px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition" data-role="web-dev">
-                    💻 Web Developer
-                </button>
-                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="ui-ux">
-                    🎨 UI/UX Designer
-                </button>
-                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="data-analyst">
-                    📊 Data Analyst
-                </button>
-                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="digital-marketing">
-                    📱 Digital Marketing
-                </button>
-                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="automotive">
-                    🚗 Automotive
-                </button>
-                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="agriculture">
-                    🌾 Agriculture
-                </button>
-                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="accounting">
-                    💰 Accounting
-                </button>
-                <button class="role-btn px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition" data-role="business">
-                    💼 Business
-                </button>
-            </div>
-
-            <!-- Skill Tree Container -->
-            <div id="skill-tree-container" class="max-w-6xl mx-auto">
-                <!-- Will be rendered by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Scorecard Section - NEW! -->
-    <section class="py-20 bg-gray-50" id="portfolio-check">
-        <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-12">
-                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-green-100 rounded-full mb-4">
-                        <span class="text-green-600 text-sm font-semibold">✅ Portfolio Assessment</span>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <a href="roadmap.html" class="group p-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl border-2 border-gray-100 hover:border-blue-300 hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-12 h-12 text-blue-600 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
+                        </svg>
                     </div>
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Cek Kesiapan Portfolio</h2>
-                    <p class="text-gray-600 text-lg">Evaluasi portfolio dan CV kamu. Sudah siap apply lowongan?</p>
-                </div>
+                    <h3 class="text-xl font-bold mb-2">Skill Roadmap</h3>
+                    <p class="text-gray-600 mb-4">8 career paths dengan skill tree interaktif</p>
+                    <span class="text-blue-600 font-semibold group-hover:gap-2 flex items-center gap-1 transition-all">
+                        Explore
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </span>
+                </a>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-                    <!-- Scorecard -->
-                    <div class="text-center mb-8">
-                        <div class="inline-flex items-center justify-center w-32 h-32 rounded-full bg-blue-50 mb-4">
-                            <span id="portfolio-score" class="text-5xl font-bold text-blue-600">0</span>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2">Portfolio Score</h3>
-                        <p class="text-gray-600">Skor kesiapan portfolio kamu</p>
+                <a href="portfolio.html" class="group p-8 bg-gradient-to-br from-green-50 to-white rounded-2xl border-2 border-gray-100 hover:border-green-300 hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-12 h-12 text-green-600 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                        </svg>
                     </div>
+                    <h3 class="text-xl font-bold mb-2">Portfolio Check</h3>
+                    <p class="text-gray-600 mb-4">Evaluasi kesiapan portfolio & CV kamu</p>
+                    <span class="text-green-600 font-semibold group-hover:gap-2 flex items-center gap-1 transition-all">
+                        Check Now
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </span>
+                </a>
 
-                    <!-- Checklist -->
-                    <div class="space-y-4 mb-8">
-                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                            <input type="checkbox" id="check-photo" class="portfolio-check w-5 h-5 text-blue-600 rounded">
-                            <label for="check-photo" class="flex-1 font-medium cursor-pointer">Foto profil professional</label>
-                            <span class="text-sm text-gray-500">+10</span>
-                        </div>
-                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                            <input type="checkbox" id="check-summary" class="portfolio-check w-5 h-5 text-blue-600 rounded">
-                            <label for="check-summary" class="flex-1 font-medium cursor-pointer">Summary/About yang menarik</label>
-                            <span class="text-sm text-gray-500">+15</span>
-                        </div>
-                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                            <input type="checkbox" id="check-experience" class="portfolio-check w-5 h-5 text-blue-600 rounded">
-                            <label for="check-experience" class="flex-1 font-medium cursor-pointer">Pengalaman/Project (min 2)</label>
-                            <span class="text-sm text-gray-500">+25</span>
-                        </div>
-                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                            <input type="checkbox" id="check-skills" class="portfolio-check w-5 h-5 text-blue-600 rounded">
-                            <label for="check-skills" class="flex-1 font-medium cursor-pointer">Daftar skills yang relevan</label>
-                            <span class="text-sm text-gray-500">+20</span>
-                        </div>
-                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                            <input type="checkbox" id="check-portfolio" class="portfolio-check w-5 h-5 text-blue-600 rounded">
-                            <label for="check-portfolio" class="flex-1 font-medium cursor-pointer">Link portfolio/GitHub</label>
-                            <span class="text-sm text-gray-500">+15</span>
-                        </div>
-                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                            <input type="checkbox" id="check-contact" class="portfolio-check w-5 h-5 text-blue-600 rounded">
-                            <label for="check-contact" class="flex-1 font-medium cursor-pointer">Kontak yang jelas (email, phone)</label>
-                            <span class="text-sm text-gray-500">+15</span>
-                        </div>
+                <a href="jobs.html" class="group p-8 bg-gradient-to-br from-purple-50 to-white rounded-2xl border-2 border-gray-100 hover:border-purple-300 hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-12 h-12 text-purple-600 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                        </svg>
                     </div>
+                    <h3 class="text-xl font-bold mb-2">Job Listings</h3>
+                    <p class="text-gray-600 mb-4">47 lowongan dari Hasnur Group & mitra</p>
+                    <span class="text-purple-600 font-semibold group-hover:gap-2 flex items-center gap-1 transition-all">
+                        Browse Jobs
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </span>
+                </a>
 
-                    <!-- Progress Bar -->
-                    <div class="mb-6">
-                        <div class="flex justify-between text-sm mb-2">
-                            <span class="font-medium">Progress</span>
-                            <span id="progress-text" class="text-gray-600">0/100</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-3">
-                            <div id="progress-bar" class="bg-blue-600 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
-                        </div>
+                <a href="dashboard.html" class="group p-8 bg-gradient-to-br from-orange-50 to-white rounded-2xl border-2 border-gray-100 hover:border-orange-300 hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="400">
+                    <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-12 h-12 text-orange-600 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2l-2.81 6.63L2 9.24l5.46 4.73L5.82 21 12 17.27z"/>
+                        </svg>
                     </div>
-
-                    <!-- Recommendation -->
-                    <div id="recommendation" class="p-4 bg-blue-50 border border-blue-200 rounded-xl">
-                        <p class="text-blue-800 font-medium">💡 Mulai dengan mencentang checklist di atas untuk meningkatkan skor portfolio kamu!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Program Studi Section -->
-    <section class="py-20 bg-white" id="prodi">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Program Studi Polhas</h2>
-                <p class="text-gray-600 text-lg">7 Program Studi Vokasi Berkualitas</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6" id="prodi-container">
-                <!-- Will be rendered by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Search Section - BWA Style -->
-    <section class="py-20 bg-gray-50" id="lowongan">
-        <div class="container mx-auto px-6">
-            <div class="max-w-5xl mx-auto">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Cari Lowongan Magang</h2>
-                    <p class="text-gray-600 text-lg">Temukan posisi yang sesuai dengan program studimu</p>
-                </div>
-                
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                    <div class="grid md:grid-cols-4 gap-4">
-                        <!-- Search Input -->
-                        <div class="md:col-span-2">
-                            <div class="relative">
-                                <input 
-                                    type="text" 
-                                    id="search-input"
-                                    placeholder="Cari posisi atau perusahaan..." 
-                                    class="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition"
-                                >
-                                <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        
-                        <!-- Type Filter -->
-                        <select 
-                            id="type-filter"
-                            class="px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition cursor-pointer"
-                        >
-                            <option value="">Semua Tipe</option>
-                            <option value="PKL">PKL/Magang</option>
-                            <option value="Kerja">Kerja</option>
-                        </select>
-
-                        <!-- Prodi Filter -->
-                        <select 
-                            id="prodi-filter"
-                            class="px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition cursor-pointer"
-                        >
-                            <option value="">Semua Prodi</option>
-                            <!-- Will be populated by JS -->
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Jobs Grid -->
-    <section class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="flex items-center justify-between mb-8">
-                <div>
-                    <h3 class="text-2xl font-bold mb-1">Lowongan Terbaru</h3>
-                    <p class="text-gray-600" id="job-count">Menampilkan 0 lowongan</p>
-                </div>
-            </div>
-
-            <div id="job-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Jobs will be rendered here by JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Mitra Hasnur Group Section -->
-    <section class="py-20 bg-white" id="mitra-hasnur">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Mitra Hasnur Group</h2>
-                <p class="text-gray-600 text-lg">Anak perusahaan Hasnur Group yang menyediakan lowongan magang</p>
-            </div>
-
-            <div id="mitra-hasnur-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-                <!-- Will be rendered by JS -->
-            </div>
-
-            <div class="text-center mt-12">
-                <p class="text-gray-600">Dan 20+ perusahaan lainnya di Hasnur Group</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Mitra Polhas Section -->
-    <section class="py-20 bg-gray-50" id="mitra-polhas">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Mitra Polhas</h2>
-                <p class="text-gray-600 text-lg">Perusahaan yang bermitra dengan Politeknik Hasnur</p>
-            </div>
-
-            <div id="mitra-polhas-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-                <!-- Will be rendered by JS -->
+                    <h3 class="text-xl font-bold mb-2">Gamification</h3>
+                    <p class="text-gray-600 mb-4">12 achievements, points & level system</p>
+                    <span class="text-orange-600 font-semibold group-hover:gap-2 flex items-center gap-1 transition-all">
+                        View Progress
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </span>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Supported By Section -->
-    <section class="py-20 bg-white" id="supported">
+    <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Supported By</h2>
-                <p class="text-gray-600 text-lg">Para pendukung dalam pembuatan platform ini</p>
+                <h2 class="text-3xl md:text-4xl font-bold mb-2">Didukung Oleh</h2>
+                <p class="text-gray-600">Organisasi dan komunitas yang mendukung platform ini</p>
             </div>
-
-            <div id="supported-container" class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-                <!-- Will be rendered by JS -->
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+                <img src="assets/img/supported/logo-polihasnur.png" alt="Politeknik Hasnur" class="h-16 opacity-80 hover:opacity-100 transition">
+                <img src="assets/img/supported/logo-hima-ti.png" alt="HIMA TI" class="h-16 opacity-80 hover:opacity-100 transition">
+                <img src="assets/img/supported/logo_shift.png" alt="SHIFT" class="h-16 opacity-80 hover:opacity-100 transition">
+                <img src="assets/img/supported/spinotek-logo.png" alt="Spinotek" class="h-16 opacity-80 hover:opacity-100 transition">
             </div>
         </div>
     </section>
 
-    <!-- Modal for Job Details -->
-    <div id="job-modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-6">
-        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
-            <div class="p-8">
-                <!-- Modal Header -->
-                <div class="flex items-start justify-between mb-6">
-                    <div class="flex items-center space-x-4">
-                        <img id="modal-logo" src="" alt="" class="w-16 h-16 object-contain">
-                        <div>
-                            <h3 id="modal-role" class="text-2xl font-bold text-gray-900"></h3>
-                            <p id="modal-company" class="text-gray-600"></p>
-                        </div>
+    <!-- Hasnur Group Partners Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Hasnur Group Partners</h2>
+                <p class="text-xl text-gray-600">Perusahaan-perusahaan di bawah Hasnur Group yang membuka peluang magang</p>
+            </div>
+            <div id="hasnur-partners-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Diisi oleh JavaScript dari data.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Mitra Polhas Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Mitra Perusahaan</h2>
+                <p class="text-xl text-gray-600">Perusahaan-perusahaan terkemuka yang berkolaborasi dengan Polhas</p>
+            </div>
+            <div id="mitra-polhas-grid" class="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <!-- Diisi oleh JavaScript dari data.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Siap Mulai Perjalanan Karirmu?</h2>
+            <p class="text-xl mb-10 opacity-90 max-w-2xl mx-auto">Bergabung dengan ribuan mahasiswa Polhas yang sudah memulai perjalanan karir mereka</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="jobs.html" class="bg-white text-blue-600 px-10 py-4 rounded-2xl font-bold hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                    Mulai Sekarang
+                </a>
+                <a href="about.html" class="border-2 border-white text-white px-10 py-4 rounded-2xl font-bold hover:bg-white hover:text-blue-600 transition-all duration-300">
+                    Pelajari Lebih Lanjut
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
+
+    <!-- Auth Modal Container -->
+    <div id="auth-modal-container"></div>
+    
+    <!-- Auth Modal - Direct -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/50 z-50" style="display: none;">
+        <div class="fixed inset-0 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4">
+                <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl my-8">
+                
+                <!-- LOGIN FORM -->
+                <div id="login-form" class="p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold text-gray-900">Masuk</h3>
+                        <button type="button" class="close-auth-modal text-gray-400 hover:text-gray-600 transition">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
                     </div>
-                    <button id="close-modal" class="text-gray-400 hover:text-gray-600 transition">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
+                    
+                    <form id="login-form-element" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" id="login-email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition" placeholder="email@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <input type="password" id="login-password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition" placeholder="••••••••">
+                        </div>
+                        <div class="pt-2">
+                            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-600/20">Masuk</button>
+                        </div>
+                    </form>
+                    
+                    <p class="text-center text-sm text-gray-600 mt-6 pb-2">Belum punya akun? <a href="#" id="switch-to-register" class="text-blue-600 font-semibold hover:underline">Daftar sekarang</a></p>
                 </div>
                 
-                <!-- Modal Content -->
-                <div class="space-y-6">
-                    <div class="flex flex-wrap gap-3">
-                        <span id="modal-type" class="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm font-semibold"></span>
-                        <span id="modal-prodi" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium"></span>
+                <!-- REGISTER FORM -->
+                <div id="register-form" class="p-5" style="display: none;">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-lg font-bold text-gray-900">Daftar Akun</h3>
+                        <button type="button" class="close-auth-modal text-gray-400 hover:text-gray-600 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
                     </div>
                     
-                    <div>
-                        <h4 class="text-lg font-bold mb-3">Deskripsi Posisi</h4>
-                        <p id="modal-description" class="text-gray-600 leading-relaxed"></p>
-                    </div>
-
-                    <div>
-                        <h4 class="text-lg font-bold mb-3">Persyaratan</h4>
-                        <ul id="modal-requirements" class="text-gray-600 leading-relaxed space-y-2">
-                            <!-- Will be populated by JS -->
-                        </ul>
-                    </div>
-
-                    <!-- Required Skills Section -->
-                    <div id="required-skills-section" class="hidden">
-                        <h4 class="text-lg font-bold mb-3">🎯 Skill yang Dibutuhkan</h4>
-                        <div id="modal-skills" class="space-y-3">
-                            <!-- Will be populated by JS -->
+                    <form id="register-form-element" class="space-y-2">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                            <input type="text" id="register-name" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-100 transition" placeholder="Masukkan nama lengkap">
                         </div>
-                        <button id="view-roadmap-btn" class="mt-4 w-full border-2 border-blue-600 text-blue-600 py-3 rounded-xl font-semibold hover:bg-blue-50 transition flex items-center justify-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
-                            </svg>
-                            Lihat Roadmap Lengkap
-                        </button>
-                    </div>
+                        
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" id="register-email" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-100 transition" placeholder="email@example.com">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Password</label>
+                            <input type="password" id="register-password" required minlength="6" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-100 transition" placeholder="Minimal 6 karakter">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs font-medium text-gray-700 mb-1">Program Studi</label>
+                            <select id="register-prodi" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-100 transition cursor-pointer bg-white">
+                                <option value="">Pilih Program Studi</option>
+                                <option value="D3 Teknik Otomotif">D3 Teknik Otomotif</option>
+                                <option value="D3 Teknik Informatika">D3 Teknik Informatika</option>
+                                <option value="D3 Budidaya Tanaman Perkebunan">D3 Budidaya Tanaman Perkebunan</option>
+                                <option value="D4 Teknologi Rekayasa Multimedia">D4 Teknologi Rekayasa Multimedia</option>
+                                <option value="D4 Akuntansi Bisnis Digital">D4 Akuntansi Bisnis Digital</option>
+                                <option value="D4 Bisnis Digital">D4 Bisnis Digital</option>
+                                <option value="D4 Manajemen Pemasaran Internasional">D4 Manajemen Pemasaran Internasional</option>
+                            </select>
+                        </div>
+                        
+                        <div class="pt-2">
+                            <button type="submit" class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-bold text-sm hover:bg-blue-700 transition shadow-lg shadow-blue-600/20">Daftar Sekarang</button>
+                        </div>
+                    </form>
                     
-                    <div class="flex gap-3 pt-4">
-                        <button id="save-job-btn" class="flex-1 border-2 border-gray-300 text-gray-700 py-3 rounded-xl font-semibold hover:border-blue-600 hover:text-blue-600 transition flex items-center justify-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
-                            </svg>
-                            Simpan
-                        </button>
-                        <button id="apply-btn" class="flex-[2] bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-600/20">
-                            Lamar Sekarang
-                        </button>
-                    </div>
+                    <p class="text-center text-xs text-gray-600 mt-3">Sudah punya akun? <a href="#" id="switch-to-login" class="text-blue-600 font-semibold hover:underline">Masuk</a></p>
                 </div>
+            </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer - BWA Clean -->
-    <footer class="bg-gray-900 text-white py-16">
-        <div class="container mx-auto px-6">
-            <div class="grid md:grid-cols-4 gap-12 mb-12">
-                <div class="md:col-span-2">
-                    <img src="assets/img/logo-website/logo.png" alt="Polhas CareerBridge" class="h-12 mb-4">
-                    <p class="text-gray-400 mb-6 leading-relaxed">Platform resmi Politeknik Hasnur untuk menghubungkan mahasiswa dengan peluang magang dan karir di Hasnur Group.</p>
-                </div>
-
-                <div>
-                    <h4 class="font-bold text-white mb-4">Navigasi</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Beranda</a></li>
-                        <li><a href="#lowongan" class="text-gray-400 hover:text-white transition">Lowongan</a></li>
-                        <li><a href="#mitra-hasnur" class="text-gray-400 hover:text-white transition">Mitra</a></li>
-                        <li><a href="#tentang" class="text-gray-400 hover:text-white transition">Tentang</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="font-bold text-white mb-4">Kontak</h4>
-                    <ul class="space-y-3 text-gray-400">
-                        <li>Politeknik Hasnur</li>
-                        <li>Banjarmasin, Kalimantan Selatan</li>
-                        <li>info@polhas.ac.id</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="pt-8 border-t border-gray-800 text-center text-gray-400">
-                <p>&copy; 2026 Polhas CareerBridge. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
     <!-- Toastify JS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     
-    <!-- Main JavaScript Module -->
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Load Components First -->
+    <script type="module">
+        import { loadCommonComponents } from './js/components.js';
+        import { updateNavbar, setupDropdownClose } from './js/ui.js';
+        import { initPartners } from './js/partners.js';
+        import { initParticles } from './js/particles-config.js';
+        
+        await loadCommonComponents();
+        
+        // Update navbar after components loaded
+        updateNavbar();
+        setupDropdownClose();
+        
+        initPartners();
+        
+        // Initialize particles
+        initParticles();
+        
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 50
+        });
+    </script>
+    
+    
+    <!-- Load Main.js for auth and other functionality -->
     <script type="module" src="./js/main.js"></script>
+
 </body>
 </html>
+
