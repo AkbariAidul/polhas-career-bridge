@@ -20,36 +20,43 @@
         }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-white text-gray-900 font-jakarta antialiased">
     
+    <!-- Particles Background -->
+    <div id="particles-js" class="fixed top-0 left-0 w-full h-full z-0 pointer-events-none"></div>
+    
     <!-- Navbar Container -->
-    <div id="navbar-container"></div>
+    <div id="navbar-container" class="relative z-50"></div>
 
     <!-- Hero Section -->
-    <section class="pt-32 pb-24 bg-gradient-to-br from-blue-50 via-white to-purple-50 relative overflow-hidden">
+    <section class="pt-32 pb-24 bg-gradient-to-br from-blue-50/50 via-white/50 to-purple-50/50 relative overflow-hidden">
         <div class="absolute top-0 right-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
         
         <div class="container mx-auto px-6 relative z-10">
             <div class="max-w-4xl mx-auto text-center">
-                <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/80 backdrop-blur-sm border border-blue-100 rounded-full mb-8 shadow-sm">
+                <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/80 backdrop-blur-sm border border-blue-100 rounded-full mb-8 shadow-sm" data-aos="fade-down">
                     <span class="text-blue-600 text-sm font-bold">🚀 From Learning to Landing Your Dream Job</span>
                 </div>
                 
-                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-8">
+                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-8" data-aos="fade-up" data-aos-delay="100">
                     Belajar Skill,<br>
                     Raih <span class="text-gradient">Karir Impian</span>
                 </h1>
                 
-                <p class="text-xl md:text-2xl text-gray-600 leading-relaxed mb-12 max-w-3xl mx-auto font-medium">
+                <p class="text-xl md:text-2xl text-gray-600 leading-relaxed mb-12 max-w-3xl mx-auto font-medium" data-aos="fade-up" data-aos-delay="200">
                     Platform lengkap untuk mahasiswa Politeknik Hasnur: Skill roadmap interaktif, portfolio scorecard, dan 47 lowongan magang
                 </p>
                 
-                <div class="grid grid-cols-3 gap-8 max-w-2xl mx-auto mb-12">
+                <div class="grid grid-cols-3 gap-8 max-w-2xl mx-auto mb-12" data-aos="fade-up" data-aos-delay="300">
                     <div class="text-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-gray-100">
                         <div class="text-5xl font-black text-gradient mb-2">47</div>
                         <div class="text-sm font-semibold text-gray-600">Lowongan Aktif</div>
@@ -64,7 +71,7 @@
                     </div>
                 </div>
                 
-                <div class="flex flex-wrap justify-center gap-4">
+                <div class="flex flex-wrap justify-center gap-4" data-aos="fade-up" data-aos-delay="400">
                     <a href="jobs.html" class="group bg-blue-600 text-white px-10 py-4 rounded-2xl font-bold hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105">
                         <span class="flex items-center gap-2">
                             Jelajahi Lowongan
@@ -82,15 +89,15 @@
     </section>
 
     <!-- Features Section -->
-    <section class="py-24 bg-white">
+    <section class="py-24 bg-white relative z-10">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-4xl md:text-5xl font-bold mb-4">Fitur Lengkap untuk Karirmu</h2>
                 <p class="text-xl text-gray-600">Semua yang kamu butuhkan dalam satu platform</p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <a href="roadmap.html" class="group p-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl border-2 border-gray-100 hover:border-blue-300 hover:shadow-xl transition-all duration-300">
+                <a href="roadmap.html" class="group p-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl border-2 border-gray-100 hover:border-blue-300 hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
                     <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">
                         <svg class="w-12 h-12 text-blue-600 mx-auto" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
@@ -106,7 +113,7 @@
                     </span>
                 </a>
 
-                <a href="portfolio.html" class="group p-8 bg-gradient-to-br from-green-50 to-white rounded-2xl border-2 border-gray-100 hover:border-green-300 hover:shadow-xl transition-all duration-300">
+                <a href="portfolio.html" class="group p-8 bg-gradient-to-br from-green-50 to-white rounded-2xl border-2 border-gray-100 hover:border-green-300 hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
                     <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">
                         <svg class="w-12 h-12 text-green-600 mx-auto" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
@@ -122,7 +129,7 @@
                     </span>
                 </a>
 
-                <a href="jobs.html" class="group p-8 bg-gradient-to-br from-purple-50 to-white rounded-2xl border-2 border-gray-100 hover:border-purple-300 hover:shadow-xl transition-all duration-300">
+                <a href="jobs.html" class="group p-8 bg-gradient-to-br from-purple-50 to-white rounded-2xl border-2 border-gray-100 hover:border-purple-300 hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
                     <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">
                         <svg class="w-12 h-12 text-purple-600 mx-auto" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
@@ -138,7 +145,7 @@
                     </span>
                 </a>
 
-                <a href="dashboard.html" class="group p-8 bg-gradient-to-br from-orange-50 to-white rounded-2xl border-2 border-gray-100 hover:border-orange-300 hover:shadow-xl transition-all duration-300">
+                <a href="dashboard.html" class="group p-8 bg-gradient-to-br from-orange-50 to-white rounded-2xl border-2 border-gray-100 hover:border-orange-300 hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="400">
                     <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">
                         <svg class="w-12 h-12 text-orange-600 mx-auto" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2l-2.81 6.63L2 9.24l5.46 4.73L5.82 21 12 17.27z"/>
@@ -311,13 +318,37 @@
     <!-- Toastify JS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
     <!-- Load Components First -->
     <script type="module">
         import { loadCommonComponents } from './js/components.js';
+        import { updateNavbar, setupDropdownClose } from './js/ui.js';
         import { initPartners } from './js/partners.js';
+        import { initParticles } from './js/particles-config.js';
         
         await loadCommonComponents();
+        
+        // Update navbar after components loaded
+        updateNavbar();
+        setupDropdownClose();
+        
         initPartners();
+        
+        // Initialize particles
+        initParticles();
+        
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 50
+        });
     </script>
     
     

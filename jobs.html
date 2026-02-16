@@ -8,23 +8,30 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-gray-50 text-gray-900 font-jakarta antialiased">
     
+    <!-- Particles Background -->
+    <div id="particles-js" class="fixed top-0 left-0 w-full h-full z-0 pointer-events-none"></div>
+    
     <!-- Navbar Container -->
-    <div id="navbar-container"></div>
+    <div id="navbar-container" class="relative z-50"></div>
 
     <!-- Hero -->
-    <section class="pt-32 pb-12 bg-gradient-to-br from-blue-50 to-white">
-        <div class="container mx-auto px-6">
+    <section class="pt-32 pb-12 bg-gradient-to-br from-blue-50/50 to-white/50 relative">
+        <div class="container mx-auto px-6 relative z-10">
             <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-5xl font-extrabold mb-4">
+                <h1 class="text-5xl font-extrabold mb-4" data-aos="fade-up">
                     Temukan <span class="text-gradient">Lowongan Impianmu</span>
                 </h1>
-                <p class="text-xl text-gray-600 mb-8">47 lowongan magang & kerja dari Hasnur Group dan mitra</p>
+                <p class="text-xl text-gray-600 mb-8" data-aos="fade-up" data-aos-delay="100">47 lowongan magang & kerja dari Hasnur Group dan mitra</p>
             </div>
         </div>
     </section>
@@ -75,19 +82,21 @@
     </section>
 
     <!-- Modal -->
-    <div id="job-modal" class="fixed inset-0 bg-black/50 z-50 hidden overflow-y-auto p-4">
-        <div class="flex items-center justify-center min-h-screen">
-            <div class="bg-white rounded-2xl w-full max-w-2xl shadow-2xl">
+    <div id="job-modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 hidden overflow-y-auto p-4">
+        <div class="flex items-center justify-center min-h-screen py-8">
+            <div class="bg-white/95 backdrop-blur-xl rounded-3xl w-full max-w-2xl shadow-2xl border border-white/20 modal-container">
                 <!-- Modal Header -->
-                <div class="flex items-start justify-between p-6 border-b border-gray-200 sticky top-0 bg-white">
-                    <div class="flex items-start gap-4 flex-1">
-                        <img id="modal-logo" src="" alt="" class="w-16 h-16 object-contain">
+                <div class="flex items-start justify-between p-8 pb-6 sticky top-0 bg-gradient-to-b from-white/95 to-transparent backdrop-blur-xl rounded-t-3xl z-10">
+                    <div class="flex items-start gap-5 flex-1">
+                        <div class="w-20 h-20 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-3 shadow-lg flex items-center justify-center">
+                            <img id="modal-logo" src="" alt="" class="w-full h-full object-contain">
+                        </div>
                         <div>
-                            <h2 id="modal-role" class="text-2xl font-bold text-gray-900"></h2>
-                            <p id="modal-company" class="text-gray-600 mt-1"></p>
+                            <h2 id="modal-role" class="text-2xl font-bold text-gray-900 mb-1"></h2>
+                            <p id="modal-company" class="text-gray-600 font-medium"></p>
                         </div>
                     </div>
-                    <button id="close-modal" class="text-gray-400 hover:text-gray-600 transition flex-shrink-0">
+                    <button id="close-modal" class="text-gray-400 hover:text-gray-600 hover:bg-gray-100 p-2 rounded-full transition-all flex-shrink-0">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
@@ -95,31 +104,49 @@
                 </div>
 
                 <!-- Modal Body -->
-                <div class="p-6 space-y-6 max-h-[calc(100vh-300px)] overflow-y-auto">
+                <div class="px-8 pb-6 space-y-6 max-h-[calc(100vh-280px)] overflow-y-auto modal-scroll">
                     <!-- Job Meta -->
                     <div class="flex flex-wrap gap-3">
-                        <span class="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg font-semibold text-sm" id="modal-type"></span>
-                        <span class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm" id="modal-prodi"></span>
+                        <span class="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full font-semibold text-sm shadow-lg shadow-blue-500/30" id="modal-type"></span>
+                        <span class="px-5 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-full text-sm font-medium" id="modal-prodi"></span>
+                        <span class="px-5 py-2.5 bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 rounded-full text-sm font-medium flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span id="modal-location"></span>
+                        </span>
                     </div>
 
                     <!-- Description -->
-                    <div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-3">Deskripsi Posisi</h3>
-                        <p id="modal-description" class="text-gray-600 leading-relaxed"></p>
+                    <div class="bg-gradient-to-br from-blue-50/50 to-purple-50/50 rounded-2xl p-6 border border-blue-100/50">
+                        <h3 class="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
+                            <span class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center text-white text-sm">📝</span>
+                            Deskripsi Posisi
+                        </h3>
+                        <p id="modal-description" class="text-gray-700 leading-relaxed"></p>
                     </div>
 
                     <!-- Requirements -->
-                    <div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-3">Persyaratan</h3>
-                        <ul id="modal-requirements" class="space-y-2 text-gray-600"></ul>
+                    <div class="bg-gradient-to-br from-orange-50/50 to-yellow-50/50 rounded-2xl p-6 border border-orange-100/50">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <span class="w-8 h-8 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-lg flex items-center justify-center text-white text-sm">✓</span>
+                            Persyaratan
+                        </h3>
+                        <ul id="modal-requirements" class="space-y-3 text-gray-700"></ul>
                     </div>
 
                     <!-- Required Skills Section -->
                     <div id="required-skills-section" class="hidden">
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-bold text-gray-900">Skill yang Dibutuhkan</h3>
-                            <button id="view-roadmap-btn" class="text-blue-600 hover:text-blue-700 font-semibold text-sm">
-                                Lihat Roadmap →
+                            <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                                <span class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white text-sm">🎯</span>
+                                Skill yang Dibutuhkan
+                            </h3>
+                            <button id="view-roadmap-btn" class="text-blue-600 hover:text-blue-700 font-semibold text-sm flex items-center gap-1 px-4 py-2 rounded-full hover:bg-blue-50 transition-all">
+                                <span>Lihat Roadmap</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
                             </button>
                         </div>
                         <div id="modal-skills" class="space-y-4"></div>
@@ -127,11 +154,11 @@
                 </div>
 
                 <!-- Modal Footer -->
-                <div class="flex gap-3 p-6 border-t border-gray-200 sticky bottom-0 bg-white">
-                    <button id="save-job-btn" class="flex-1 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 py-3 rounded-xl font-bold transition">
+                <div class="flex gap-4 p-8 pt-6 sticky bottom-0 bg-gradient-to-t from-white/95 to-transparent backdrop-blur-xl rounded-b-3xl">
+                    <button id="save-job-btn" class="flex-1 border-2 border-blue-500 text-blue-600 hover:bg-blue-50 py-3.5 rounded-2xl font-bold transition-all hover:scale-105 hover:shadow-lg">
                         💾 Simpan
                     </button>
-                    <button id="apply-btn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold transition">
+                    <button id="apply-btn" class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3.5 rounded-2xl font-bold transition-all hover:scale-105 shadow-lg shadow-blue-500/30">
                         Lamar Sekarang
                     </button>
                 </div>
@@ -187,10 +214,34 @@
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
     <!-- Load Components First -->
     <script type="module">
         import { loadCommonComponents } from './js/components.js';
+        import { updateNavbar, setupDropdownClose } from './js/ui.js';
+        import { initParticles } from './js/particles-config.js';
+        
         await loadCommonComponents();
+        
+        // Update navbar after components loaded
+        updateNavbar();
+        setupDropdownClose();
+        
+        // Initialize particles
+        initParticles();
+        
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 50
+        });
     </script>
     
     <!-- Then load main.js -->

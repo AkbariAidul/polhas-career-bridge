@@ -1,252 +1,247 @@
 # 🎓 Polhas CareerBridge
 
-Platform lengkap untuk mahasiswa Politeknik Hasnur: Skill roadmap interaktif, portfolio scorecard, job recommendation, gamification, dan 47 lowongan magang.
+Platform lengkap untuk mahasiswa Politeknik Hasnur: Skill roadmap interaktif, portfolio scorecard, dan lowongan magang dari Hasnur Group & mitra.
 
-![Version](https://img.shields.io/badge/version-1.6.0-blue)
-![Status](https://img.shields.io/badge/status-full--multipage-success)
+![Polhas CareerBridge](assets/img/logo-website/logo.png)
 
----
+## 🚀 Fitur Utama
 
-## 🌐 Full Multi-Page Structure
+### 1. 🗺️ Skill Roadmap Interaktif
+- 8 career paths (Web Dev, Mobile Dev, Data Science, dll)
+- Skill tree dengan progress tracking
+- Checklist skill yang bisa dicentang
+- Rekomendasi learning resources
 
-### Main Pages:
-- **index.html** - Landing page dengan hero, features overview & CTA
-- **roadmap.html** - Halaman khusus Skill Roadmap (8 career paths)
-- **portfolio.html** - Halaman khusus Portfolio Check & Scorecard
-- **jobs.html** - Halaman khusus Job Listings (47 lowongan)
-- **dashboard.html** - Gamification progress & achievements
-- **saved-jobs.html** - Saved jobs collection
-- **about.html** - Tentang platform & cara kerja
+### 2. 📊 Portfolio Scorecard
+- Evaluasi kesiapan portfolio & CV
+- Scoring system 0-100
+- Rekomendasi improvement
+- Checklist komponen portfolio
 
-### Navigation Flow:
-- Landing (index.html) → Separate pages for each feature
-- Each feature has its own dedicated page
-- Consistent navbar across all pages
-- No more single-page scrolling - true multi-page experience!
+### 3. 💼 Job Listings
+- 47 lowongan magang & kerja
+- Filter berdasarkan tipe & prodi
+- Skill matching dengan lowongan
+- Save & bookmark lowongan favorit
+- Deep linking untuk share lowongan
 
----
+### 4. 🏆 Gamification System
+- Level & XP system
+- Achievements & badges
+- Progress tracking
+- Leaderboard (coming soon)
 
-## ✨ Fitur Utama (Hackathon Ready!)
+### 5. 🎯 Smart Recommendation
+- AI-powered job matching
+- Berdasarkan prodi & skill
+- Personalized suggestions
 
-### 🔐 Authentication System
-- Register & Login dengan LocalStorage
-- User profile management
-- Auto-generated avatar
-- Session management
+### 6. 📱 Fully Responsive
+- Mobile-first design
+- Hamburger menu
+- Touch-optimized
+- PWA-ready
 
-### 🎮 Gamification System
-- 12 Achievements dengan points & level
-- Auto tracking semua aktivitas
-- Progress dashboard
-- Achievement notifications
+## 🛠️ Tech Stack
 
-### 🤖 Smart Job Recommendation
-- Rekomendasi berdasarkan skill & prodi
-- Skill match percentage
-- Personalized untuk setiap user
-- Real-time updates
-
-### 💼 Saved Jobs Page
-- Halaman khusus lowongan tersimpan
-- Quick access ke job favorit
-- Easy unsave functionality
-
-### 🌳 8 Skill Roadmap Interaktif
-- Web Developer, UI/UX, Data Analyst, Digital Marketing
-- Automotive, Agriculture, Accounting, Business
-- 4 levels per roadmap
-- Progress tracking dengan checkbox
-
-### ✅ Portfolio Scorecard
-- 6 kriteria penilaian (total 100 poin)
-- Real-time score calculation
-- Progress bar & recommendations
-
-### 💼 47 Lowongan Magang & Kerja
-- Search & filter (prodi, tipe)
-- Job detail modal
-- Skill matching
-- Save/apply functionality
-
----
-
-## 🚀 Cara Menjalankan
-
-1. Install **Live Server** extension di VS Code
-2. Klik kanan `index.html` → **Open with Live Server**
-3. Website buka di `http://127.0.0.1:5500`
-
-**Navigation Flow:**
-- Start at landing page (`index.html`)
-- Click feature cards → Goes to dedicated pages (roadmap.html, portfolio.html, jobs.html)
-- Each feature has its own page - no scrolling between sections
-- Access Dashboard, Saved Jobs, About from navbar
-- All navigation is consistent across pages
-
----
-
-## 🎯 Fitur Pemenang Hackathon
-
-### 1. Smart Recommendation
-- Algoritma scoring berdasarkan prodi (40%), skill match (40%), job type (10%), recency (10%)
-- Personalized untuk setiap user
-- Real-time update saat complete skill
-
-### 2. Gamification
-- 12 achievements unlock otomatis
-- Points & level system
-- Stats tracking lengkap
-- Dashboard visual
-
-### 3. Complete User Journey
-- Register → Login → Complete Skills → Get Recommendations → Apply Jobs
-- Seamless experience dari belajar sampai apply
-
-### 4. Data-Driven
-- 47 real job listings
-- 8 comprehensive roadmaps
-- 25 companies
-- 7 study programs
-
----
+- **Frontend**: HTML5, CSS3 (Tailwind CSS), JavaScript (ES6+)
+- **Libraries**: 
+  - SweetAlert2 (modals)
+  - Toastify (notifications)
+  - Particles.js (background effects)
+  - AOS (scroll animations)
+- **Architecture**: Component-based, modular JavaScript
+- **Storage**: LocalStorage (auth & data persistence)
 
 ## 📁 Struktur Project
 
 ```
 polhas-career-bridge/
-├── assets/img/              # Logos (24 files)
-├── css/style.css           # Enhanced styles
+├── assets/
+│   └── img/                    # Images & logos
+├── components/
+│   ├── navbar.html            # Responsive navbar with mobile menu
+│   ├── footer.html            # Footer component
+│   └── auth-modal.html        # Login/Register modal
+├── css/
+│   └── style.css              # Custom styles & responsive design
 ├── js/
-│   ├── auth.js            # Authentication
-│   ├── ui.js              # UI utilities
-│   ├── gamification.js    # Gamification
-│   ├── recommendation.js  # Job recommendation
-│   ├── data.js            # Data
-│   └── main.js            # Main controller
-├── index.html             # Landing page
-├── roadmap.html           # Skill Roadmap page
-├── portfolio.html         # Portfolio Check page
-├── jobs.html              # Job Listings page
-├── dashboard.html         # Gamification dashboard
-├── saved-jobs.html        # Saved jobs page
-├── about.html             # About page
-├── app.html               # Legacy (single-page version)
-└── README.md              # This file
+│   ├── auth.js                # Authentication system
+│   ├── components.js          # Component loader
+│   ├── data.js                # Jobs & roadmap data
+│   ├── gamification.js        # Gamification system
+│   ├── main.js                # Main application logic
+│   ├── particles-config.js    # Particles configuration
+│   ├── partners.js            # Partners data
+│   ├── recommendation.js      # Job recommendation engine
+│   └── ui.js                  # UI utilities
+├── index.html                 # Homepage
+├── jobs.html                  # Job listings page
+├── saved-jobs.html            # Saved jobs page
+├── roadmap.html               # Skill roadmap page
+├── portfolio.html             # Portfolio scorecard page
+├── dashboard.html             # User dashboard
+├── about.html                 # About page
+├── PITCHING_NARASI.md         # Pitching narrative
+└── README.md                  # This file
 ```
 
----
+## 🚀 Quick Start
 
-## 🛠️ Tech Stack
+### Prerequisites
+- Modern web browser (Chrome, Firefox, Safari, Edge)
+- Local web server (optional, for development)
 
-- HTML5
-- Tailwind CSS (CDN)
-- Vanilla JavaScript (ES6 Modules)
-- LocalStorage
-- SweetAlert2
-- Toastify
+### Installation
 
-**No framework, no backend, no database!**
+1. Clone repository:
+```bash
+git clone https://github.com/AkbariAidul/polhas-career-bridge.git
+cd polhas-career-bridge
+```
 
----
+2. Open dengan live server atau langsung buka `index.html` di browser
 
-## 💾 LocalStorage Data
+### Development
 
+Untuk development, gunakan live server:
+```bash
+# Jika menggunakan VS Code
+# Install extension "Live Server"
+# Klik kanan index.html > Open with Live Server
+
+# Atau gunakan Python
+python -m http.server 8000
+
+# Atau gunakan Node.js
+npx serve
+```
+
+## 📱 Fitur Responsive
+
+Website ini fully responsive dengan breakpoints:
+- **Mobile**: < 768px (1 column layout)
+- **Tablet**: 768px - 1024px (2 column layout)
+- **Desktop**: > 1024px (4 column layout)
+
+Fitur mobile:
+- Hamburger menu
+- Touch-optimized buttons (min 44px)
+- Reduced animations
+- Optimized particles
+- iOS Safari fixes
+
+## 🎨 Design System
+
+### Colors
+- **Primary**: Blue (#3b82f6)
+- **Secondary**: Purple (#8b5cf6)
+- **Accent**: Pink (#ec4899)
+- **Success**: Green (#10b981)
+- **Warning**: Orange (#f59e0b)
+- **Error**: Red (#ef4444)
+
+### Typography
+- **Font**: Plus Jakarta Sans
+- **Headings**: Bold, gradient text
+- **Body**: Regular, gray-900
+
+### Components
+- Glassmorphism effects
+- Rounded corners (rounded-3xl)
+- Gradient backgrounds
+- Smooth animations
+- Shadow effects
+
+## 🔐 Authentication
+
+Simple authentication system menggunakan LocalStorage:
+- Register dengan nama, email, password, prodi
+- Login dengan email & password
+- Profile management
+- Avatar generation
+- Session persistence
+
+**Note**: Ini adalah demo authentication. Untuk production, gunakan backend authentication yang proper.
+
+## 📊 Data Structure
+
+### Jobs
 ```javascript
 {
-    users: [],              // All registered users
-    currentUser: {},        // Current logged in user
-    savedJobs: [],          // Saved job IDs
-    completedSkills: {},    // Completed skills
-    userProgress: {}        // Gamification progress
+  id: 1,
+  role: "Frontend Developer",
+  company: "PT Hasnur Jaya Utama",
+  type: "Magang",
+  location: "Banjarmasin",
+  prodi: ["Teknik Informatika"],
+  description: "...",
+  requirements: [...],
+  requiredSkills: [
+    {
+      role: "web-dev",
+      level: 1,
+      skills: ["HTML", "CSS", "JavaScript"]
+    }
+  ]
 }
 ```
 
----
+### Skill Roadmaps
+```javascript
+{
+  "web-dev": {
+    title: "Web Development",
+    description: "...",
+    levels: [
+      {
+        level: 1,
+        title: "Beginner",
+        skills: [
+          {
+            name: "HTML",
+            description: "...",
+            resources: [...]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
-## 🎨 Design
+## 🤝 Contributing
 
-- BWA Clean White Minimalist Style
-- Responsive (mobile, tablet, desktop)
-- Smooth animations
-- Accessible UI
+Contributions are welcome! Please follow these steps:
 
----
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
 
-## 📊 Statistics
+## 📝 License
 
-- 47 Job Listings
-- 25 Companies (Hasnur Group + Partners)
-- 8 Career Roadmaps
-- 7 Study Programs
-- 12 Achievements
-- 100+ Skills
+This project is licensed under the MIT License.
 
----
+## 👥 Team
 
-## 🏆 Hackathon Highlights
+- **Developer**: Akbari Aidul
+- **Institution**: Politeknik Hasnur
+- **Contact**: akbariaidul@gmail.com
 
-### Innovation
-- ✅ Smart recommendation algorithm
-- ✅ Gamification system
-- ✅ Skill-based job matching
-- ✅ Complete user journey
+## 🙏 Acknowledgments
 
-### Technical Excellence
-- ✅ Modular architecture
-- ✅ Clean code structure
-- ✅ ES6 modules
-- ✅ No framework dependency
-
-### User Experience
-- ✅ Intuitive interface
-- ✅ Smooth animations
-- ✅ Responsive design
-- ✅ Fast performance
-
-### Completeness
-- ✅ Authentication
-- ✅ Data management
-- ✅ Progress tracking
-- ✅ Recommendations
-
----
-
-## 👥 Credits
-
-**Developed by:**
 - Politeknik Hasnur
-- PT Spektrum Inovasi Teknologi (Spinotek)
-- HIMA Teknik Informatika
-- Shift Digital Indonesia
-
-**Supported by:**
 - Hasnur Group
-- Yayasan Hasnur Centre
+- All contributors and supporters
+
+## 📞 Support
+
+Untuk pertanyaan atau dukungan:
+- Email: akbariaidul@gmail.com
+- GitHub Issues: [Create an issue](https://github.com/AkbariAidul/polhas-career-bridge/issues)
 
 ---
 
-## 📈 Version History
-
-### v1.6.0 (2026-02-12) - FULL MULTI-PAGE ✅
-- ✨ Complete separation: each feature has its own page
-- ✨ roadmap.html - Dedicated Skill Roadmap page
-- ✨ portfolio.html - Dedicated Portfolio Check page
-- ✨ jobs.html - Dedicated Job Listings page
-- 🔗 True multi-page experience (no single-page scrolling)
-- 🎨 Consistent navbar and navigation across all pages
-- 📝 Updated all links and navigation flows
-
-### v1.5.0 - Multi-Page Structure
-### v1.4.0 - Smart Recommendations
-### v1.3.0 - Authentication System
-### v1.2.0 - Gamification System
-### v1.1.0 - Enhanced UI/UX
-### v1.0.0 - Initial Release
-
----
-
-**Made with ❤️ for SPINOTEK Vibecoding Hackathon Vol. 02**
-
-**Version:** 1.6.0  
-**Last Updated:** February 12, 2026  
-**Status:** Full Multi-Page Complete 🌐
+Made with ❤️ by Politeknik Hasnur Students

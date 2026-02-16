@@ -8,19 +8,26 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-white text-gray-900 font-jakarta antialiased">
     
+    <!-- Particles Background -->
+    <div id="particles-js" class="fixed top-0 left-0 w-full h-full z-0 pointer-events-none"></div>
+    
     <!-- Navbar Container -->
-    <div id="navbar-container"></div>
+    <div id="navbar-container" class="relative z-50"></div>
 
     <!-- Skill Roadmap Section -->
-    <section class="pt-32 pb-20 bg-white">
+    <section class="pt-32 pb-20 bg-white relative z-10">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
+            <div class="text-center mb-12" data-aos="fade-up">
                 <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 rounded-full mb-4">
                     <span class="text-blue-600 text-sm font-semibold">🌳 Interactive Learning Path - 8 Career Paths</span>
                 </div>
@@ -112,9 +119,33 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     
     <!-- Load Components First -->
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
     <script type="module">
         import { loadCommonComponents } from './js/components.js';
+        import { updateNavbar, setupDropdownClose } from './js/ui.js';
+        import { initParticles } from './js/particles-config.js';
+        
         await loadCommonComponents();
+        
+        // Update navbar after components loaded
+        updateNavbar();
+        setupDropdownClose();
+        
+        // Initialize particles
+        initParticles();
+        
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 50
+        });
     </script>
     
     <!-- Then load main.js -->

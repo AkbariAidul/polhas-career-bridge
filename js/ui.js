@@ -55,6 +55,11 @@ export function updateNavbar() {
     const userMenu = document.getElementById('user-menu');
     const userName = document.getElementById('user-name');
     const userAvatar = document.getElementById('user-avatar');
+    
+    // Dropdown header elements
+    const dropdownAvatar = document.getElementById('dropdown-avatar');
+    const dropdownName = document.getElementById('dropdown-name');
+    const dropdownEmail = document.getElementById('dropdown-email');
 
     // Check if elements exist (some pages might not have auth UI)
     if (!loginBtn || !userMenu) return;
@@ -63,20 +68,106 @@ export function updateNavbar() {
         loginBtn.classList.add('hidden');
         userMenu.classList.remove('hidden');
         
+        const user = auth.currentUser;
+        const avatar = user.avatar;
+        
+        // Update main navbar user info
         if (userName) {
-            userName.textContent = auth.currentUser.name;
+            userName.textContent = user.name;
         }
         
-        // Set avatar
         if (userAvatar) {
-            const avatar = auth.currentUser.avatar;
             userAvatar.textContent = avatar.initials;
             userAvatar.style.backgroundColor = avatar.color;
         }
+        
+        // Update dropdown header
+        if (dropdownAvatar) {
+            dropdownAvatar.textContent = avatar.initials;
+            dropdownAvatar.style.backgroundColor = avatar.color;
+        }
+        
+        if (dropdownName) {
+            dropdownName.textContent = user.name;
+        }
+        
+        if (dropdownEmail) {
+            dropdownEmail.textContent = user.email;
+        }
+        
+        // Setup dropdown menu event listeners
+        setupDropdownMenuListeners();
     } else {
         loginBtn.classList.remove('hidden');
         userMenu.classList.add('hidden');
     }
+}
+
+// Setup dropdown menu event listeners
+function setupDropdownMenuListeners() {
+    console.log('🔧 setupDropdownMenuListeners called');
+    
+    // Profile menu item
+    const profileMenuItem = document.getElementById('profile-menu-item');
+    if (profileMenuItem && !profileMenuItem.dataset.listenerAttached) {
+        profileMenuItem.dataset.listenerAttached = 'true';
+        profileMenuItem.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('✅ Profile menu clicked');
+            const dropdown = document.getElementById('user-dropdown');
+            if (dropdown) dropdown.classList.add('hidden');
+            showProfileModal();
+        });
+        console.log('✅ Profile listener attached');
+    } else if (!profileMenuItem) {
+        console.error('❌ Profile menu item NOT found!');
+    }
+
+    // Dashboard menu item
+    const dashboardMenuItem = document.getElementById('dashboard-menu-item');
+    if (dashboardMenuItem && !dashboardMenuItem.dataset.listenerAttached) {
+        dashboardMenuItem.dataset.listenerAttached = 'true';
+        dashboardMenuItem.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('✅ Dashboard menu clicked');
+            const dropdown = document.getElementById('user-dropdown');
+            if (dropdown) dropdown.classList.add('hidden');
+            window.location.href = 'dashboard.html';
+        });
+        console.log('✅ Dashboard listener attached');
+    } else if (!dashboardMenuItem) {
+        console.error('❌ Dashboard menu item NOT found!');
+    }
+
+    // Logout menu item
+    const logoutMenuItem = document.getElementById('logout-menu-item');
+    if (logoutMenuItem && !logoutMenuItem.dataset.listenerAttached) {
+        logoutMenuItem.dataset.listenerAttached = 'true';
+        logoutMenuItem.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('✅ Logout menu clicked');
+            const dropdown = document.getElementById('user-dropdown');
+            if (dropdown) dropdown.classList.add('hidden');
+            handleLogout();
+        });
+        console.log('✅ Logout listener attached');
+    } else if (!logoutMenuItem) {
+        console.error('❌ Logout menu item NOT found!');
+        // Debug: show all buttons in dropdown
+        const dropdown = document.getElementById('user-dropdown');
+        if (dropdown) {
+            const allButtons = dropdown.querySelectorAll('button');
+            console.log('All buttons in dropdown:', allButtons.length);
+            allButtons.forEach((btn, idx) => {
+                console.log(`Button ${idx}: id="${btn.id}" text="${btn.textContent.trim().substring(0, 30)}"`);
+            });
+        }
+    }
+    
+    console.log('✅ All dropdown menu listeners setup complete');
 }
 
 // Toggle user dropdown

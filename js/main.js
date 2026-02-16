@@ -115,7 +115,26 @@ document.addEventListener('DOMContentLoaded', () => {
     if (auth.isLoggedIn() && document.getElementById('recommended-jobs')) {
         renderRecommendedJobs();
     }
+    
+    // Check for URL hash to open specific job modal
+    checkUrlHashForJob();
 });
+
+// Check URL hash and open job modal if needed
+function checkUrlHashForJob() {
+    const hash = window.location.hash;
+    if (hash.startsWith('#job-')) {
+        const jobId = parseInt(hash.replace('#job-', ''));
+        if (jobId && jobs.find(j => j.id === jobId)) {
+            // Small delay to ensure DOM is ready
+            setTimeout(() => {
+                openModal(jobId);
+                // Clear hash after opening modal
+                history.replaceState(null, null, ' ');
+            }, 500);
+        }
+    }
+}
 
 // Animate Stats Counter
 function animateStats() {
@@ -167,6 +186,8 @@ function populateProdiFilter() {
 
 // Render Mitra Hasnur
 function renderMitraHasnur() {
+    if (!mitraHasnurContainer) return; // Skip if element doesn't exist
+    
     // Filter companies yang punya logo di mitra-hasnur
     const mitraHasnur = companies.filter(c => c.logo.includes('mitra-hasnur'));
     
@@ -182,6 +203,8 @@ function renderMitraHasnur() {
 
 // Render Mitra Polhas
 function renderMitraPolhas() {
+    if (!mitraPolhasContainer) return; // Skip if element doesn't exist
+    
     if (mitraPolhas.length === 0) {
         mitraPolhasContainer.innerHTML = `
             <div class="col-span-full text-center py-12">
@@ -203,6 +226,8 @@ function renderMitraPolhas() {
 
 // Render Supported
 function renderSupported() {
+    if (!supportedContainer) return; // Skip if element doesn't exist
+    
     supportedContainer.innerHTML = supported.map((item, index) => `
         <div class="bg-white border border-gray-200 rounded-xl p-6 hover:border-blue-600 hover:shadow-lg transition" style="animation: fadeInUp 0.6s ease-out ${index * 0.1}s both">
             <div class="h-20 flex items-center justify-center mb-3">
@@ -235,14 +260,16 @@ function renderJobs(data) {
         const prodiText = Array.isArray(job.prodi) ? job.prodi[0] : job.prodi;
         
         return `
-            <div class="bg-white border border-gray-200 rounded-xl p-6 hover:border-blue-600 hover:shadow-lg transition cursor-pointer job-card" 
+            <div class="bg-gradient-to-br from-white to-gray-50/50 border-2 border-gray-200 rounded-3xl p-6 hover:border-blue-400 hover:shadow-2xl transition-all duration-300 cursor-pointer job-card group" 
                  style="animation: fadeInUp 0.6s ease-out ${index * 0.1}s both"
                  data-job-id="${job.id}">
                 
                 <!-- Card Header -->
-                <div class="flex items-start justify-between mb-4">
-                    <img src="${job.logo}" alt="${job.company}" class="w-12 h-12 object-contain">
-                    <button class="save-btn p-2 hover:bg-gray-100 rounded-lg transition ${isSaved ? 'text-blue-600' : 'text-gray-400'}" data-job-id="${job.id}">
+                <div class="flex items-start justify-between mb-5">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-3 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <img src="${job.logo}" alt="${job.company}" class="w-full h-full object-contain">
+                    </div>
+                    <button class="save-btn p-2.5 hover:bg-gradient-to-br hover:from-blue-50 hover:to-purple-50 rounded-xl transition-all ${isSaved ? 'text-blue-600' : 'text-gray-400'}" data-job-id="${job.id}">
                         <svg class="w-5 h-5" fill="${isSaved ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
                         </svg>
@@ -250,28 +277,28 @@ function renderJobs(data) {
                 </div>
                 
                 <!-- Job Title -->
-                <h3 class="text-xl font-bold text-gray-900 mb-2">${job.role}</h3>
-                <p class="text-gray-600 text-sm mb-4">${job.company}</p>
+                <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">${job.role}</h3>
+                <p class="text-gray-600 text-sm mb-4 font-medium">${job.company}</p>
                 
                 <!-- Job Meta -->
                 <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-lg text-xs font-semibold">
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full text-xs font-bold shadow-lg shadow-blue-500/30">
                         ${job.type}
                     </span>
-                    <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-xs font-medium">
+                    <span class="px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-full text-xs font-semibold flex items-center gap-1">
                         📍 ${job.location}
                     </span>
                 </div>
                 
                 <!-- Prodi Badge -->
                 <div class="mb-4">
-                    <span class="text-xs text-gray-600">
+                    <span class="text-xs text-gray-600 font-medium bg-purple-50 px-3 py-1.5 rounded-full">
                         ${prodiText}
                     </span>
                 </div>
                 
                 <!-- Action Button -->
-                <button class="view-detail-btn w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition">
+                <button class="view-detail-btn w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3.5 rounded-2xl font-bold transition-all hover:scale-105 shadow-lg shadow-blue-500/30">
                     Lihat Detail
                 </button>
             </div>
@@ -376,6 +403,9 @@ function openModal(jobId) {
         : selectedJob.prodi;
     document.getElementById('modal-prodi').textContent = prodiText;
     
+    // Add location
+    document.getElementById('modal-location').textContent = selectedJob.location;
+    
     document.getElementById('modal-description').textContent = selectedJob.description;
     
     // Populate requirements
@@ -397,48 +427,67 @@ function openModal(jobId) {
         // Calculate skill match
         const { matchedSkills, totalSkills, percentage } = calculateSkillMatch(selectedJob.requiredSkills);
         
+        // Determine match status color and message
+        let matchColor = 'blue';
+        let matchMessage = 'Mulai belajar skill yang dibutuhkan!';
+        
+        if (percentage >= 80) {
+            matchColor = 'green';
+            matchMessage = 'Kamu sangat cocok untuk posisi ini! 🎉';
+        } else if (percentage >= 50) {
+            matchColor = 'yellow';
+            matchMessage = 'Lumayan! Tingkatkan skill untuk peluang lebih besar.';
+        } else if (percentage > 0) {
+            matchColor = 'orange';
+            matchMessage = 'Masih perlu banyak belajar, tapi jangan menyerah!';
+        }
+        
         modalSkills.innerHTML = `
-            <div class="mb-4 p-4 bg-blue-50 rounded-xl">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="font-semibold text-gray-900">Skill Match</span>
-                    <span class="text-2xl font-bold text-blue-600">${percentage}%</span>
+            <div class="mb-4 p-6 bg-gradient-to-br from-${matchColor}-50 to-${matchColor}-100/50 rounded-2xl border-2 border-${matchColor}-200 shadow-lg">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="font-bold text-gray-900 text-lg">Skill Match</span>
+                    <span class="text-3xl font-black bg-gradient-to-r from-${matchColor}-600 to-${matchColor}-700 bg-clip-text text-transparent">${percentage}%</span>
                 </div>
-                <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div class="bg-blue-600 h-2 rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
+                <div class="w-full bg-white/50 rounded-full h-4 overflow-hidden shadow-inner">
+                    <div class="bg-gradient-to-r from-${matchColor}-500 to-${matchColor}-600 h-4 rounded-full transition-all duration-1000 ease-out shadow-lg" style="width: ${percentage}%"></div>
                 </div>
-                <p class="text-sm text-gray-600 mt-2">${matchedSkills} dari ${totalSkills} skill sudah kamu kuasai</p>
+                <p class="text-sm text-gray-800 mt-3 font-semibold">${matchedSkills} dari ${totalSkills} skill sudah kamu kuasai</p>
+                <p class="text-xs text-${matchColor}-700 mt-1 font-medium">${matchMessage}</p>
             </div>
             
             ${selectedJob.requiredSkills.map(skillGroup => {
                 const roadmap = skillRoadmaps[skillGroup.role];
+                if (!roadmap) return '';
+                
                 const level = roadmap.levels.find(l => l.level === skillGroup.level);
+                if (!level) return '';
                 
                 return `
-                    <div class="border border-gray-200 rounded-xl p-4">
-                        <div class="flex items-center gap-2 mb-3">
-                            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                                ${skillGroup.level}
+                    <div class="bg-gradient-to-br from-white to-gray-50/50 border-2 border-gray-200 rounded-2xl p-5 mb-3 hover:border-blue-300 hover:shadow-xl transition-all duration-300">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-600 via-blue-500 to-purple-600 text-white rounded-xl flex items-center justify-center text-base font-black shadow-lg">
+                                L${skillGroup.level}
                             </div>
                             <div>
-                                <h5 class="font-semibold text-sm">${level.title}</h5>
-                                <p class="text-xs text-gray-500">${roadmap.title}</p>
+                                <h5 class="font-bold text-base text-gray-900">${level.title}</h5>
+                                <p class="text-xs text-gray-500 font-medium">${roadmap.title}</p>
                             </div>
                         </div>
-                        <div class="space-y-2">
+                        <div class="space-y-2.5 pl-1">
                             ${skillGroup.skills.map(skillName => {
                                 const skill = level.skills.find(s => s.name === skillName);
                                 const isCompleted = isSkillCompleted(skillGroup.role, skillGroup.level, skillName);
                                 
                                 return `
-                                    <div class="flex items-center gap-2 text-sm">
+                                    <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 group">
                                         <input type="checkbox" 
-                                               class="skill-checkbox w-4 h-4 text-blue-600 rounded" 
+                                               class="skill-checkbox w-5 h-5 text-blue-600 rounded-lg border-2 border-gray-300 cursor-pointer transition-all" 
                                                data-role="${skillGroup.role}" 
                                                data-level="${skillGroup.level}" 
                                                data-skill="${skillName}"
                                                ${isCompleted ? 'checked' : ''}>
-                                        <span class="${isCompleted ? 'text-gray-900 font-medium' : 'text-gray-600'}">${skillName}</span>
-                                        ${isCompleted ? '<span class="text-green-600 text-xs">✓</span>' : ''}
+                                        <span class="${isCompleted ? 'text-gray-900 font-bold' : 'text-gray-600 font-medium'} text-sm flex-1 group-hover:text-blue-700 transition-colors">${skillName}</span>
+                                        ${isCompleted ? '<span class="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full shadow-md">✓ Dikuasai</span>' : '<span class="text-gray-400 text-xs font-medium">Belum dikuasai</span>'}
                                     </div>
                                 `;
                             }).join('')}
@@ -446,6 +495,12 @@ function openModal(jobId) {
                     </div>
                 `;
             }).join('')}
+            
+            <div class="mt-4 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border-2 border-blue-200">
+                <p class="text-xs text-blue-900 font-medium">
+                    💡 <strong>Tips:</strong> Centang skill yang sudah kamu kuasai untuk melihat skill match kamu dengan lowongan ini!
+                </p>
+            </div>
         `;
         
         // Attach checkbox listeners
@@ -463,42 +518,50 @@ function openModal(jobId) {
         
         // Attach view roadmap button listener
         const viewRoadmapBtn = document.getElementById('view-roadmap-btn');
-        viewRoadmapBtn.onclick = () => {
-            closeModal();
-            
-            // Get the primary role from required skills
-            const primaryRole = selectedJob.requiredSkills[0].role;
-            
-            // Scroll to skill roadmap section
-            document.getElementById('skill-roadmap').scrollIntoView({ behavior: 'smooth' });
-            
-            // Switch to the relevant role
-            setTimeout(() => {
-                document.querySelectorAll('.role-btn').forEach(btn => {
-                    if (btn.dataset.role === primaryRole) {
-                        btn.click();
-                    }
-                });
-            }, 500);
-        };
+        if (viewRoadmapBtn) {
+            viewRoadmapBtn.onclick = () => {
+                closeModal();
+                
+                // Get the primary role from required skills
+                const primaryRole = selectedJob.requiredSkills[0].role;
+                
+                // Navigate to roadmap page
+                window.location.href = `roadmap.html?role=${primaryRole}`;
+            };
+        }
     } else {
         requiredSkillsSection.classList.add('hidden');
     }
 
     // Update save button state
     const isSaved = savedJobs.includes(selectedJob.id);
-    const saveIcon = saveJobBtn.querySelector('svg');
     if (isSaved) {
-        saveJobBtn.classList.add('border-blue-600', 'text-blue-600');
-        saveIcon.setAttribute('fill', 'currentColor');
+        saveJobBtn.classList.add('border-blue-600', 'text-blue-600', 'bg-blue-50');
+        saveJobBtn.innerHTML = `
+            <svg class="w-5 h-5 inline-block mr-1" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+            </svg>
+            Tersimpan
+        `;
     } else {
-        saveJobBtn.classList.remove('border-blue-600', 'text-blue-600');
-        saveIcon.setAttribute('fill', 'none');
+        saveJobBtn.classList.remove('border-blue-600', 'text-blue-600', 'bg-blue-50');
+        saveJobBtn.innerHTML = `
+            <svg class="w-5 h-5 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+            </svg>
+            Simpan
+        `;
     }
 
-    // Show modal
+    // Show modal with animation
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+    
+    // Scroll modal to top
+    const modalContent = modal.querySelector('.bg-white');
+    if (modalContent) {
+        modalContent.scrollTop = 0;
+    }
 }
 
 // Close Modal Function
@@ -1069,29 +1132,8 @@ function attachAuthListeners() {
         userMenuBtn.addEventListener('click', toggleUserDropdown);
     }
 
-    // Profile menu item
-    const profileMenuItem = document.getElementById('profile-menu-item');
-    if (profileMenuItem) {
-        profileMenuItem.addEventListener('click', () => {
-            document.getElementById('user-dropdown').classList.add('hidden');
-            showProfileModal();
-        });
-    }
-
-    // Dashboard menu item
-    const dashboardMenuItem = document.getElementById('dashboard-menu-item');
-    if (dashboardMenuItem) {
-        dashboardMenuItem.addEventListener('click', () => {
-            document.getElementById('user-dropdown').classList.add('hidden');
-            window.location.href = 'dashboard.html';
-        });
-    }
-
-    // Logout menu item
-    const logoutMenuItem = document.getElementById('logout-menu-item');
-    if (logoutMenuItem) {
-        logoutMenuItem.addEventListener('click', handleLogout);
-    }
+    // Note: Dropdown menu item listeners are handled by setupDropdownMenuListeners() in ui.js
+    // which is called automatically by updateNavbar()
 
     // Close modal on backdrop click
     const authModal = document.getElementById('auth-modal');
