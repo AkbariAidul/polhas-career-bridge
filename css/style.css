@@ -1,7 +1,7 @@
 /* Import Plus Jakarta Sans Font (BWA Style) */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
-/* ==================== GLOBAL STYLES ==================== */
+/* Global Styles */
 * {
     margin: 0;
     padding: 0;
@@ -13,38 +13,38 @@ body {
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: #fafafa;
 }
 
 .font-jakarta {
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-/* ==================== CUSTOM SCROLLBAR ==================== */
+/* Custom Scrollbar - Clean White Style */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f5f9;
+    background: #f9fafb;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #3b82f6 0%, #8b5cf6 100%);
+    background: #d1d5db;
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #2563eb 0%, #7c3aed 100%);
+    background: #9ca3af;
 }
 
+/* Firefox Scrollbar */
 * {
     scrollbar-width: thin;
-    scrollbar-color: #3b82f6 #f1f5f9;
+    scrollbar-color: #d1d5db #f9fafb;
 }
 
-/* ==================== ANIMATIONS ==================== */
+/* Animation Keyframes */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -56,1029 +56,327 @@ body {
     }
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+/* Smooth Transitions */
+a, button, input, select {
+    transition: all 0.3s ease;
 }
 
-@keyframes slideInRight {
-    from {
-        opacity: 0;
-        transform: translateX(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+/* Focus States - BWA Style */
+input:focus, select:focus {
+    outline: none;
 }
 
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-/* ==================== SMOOTH TRANSITIONS ==================== */
-a, button, input, select, .job-card, .skill-card, .role-btn {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ==================== ENHANCED CARDS ==================== */
-.job-card, .skill-card {
+/* Button Hover Effects */
+button {
     position: relative;
     overflow: hidden;
 }
 
-.job-card::before, .skill-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-    transition: left 0.5s ease;
-}
-
-.job-card:hover::before, .skill-card:hover::before {
-    left: 100%;
+/* Card Hover Effects */
+.job-card {
+    transition: all 0.3s ease;
 }
 
 .job-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
-}
-
-.skill-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(59, 130, 246, 0.12);
 }
 
-/* ==================== BUTTONS ==================== */
-button, .btn {
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-button:active {
-    transform: scale(0.98);
-}
-
-.role-btn {
-    position: relative;
-    overflow: hidden;
-}
-
-.role-btn::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-}
-
-.role-btn:hover::after {
-    width: 300px;
-    height: 300px;
-}
-
-/* ==================== NAVBAR ENHANCEMENT ==================== */
-nav {
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-/* ==================== HERO SECTION ==================== */
-.hero-badge {
-    animation: pulse 2s ease-in-out infinite;
-}
-
-/* ==================== MODAL ==================== */
-#job-modal, #auth-modal {
-    backdrop-filter: blur(8px);
+/* Modal Animation */
+#job-modal {
     animation: fadeIn 0.3s ease-out;
 }
 
-#job-modal > div, #auth-modal > div {
-    animation: fadeInUp 0.4s ease-out;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
-/* ==================== PROGRESS BAR ==================== */
-#progress-bar, .level-progress-fill {
-    background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
-    background-size: 200% 100%;
-    animation: shimmer 2s linear infinite;
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
 }
 
-@keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
 }
 
-/* ==================== STATS COUNTER ==================== */
-.stat-number {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+/* Toastify Custom Styles */
+.toastify {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
 }
 
-/* ==================== BADGES & TAGS ==================== */
-.badge, .tag {
-    position: relative;
-    overflow: hidden;
+/* BWA Clean White Style - Minimal Additions */
+
+/* Skill Card Clean Style */
+.skill-card {
+    transition: all 0.3s ease;
 }
 
-.badge::before {
+.skill-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Role Button Clean Style */
+.role-btn {
+    transition: all 0.3s ease;
+}
+
+.role-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Progress Bar Smooth Animation */
+#progress-bar {
+    transition: width 0.5s ease;
+}
+
+/* Modal Backdrop */
+#job-modal {
+    backdrop-filter: blur(4px);
+}
+
+/* ==================== AUTH MODAL - CLEAN & FIXED ==================== */
+#auth-modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    z-index: 9999 !important;
+    display: none !important;
+}
+
+#auth-modal[style*="display: block"] {
+    display: block !important;
+}
+
+#auth-modal > div {
+    position: fixed !important;
+    inset: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+#auth-modal .bg-white {
+    width: 100% !important;
+    max-width: 32rem !important;
+}
+
+#login-form,
+#register-form {
+    display: block !important;
+}
+
+#register-form[style*="display: none"],
+#login-form[style*="display: none"] {
+    display: none !important;
+}
+
+/* Ensure all form elements are visible and clickable */
+#register-form input,
+#register-form select,
+#register-form button,
+#login-form input,
+#login-form button {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Force select element to be visible */
+#register-prodi {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    min-height: 48px !important;
+    position: relative !important;
+    z-index: 1 !important;
+    -webkit-appearance: menulist !important;
+    -moz-appearance: menulist !important;
+    appearance: auto !important;
+    background-color: white !important;
+    background-image: none !important;
+}
+
+#register-form button[type="submit"],
+#login-form button[type="submit"] {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    min-height: 48px !important;
+}
+
+.close-auth-modal {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
+
+/* Smooth scrolling for modal content */
+#auth-modal > div:first-child::-webkit-scrollbar {
+    width: 10px;
+}
+
+#auth-modal > div:first-child::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+#auth-modal > div:first-child::-webkit-scrollbar-thumb {
+    background: #2563eb;
+    border-radius: 10px;
+}
+
+#auth-modal > div:first-child::-webkit-scrollbar-thumb:hover {
+    background: #1d4ed8;
+}
     content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.5s ease;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(to top, rgba(255,255,255,0.9), transparent);
+    pointer-events: none;
+    display: block;
 }
 
-.badge:hover::before {
-    left: 100%;
-}
 
-/* ==================== GAMIFICATION STYLES ==================== */
+/* ==================== ACHIEVEMENT POPUP & NOTIFICATIONS ==================== */
 
 /* Achievement Popup */
 .achievement-popup {
     position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    z-index: 10000;
     opacity: 0;
-    transform: translateX(400px);
     transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    pointer-events: none;
 }
 
 .achievement-popup.show {
     opacity: 1;
-    transform: translateX(0);
+    transform: translate(-50%, -50%) scale(1);
 }
 
 .achievement-card {
-    background: white;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    min-width: 320px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 24px;
+    padding: 40px;
     text-align: center;
-    border: 2px solid #10b981;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    min-width: 350px;
+    animation: achievementBounce 0.6s ease-out;
+}
+
+@keyframes achievementBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
 }
 
 .achievement-icon {
-    font-size: 64px;
-    margin-bottom: 12px;
-    animation: bounce 0.6s ease;
+    font-size: 80px;
+    margin-bottom: 20px;
+    animation: achievementIconSpin 0.8s ease-out;
 }
 
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+@keyframes achievementIconSpin {
+    0% { transform: rotate(0deg) scale(0); }
+    50% { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
 }
 
 .achievement-title {
-    color: #10b981;
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 8px;
+    color: #ffd700;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .achievement-name {
-    color: #111827;
-    font-size: 20px;
-    font-weight: 800;
-    margin-bottom: 4px;
+    color: white;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
 .achievement-desc {
-    color: #6b7280;
-    font-size: 14px;
-    margin-bottom: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    margin-bottom: 20px;
 }
 
 .achievement-points {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    color: #ffd700;
+    font-size: 20px;
     font-weight: 700;
+    padding: 12px 24px;
+    border-radius: 12px;
     display: inline-block;
-    font-size: 14px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
 }
 
-/* Notification */
+/* Notification Toast */
 .notification {
     position: fixed;
-    top: 20px;
+    top: 100px;
     right: 20px;
-    z-index: 9998;
+    background: white;
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    min-width: 320px;
+    max-width: 400px;
+    z-index: 9999;
+    transform: translateX(450px);
     opacity: 0;
-    transform: translateX(400px);
-    transition: all 0.3s ease;
-    min-width: 300px;
+    transition: all 0.3s ease-out;
 }
 
 .notification.show {
-    opacity: 1;
     transform: translateX(0);
-}
-
-.notification-content {
-    background: white;
-    border-radius: 12px;
-    padding: 16px 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-left: 4px solid #3b82f6;
-}
-
-.notification-success .notification-content {
-    border-left-color: #10b981;
-}
-
-.notification-error .notification-content {
-    border-left-color: #ef4444;
+    opacity: 1;
 }
 
 .notification-content h4 {
-    color: #111827;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
+    color: #1f2937;
 }
 
 .notification-content p {
-    color: #6b7280;
     font-size: 14px;
+    color: #6b7280;
     margin: 0;
 }
 
-/* Progress Dashboard */
-.progress-dashboard {
-    background: white;
-    border-radius: 16px;
-    padding: 32px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    margin-bottom: 32px;
+.notification-success {
+    border-left: 4px solid #10b981;
 }
 
-.dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
+.notification-info {
+    border-left: 4px solid #3b82f6;
 }
 
-.user-level {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.notification-warning {
+    border-left: 4px solid #f59e0b;
 }
 
-.level-badge {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    color: white;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: 800;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
-
-.level-info h3 {
-    color: #111827;
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 4px;
-}
-
-.level-info p {
-    color: #6b7280;
-    font-size: 14px;
-}
-
-.points-display {
-    text-align: right;
-}
-
-.points-number {
-    color: #3b82f6;
-    font-size: 32px;
-    font-weight: 800;
-    display: block;
-}
-
-.points-label {
-    color: #6b7280;
-    font-size: 14px;
-}
-
-/* Stats Grid */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin-bottom: 24px;
-}
-
-.stat-card {
-    background: #f9fafb;
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.stat-card:hover {
-    background: #f3f4f6;
-    transform: translateY(-2px);
-}
-
-.stat-icon {
-    font-size: 32px;
-    margin-bottom: 8px;
-}
-
-.stat-number {
-    color: #111827;
-    font-size: 28px;
-    font-weight: 800;
-    margin-bottom: 4px;
-}
-
-.stat-label {
-    color: #6b7280;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-/* Achievement Grid */
-.achievements-section {
-    margin-top: 32px;
-}
-
-.achievements-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-}
-
-.achievements-header h3 {
-    color: #111827;
-    font-size: 20px;
-    font-weight: 700;
-}
-
-.achievement-progress {
-    color: #6b7280;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.achievements-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 16px;
-}
-
-.achievement-item {
-    background: white;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 16px;
-    text-align: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.achievement-item:hover {
-    border-color: #3b82f6;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
-}
-
-.achievement-item.unlocked {
-    border-color: #10b981;
-    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-}
-
-.achievement-item.locked {
-    opacity: 0.5;
-}
-
-.achievement-item-icon {
-    font-size: 40px;
-    margin-bottom: 8px;
-    filter: grayscale(100%);
-}
-
-.achievement-item.unlocked .achievement-item-icon {
-    filter: grayscale(0%);
-}
-
-.achievement-item-name {
-    color: #111827;
-    font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 4px;
-}
-
-.achievement-item-points {
-    color: #3b82f6;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.achievement-item.unlocked .achievement-item-points {
-    color: #10b981;
-}
-
-/* Level Progress Bar */
-.level-progress {
-    margin-top: 16px;
-}
-
-.level-progress-label {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    font-size: 14px;
-    color: #6b7280;
-}
-
-.level-progress-bar {
-    width: 100%;
-    height: 8px;
-    background: #e5e7eb;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.level-progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
-    border-radius: 4px;
-    transition: width 0.5s ease;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .achievement-popup,
-    .notification {
-        right: 10px;
-        left: 10px;
-        min-width: auto;
-    }
-    
-    .achievement-card {
-        min-width: auto;
-    }
-    
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .achievements-grid {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    }
-    
-    .dashboard-header {
-        flex-direction: column;
-        gap: 16px;
-        text-align: center;
-    }
-    
-    .points-display {
-        text-align: center;
-    }
-}
-
-
-/* ==================== GLASS MORPHISM ==================== */
-.glass {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-/* ==================== MODERN SHADOWS ==================== */
-.shadow-modern {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
-                0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.shadow-modern-lg {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
-                0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-.shadow-modern-xl {
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
-                0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-/* ==================== GRADIENT TEXT ==================== */
-.gradient-text {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-/* ==================== FLOATING ANIMATION ==================== */
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-}
-
-.float {
-    animation: float 3s ease-in-out infinite;
-}
-
-/* ==================== GLOW EFFECT ==================== */
-.glow {
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-}
-
-.glow:hover {
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.7);
-}
-
-/* ==================== SKELETON LOADING ==================== */
-@keyframes skeleton-loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-}
-
-.skeleton {
-    background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
-    background-size: 200% 100%;
-    animation: skeleton-loading 1.5s ease-in-out infinite;
-}
-
-/* ==================== RESPONSIVE ENHANCEMENTS ==================== */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2.5rem;
-        line-height: 1.2;
-    }
-    
-    .container {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-    
-    .job-card:hover {
-        transform: translateY(-4px);
-    }
-}
-
-@media (max-width: 640px) {
-    h1 {
-        font-size: 2rem;
-    }
-    
-    .text-5xl {
-        font-size: 2.5rem;
-    }
-    
-    .text-6xl {
-        font-size: 3rem;
-    }
-}
-
-/* ==================== PRINT STYLES ==================== */
-@media print {
-    nav, footer, button, .no-print {
-        display: none !important;
-    }
-    
-    body {
-        background: white;
-    }
-}
-
-/* ==================== ACCESSIBILITY ==================== */
-.focus-visible:focus {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
-}
-
-/* Reduce motion for users who prefer it */
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-/* ==================== UTILITY CLASSES ==================== */
-.text-gradient {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-}
-
-.bg-gradient-success {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-}
-
-.bg-gradient-danger {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-}
-
-.border-gradient {
-    border: 2px solid transparent;
-    background-clip: padding-box;
-    position: relative;
-}
-
-.border-gradient::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    border-radius: inherit;
-    z-index: -1;
-}
-
-
-/* ==================== BLOB ANIMATION ==================== */
-@keyframes blob {
-    0%, 100% {
-        transform: translate(0, 0) scale(1);
-    }
-    25% {
-        transform: translate(20px, -50px) scale(1.1);
-    }
-    50% {
-        transform: translate(-20px, 20px) scale(0.9);
-    }
-    75% {
-        transform: translate(50px, 50px) scale(1.05);
-    }
-}
-
-.animate-blob {
-    animation: blob 7s infinite;
-}
-
-.animation-delay-2000 {
-    animation-delay: 2s;
-}
-
-.animation-delay-4000 {
-    animation-delay: 4s;
-}
-
-
-/* ==================== NAVBAR ENHANCEMENTS ==================== */
-nav {
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-}
-
-nav a {
-    position: relative;
-}
-
-nav a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-    transition: width 0.3s ease;
-}
-
-nav a:hover::after {
-    width: 100%;
-}
-
-/* ==================== SECTION SPACING ==================== */
-section {
-    scroll-margin-top: 80px;
-}
-
-/* ==================== CARD IMPROVEMENTS ==================== */
-.bg-white {
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-}
-
-.bg-white:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-/* ==================== BUTTON ENHANCEMENTS ==================== */
-.bg-blue-600 {
-    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
-}
-
-.bg-blue-600:hover {
-    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
-}
-
-.bg-green-600 {
-    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
-}
-
-.bg-green-600:hover {
-    box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.4);
-}
-
-/* ==================== IMPROVED SPACING ==================== */
-.container {
-    max-width: 1280px;
-}
-
-/* ==================== SMOOTH SCROLL ==================== */
-html {
-    scroll-behavior: smooth;
-}
-
-/* ==================== LOADING STATE ==================== */
-.loading {
-    opacity: 0.6;
-    pointer-events: none;
-}
-
-/* ==================== HOVER EFFECTS ==================== */
-.hover-lift {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hover-lift:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.15);
-}
-
-/* ==================== BADGE STYLES ==================== */
-.badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.875rem;
-    font-weight: 600;
-}
-
-.badge-primary {
-    background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
-    color: #3b82f6;
-}
-
-.badge-success {
-    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-    color: #059669;
-}
-
-/* ==================== IMPROVED MODALS ==================== */
-.modal-content {
-    animation: modalSlideUp 0.3s ease-out;
-}
-
-@keyframes modalSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-/* ==================== AUTH MODAL FIXES ==================== */
-#auth-modal {
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    z-index: 9999 !important;
-}
-
-#auth-modal[style*="display: block"] {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-
-#auth-modal > div {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 1rem;
-}
-
-#auth-modal .bg-white {
-    width: 100%;
-    max-width: 28rem;
-    display: block !important;
-    visibility: visible !important;
-    max-height: none;
-    overflow: visible;
-}
-
-#login-form,
-#register-form {
-    display: block !important;
-    visibility: visible !important;
-    overflow: visible !important;
-}
-
-#login-form.hidden,
-#register-form.hidden {
-    display: none !important;
-}
-
-/* Ensure all form elements are visible and clickable */
-#register-form input,
-#register-form select,
-#register-form button,
-#login-form input,
-#login-form button {
-    width: 100%;
-    box-sizing: border-box;
-    display: block !important;
-    visibility: visible !important;
-}
-
-/* Ensure buttons are always clickable */
-#register-form button[type="submit"],
-#login-form button[type="submit"] {
-    cursor: pointer !important;
-    pointer-events: auto !important;
-    min-height: 44px;
-}
-
-/* Close button */
-.close-auth-modal {
-    cursor: pointer !important;
-    pointer-events: auto !important;
-}
-
-
-/* ==================== AUTH MODAL FINAL FIX ==================== */
-#auth-modal {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    background: rgba(0, 0, 0, 0.5) !important;
-    z-index: 9999 !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    display: none !important;
-    padding: 1rem !important;
-}
-
-#auth-modal[style*="display: block"] {
-    display: block !important;
-}
-
-#login-form,
-#register-form {
-    background: white;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    max-width: 28rem;
-    width: 100%;
-    margin: 1rem auto;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    display: block !important;
-    max-height: calc(100vh - 2rem);
-    overflow-y: auto;
-}
-
-#register-form[style*="display: none"],
-#login-form[style*="display: none"] {
-    display: none !important;
-}
-
-/* Ensure all form elements are visible and clickable */
-#register-form input,
-#register-form select,
-#register-form button,
-#login-form input,
-#login-form button {
-    width: 100%;
-    box-sizing: border-box;
-    display: block !important;
-}
-
-#register-form button[type="submit"],
-#login-form button[type="submit"] {
-    cursor: pointer !important;
-    pointer-events: auto !important;
-    min-height: 44px;
-}
-
-.close-auth-modal {
-    cursor: pointer !important;
-    pointer-events: auto !important;
-}
-
-
-/* ==================== AUTH MODAL FIXES ==================== */
-#auth-modal {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    background: rgba(0, 0, 0, 0.5) !important;
-    z-index: 50 !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    padding: 1rem !important;
-    display: none !important;
-}
-
-#auth-modal[style*="display: block"] {
-    display: block !important;
-}
-
-#auth-modal > div {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    min-height: 100vh !important;
-}
-
-#auth-modal .bg-white {
-    max-height: 90vh !important;
-    overflow-y: auto !important;
-    flex-shrink: 0 !important;
-}
-
-#login-form,
-#register-form {
-    display: block !important;
-}
-
-#register-form[style*="display: none"],
-#login-form[style*="display: none"] {
-    display: none !important;
-}
-
-/* Ensure all form elements are visible and clickable */
-#register-form input,
-#register-form select,
-#register-form button,
-#login-form input,
-#login-form button {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-#register-form button[type="submit"],
-#login-form button[type="submit"] {
-    cursor: pointer !important;
-    pointer-events: auto !important;
-    min-height: 44px;
-}
-
-.close-auth-modal {
-    cursor: pointer !important;
-    pointer-events: auto !important;
+.notification-error {
+    border-left: 4px solid #ef4444;
 }

@@ -59,6 +59,12 @@ document.addEventListener('componentsLoaded', () => {
     attachAuthListeners();
 });
 
+// Fallback: Also try to attach listeners after a short delay
+setTimeout(() => {
+    console.log('⏰ Fallback: Attempting to attach auth listeners...');
+    attachAuthListeners();
+}, 1000);
+
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize gamification (always needed)
@@ -996,6 +1002,17 @@ function renderRecommendedJobs() {
 
 // ==================== AUTH EVENT LISTENERS ====================
 
+// Helper functions for switch buttons
+function handleSwitchToRegister(e) {
+    e.preventDefault();
+    showRegisterModal();
+}
+
+function handleSwitchToLogin(e) {
+    e.preventDefault();
+    showLoginModal();
+}
+
 function attachAuthListeners() {
     console.log('🔧 Attaching auth event listeners...');
     
@@ -1003,6 +1020,8 @@ function attachAuthListeners() {
     const loginBtn = document.getElementById('login-btn');
     if (loginBtn) {
         console.log('✅ Login button found, attaching click listener');
+        // Remove existing listener first to avoid duplicates
+        loginBtn.removeEventListener('click', showLoginModal);
         loginBtn.addEventListener('click', showLoginModal);
     } else {
         console.error('❌ Login button NOT found!');
@@ -1011,42 +1030,42 @@ function attachAuthListeners() {
     // Close modal buttons
     const closeModalBtns = document.querySelectorAll('.close-auth-modal');
     closeModalBtns.forEach(btn => {
+        btn.removeEventListener('click', closeAuthModal);
         btn.addEventListener('click', closeAuthModal);
     });
 
     // Switch to register
     const switchToRegister = document.getElementById('switch-to-register');
     if (switchToRegister) {
-        switchToRegister.addEventListener('click', (e) => {
-            e.preventDefault();
-            showRegisterModal();
-        });
+        switchToRegister.removeEventListener('click', handleSwitchToRegister);
+        switchToRegister.addEventListener('click', handleSwitchToRegister);
     }
 
     // Switch to login
     const switchToLogin = document.getElementById('switch-to-login');
     if (switchToLogin) {
-        switchToLogin.addEventListener('click', (e) => {
-            e.preventDefault();
-            showLoginModal();
-        });
+        switchToLogin.removeEventListener('click', handleSwitchToLogin);
+        switchToLogin.addEventListener('click', handleSwitchToLogin);
     }
 
     // Login form submit
     const loginForm = document.getElementById('login-form-element');
     if (loginForm) {
+        loginForm.removeEventListener('submit', handleLogin);
         loginForm.addEventListener('submit', handleLogin);
     }
 
     // Register form submit
     const registerForm = document.getElementById('register-form-element');
     if (registerForm) {
+        registerForm.removeEventListener('submit', handleRegister);
         registerForm.addEventListener('submit', handleRegister);
     }
 
     // User menu toggle
     const userMenuBtn = document.getElementById('user-menu-btn');
     if (userMenuBtn) {
+        userMenuBtn.removeEventListener('click', toggleUserDropdown);
         userMenuBtn.addEventListener('click', toggleUserDropdown);
     }
 

@@ -236,12 +236,16 @@ export function handleLogout() {
         }
     }).then((result) => {
         if (result.isConfirmed) {
+            // Logout user
             auth.logout();
-            updateNavbar();
+            
+            // Show success message
             showToast('Logout berhasil!', 'success');
             
-            // Hide user dropdown
-            document.getElementById('user-dropdown').classList.add('hidden');
+            // Redirect to homepage after short delay
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
         }
     });
 }
